@@ -1,0 +1,48 @@
+{
+  "commodity_id": "dairy.paneer.cottage_cheese",
+  "names": {
+    "en": ["paneer", "cottage cheese"],
+    "hi": ["पनीर", "paneer"],
+    "mr": ["पनीर", "paneer"],
+    "ta": ["பனீர்", "paneer"],
+    "bn": ["ছানা", "পনির", "ponir"],
+    "te": ["పనీర్", "paneer"],
+    "kn": ["ಪನೀರ್", "paneer"],
+    "gu": ["પનીર", "paneer"],
+    "pa": ["ਪਨੀਰ", "paneer"]
+  },
+  "group": "dairy_fresh_cheese",
+  "class": "low_acid_high_moisture_chilled",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 53.5, "range": [50.0, 56.0], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.985, "range": [0.97, 0.99], "src": "IFCT-2017", "conf": 0.92},
+    "fat_pct": {"v": 24.5, "range": [22.0, 26.5], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 5.8, "range": [5.6, 6.0], "src": "FDA-pH-db", "conf": 0.95}
+  },
+  "storage_optimum": {
+    "T_C": [0.0, 4.0],
+    "RH_pct": [85.0, 95.0],
+    "life_days": [10.0, 21.0],
+    "chilling_sensitive_below_C": null,
+    "src": "LINDE-MAPAX"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Non-plant commodity; zero ethylene activity"
+  },
+  "failure_modes": [
+    "microbial_spoilage_slime",
+    "mold_growth",
+    "lipid_oxidation_rancidity",
+    "acidification",
+    "botulinum_risk_if_anaerobic_abuse"
+  ],
+  "light_sensitive": true,
+  "light_note": "Riboflavin (Vitamin B2) is a photosensitizer; light exposure rapidly catalyzes lipid photo-oxidation and oxidized/cardboard flavor development.",
+  "state_modifiers": {
+    "vacuum_packed": {"life_x": [1.8, 2.5], "microbial_risk": "high_if_temperature_abused"},
+    "cut_cubes": {"aw_delta": 0.005, "microbial_risk": "high", "max_ambient_hours": 2.0}
+  }
+}

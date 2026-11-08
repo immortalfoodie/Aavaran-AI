@@ -1,0 +1,145 @@
+/* Aavaran Neo-Brutalist Design Tokens · BLUEPRINT.md Section 10 */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* colour — flat, saturated, high contrast */
+  --paper: #FFFDF2;   /* off-white ground, warmer than pure white */
+  --ink: #0B0B0B;     /* borders, text, shadows — ONE black, always */
+  --yellow: #FFE500;  /* primary action, highlight */
+  --cyan: #5CE1FF;    /* information, business mode */
+  --lime: #C9FF3D;    /* success, safe, eco */
+  --coral: #FF6B52;   /* danger, safety block — reserved, never decorative */
+  --violet: #C3A6FF;  /* expert mode, advanced */
+  --grey: #E8E4D6;    /* table stripes, disabled */
+
+  /* structure — the whole system is these four lines */
+  --bd: 3px solid var(--ink);        /* every border, no exceptions */
+  --radius: 0;                       /* nothing is round */
+  --shadow: 6px 6px 0 var(--ink);    /* hard, never blurred */
+  --shadow-lg: 10px 10px 0 var(--ink);
+
+  /* type */
+  --font-display: "Archivo Black", sans-serif;  /* headings, numbers, buttons */
+  --font-body: "Space Grotesk", sans-serif;     /* prose */
+  --font-mono: "JetBrains Mono", monospace;    /* specs, units, codes */
+
+  /* motion — snap, don't ease */
+  --t: 80ms linear;
+
+  /* mobile-first safe area insets */
+  padding-top: env(safe-area-inset-top, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+  box-sizing: border-box;
+}
+
+/* Dark mode media query guarded against light theme override */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121212;
+    --ink: #FFFDF2;
+    --yellow: #FFE500;
+    --cyan: #5CE1FF;
+    --lime: #C9FF3D;
+    --coral: #FF6B52;
+    --violet: #C3A6FF;
+    --grey: #262626;
+
+    --bd: 3px solid var(--ink);
+    --radius: 0;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-lg: 10px 10px 0 var(--ink);
+
+    --font-display: "Archivo Black", sans-serif;
+    --font-body: "Space Grotesk", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+
+    --t: 80ms linear;
+  }
+}
+
+/* Explicit dark theme attribute override */
+:root[data-theme="dark"] {
+  --paper: #121212;
+  --ink: #FFFDF2;
+  --yellow: #FFE500;
+  --cyan: #5CE1FF;
+  --lime: #C9FF3D;
+  --coral: #FF6B52;
+  --violet: #C3A6FF;
+  --grey: #262626;
+
+  --bd: 3px solid var(--ink);
+  --radius: 0;
+  --shadow: 6px 6px 0 var(--ink);
+  --shadow-lg: 10px 10px 0 var(--ink);
+
+  --font-display: "Archivo Black", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --t: 80ms linear;
+}
+
+/* Explicit background on body */
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .no-reduced-motion-transform {
+    transform: none !important;
+  }
+}
+
+/* RFQ & Async Loading States · Section 10 */
+@keyframes rfq-pulse {
+  0%, 100% {
+    opacity: 1;
+    border-color: var(--ink);
+  }
+  50% {
+    opacity: 0.4;
+    border-color: var(--ink);
+  }
+}
+
+.rfq-pulse-loading {
+  background-color: var(--grey) !important;
+  color: var(--ink) !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  animation: rfq-pulse 1s infinite ease-in-out !important;
+}
+
+.rfq-result-section {
+  border-top: 6px solid var(--yellow) !important;
+  padding-top: 20px !important;
+  margin-top: 32px !important;
+}
+
+.rfq-section-header {
+  background-color: var(--ink) !important;
+  color: var(--paper) !important;
+  padding: 10px 16px !important;
+  font-family: var(--font-display) !important;
+  text-transform: uppercase !important;
+}

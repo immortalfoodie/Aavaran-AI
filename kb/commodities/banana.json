@@ -1,0 +1,55 @@
+{
+  "commodity_id": "fruit.banana.musa_acuminata",
+  "names": {
+    "en": ["banana"],
+    "hi": ["केला", "kela"],
+    "mr": ["केळी", "keli"],
+    "ta": ["வாழைப்பழம்", "vazhaipazham"],
+    "bn": ["কলা", "kola"],
+    "te": ["అరటి", "arati"],
+    "kn": ["ಬಾಳೆಹಣ್ಣು", "balehannu"],
+    "gu": ["કેળા", "kela"],
+    "pa": ["ਕੇਲਾ", "kela"]
+  },
+  "group": "tropical_fruit",
+  "class": "climacteric_tropical",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 74.9, "range": [70.0, 78.0], "src": "IFCT-2017", "conf": 0.94},
+    "water_activity": {"v": 0.98, "range": [0.97, 0.99], "src": "IFCT-2017", "conf": 0.88},
+    "fat_pct": {"v": 0.3, "range": [0.1, 0.5], "src": "IFCT-2017", "conf": 0.92},
+    "pH": {"v": 4.8, "range": [4.5, 5.2], "src": "FDA-pH-db", "conf": 0.90}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 52.0,
+    "ref": {"T_C": 13.0, "rCO2_mg_kg_h": 18.0, "range": [12.0, 25.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90
+  },
+  "storage_optimum": {
+    "T_C": [13.0, 14.0],
+    "RH_pct": [90.0, 95.0],
+    "life_days": [7.0, 28.0],
+    "chilling_sensitive_below_C": 13.0,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "moderate_to_high",
+    "sensitivity": "extremely_high",
+    "note": "Climacteric burst triggers rapid chlorophyll degradation; highly sensitive to chilling injury below 13 C causing peel blackening"
+  },
+  "failure_modes": [
+    "chilling_injury_peel_browning",
+    "over_ripening",
+    "anthracnose",
+    "crown_rot",
+    "finger_drop"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "ripe": {"respiration_x": [2.0, 3.5], "life_x": [0.3, 0.5]},
+    "bruised": {"respiration_x": [1.5, 2.5], "ethylene_x": [3.0, 6.0]}
+  }
+}

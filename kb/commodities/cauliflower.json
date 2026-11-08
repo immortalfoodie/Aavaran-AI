@@ -1,0 +1,66 @@
+{
+  "commodity_id": "veg.cauliflower.brassica_oleracea_botrytis",
+  "names": {
+    "en": ["cauliflower"],
+    "hi": ["फूलगोभी", "phool gobhi", "gobhi"],
+    "mr": ["फुलकोबी", "phulkobi"],
+    "ta": ["காலிஃபிளவர்", "kaalifilavar"],
+    "te": ["కాలీఫ్లవర్", "gobi puvvu"],
+    "kn": ["ಹೂಕೋಸು", "hookosu"],
+    "gu": ["ફુલાવર", "phulavar"],
+    "pa": ["ਫੁੱਲ ਗੋਭੀ", "phull gobhi"],
+    "bn": ["ফুলকপি", "phulkopi"]
+  },
+  "group": "inflorescence_vegetable",
+  "class": "high_respiration_ethylene_sensitive",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 90.76, "range": [90.54, 90.98], "src": "IFCT-2017", "conf": 0.95, "note": "IFCT D036 90.76+/-0.22"},
+    "water_activity": {"v": 0.99, "range": [0.99, 0.996], "src": "CHIRIFE-1982", "conf": 0.80, "note": "From highest freezing point -0.8 C (AH-66) via ln aw = -0.00969*dTf (Chirife & Fontan 1982) = 0.992"},
+    "fat_pct": {"v": 0.44, "range": [0.41, 0.47], "src": "IFCT-2017", "conf": 0.95, "note": "IFCT D036 0.44+/-0.03"},
+    "pH": {"v": 6.6, "range": [6.45, 6.80], "src": "FDA-pH-db", "conf": 0.90, "note": "FDA 'Cauliflower' 6.45-6.80"}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 49.2,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 21.0, "range": [20.0, 22.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90,
+    "note": "AH-66 chapter: 16-18 (0 C), 20-22 (5 C), 32-36 (10 C), 42-50 (15 C), 74-84 (20 C), 86-98 (25 C). Ea fitted by Arrhenius to midpoints"
+  },
+  "storage_optimum": {
+    "T_C": [0.0, 0.0],
+    "RH_pct": [95.0, 98.0],
+    "life_days": [21.0, 28.0],
+    "chilling_sensitive_below_C": null,
+    "src": "USDA-AH66",
+    "note": "AH-66: 0 C / 95-98% RH up to 3 weeks or more; 7-10 d at 5 C, 5 d at 10 C, 3 d at 15 C. Cantwell 2001: 3-4 weeks. Freezes below -0.8 C"
+  },
+  "ethylene": {
+    "production": "very_low",
+    "sensitivity": "high",
+    "note": "<1 uL/kg.h at 20 C; extremely sensitive to ethylene (curd discoloration, leaf yellowing and abscission). Not chilling sensitive"
+  },
+  "failure_modes": [
+    "curd_browning",
+    "leaf_yellowing_ethylene",
+    "bacterial_soft_rot",
+    "alternaria_brown_rot",
+    "wilting_weight_loss",
+    "riciness"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "cut": {
+      "respiration_x": [3.0, 7.0],
+      "aw_delta": 0.01,
+      "microbial_risk": "high",
+      "new_failure": "floret_browning_and_soft_rot",
+      "max_ambient_hours": 4.0,
+      "src": "FDA-FOOD-CODE-2022",
+      "note": "respiration_x from KB generic mod_cut (USDA-AH66); 4 h = FDA Food Code 3-501.19 time-as-control limit"
+    },
+    "bruised": {"respiration_x": [1.3, 2.0], "ethylene_x": [2.0, 4.0], "new_failure": "curd_browning_decay"}
+  }
+}

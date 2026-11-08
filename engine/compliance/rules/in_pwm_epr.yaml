@@ -1,0 +1,180 @@
+# =============================================================================
+# Aavaran Compliance Rules: India - Plastic Waste Management Rules & EPR
+# Authority: Ministry of Environment, Forest and Climate Change (MoEFCC) / CPCB
+# Instrument: Plastic Waste Management Rules, 2016 (as amended 2021, 2022, 2024)
+# Gazette: https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjIucGRm
+# =============================================================================
+
+- id: IN-PWM-2021-SUP-BAN
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2021"
+  clause: "Rule 4(2)"
+  effective_from: "2022-07-01"
+  applies_when:
+    package.package_type:
+      in:
+        - "plastic_plate"
+        - "plastic_cup"
+        - "plastic_glass"
+        - "plastic_cutlery"
+        - "plastic_fork"
+        - "plastic_spoon"
+        - "plastic_knife"
+        - "plastic_straw"
+        - "plastic_stirrer"
+        - "plastic_tray"
+        - "thermocol_container"
+        - "expanded_polystyrene"
+        - "pvc_banner_under_100um"
+  effect: BLOCK
+  message_en: >
+    Banned single-use plastic item under the Plastic Waste Management (Amendment) Rules, 2021,
+    in force from 1 July 2022. Manufacture, import, stocking, distribution, sale, and use of these
+    single-use items is strictly prohibited across India regardless of food-grade status.
+  message_hi: >
+    प्लास्टिक अपशिष्ट प्रबंधन नियम 2021 के तहत 1 जुलाई 2022 से एकल-उपयोग प्लास्टिक (प्लेट, कप, चम्मच,
+    कांटा, स्ट्रॉ, थर्मोकोल आदि) का निर्माण, बिक्री और उपयोग पूर्णतः प्रतिबंधित है।
+  severity: critical
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjEucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2021-CARRYBAG-75UM
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2021"
+  clause: "Rule 4(1)(c)"
+  effective_from: "2021-09-30"
+  effective_until: "2022-12-30"
+  applies_when:
+    package.is_carry_bag: true
+    package.composite_thickness_um: {lt: 75}
+  effect: BLOCK
+  message_en: >
+    Plastic carry bags made of virgin or recycled plastic must not be less than 75 microns in
+    thickness from 30 September 2021.
+  severity: critical
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjEucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2021-CARRYBAG-120UM
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2021"
+  clause: "Rule 4(1)(c)"
+  effective_from: "2022-12-31"
+  applies_when:
+    package.is_carry_bag: true
+    package.composite_thickness_um: {lt: 120}
+  effect: BLOCK
+  message_en: >
+    Plastic carry bags made of virgin or recycled plastic must not be less than 120 microns in
+    thickness from 31 December 2022. Thinner carry bags are prohibited.
+  message_hi: >
+    31 दिसंबर 2022 से प्लास्टिक कैरी बैग की मोटाई कम से कम 120 माइक्रोन होना अनिवार्य है।
+  severity: critical
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjEucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2016-SHEET-50UM
+  jurisdiction: IN
+  instrument: "Plastic Waste Management Rules, 2016"
+  clause: "Rule 4(1)(b)"
+  effective_from: "2016-03-18"
+  applies_when:
+    package.is_non_integral_sheet: true
+    package.composite_thickness_um: {lt: 50}
+    functionality_impairment_certified: false
+  effect: BLOCK
+  message_en: >
+    Plastic sheet or like, which is not an integral part of multi-layered packaging and cover made
+    of plastic sheet used for packaging, wrapping or storing food, must not be less than 50 microns
+    in thickness, unless such thickness impairs functionality.
+  severity: high
+  source_url: "https://cpcb.nic.in/rules-2/"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2022-CPCB-REGISTRATION
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2022 (EPR Guidelines)"
+  clause: "Schedule II, Clause 5.1 & 6.1"
+  effective_from: "2022-02-16"
+  applies_when:
+    package.contains_plastic: true
+    brand_owner.is_micro_or_small: false
+  effect: REQUIRE
+  message_en: >
+    Producers, Importers, and Brand Owners (PIBOs) using plastic packaging must register on the
+    centralised CPCB Extended Producer Responsibility (EPR) portal and fulfill annual recycling
+    and recycled-content obligations.
+  requires_document: "CPCB EPR Portal Registration Certificate and Annual Return Filing"
+  severity: critical
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjIucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2022-MSME-EXEMPTION
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2022"
+  clause: "Schedule II, Clause 5.1"
+  effective_from: "2022-02-16"
+  applies_when:
+    package.contains_plastic: true
+    brand_owner.is_micro_or_small: true
+  effect: REQUIRE
+  message_en: >
+    Micro and Small enterprises (defined per the Micro, Small and Medium Enterprises Development Act, 2006)
+    are exempt from Extended Producer Responsibility (EPR) recycling and credit obligations. However, they
+    must still comply with plastic thickness floors and food safety standards.
+  severity: low
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjIucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2022-CAT3-WARN
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2022"
+  clause: "Schedule II, Category III"
+  effective_from: "2022-02-16"
+  applies_when:
+    package.epr_category: {in: ["Cat III", "Category III", "MLP", "multi_layered_plastic"]}
+  effect: WARN
+  message_en: >
+    Multi-layered plastic (Category III - combining plastic with aluminium foil, paper, or other non-polymers)
+    carries low mechanical recyclability, escalating statutory recycled-content obligations, and higher
+    market EPR credit procurement costs (typically ₹6,000–₹9,000/tonne vs ₹3,000–₹4,500/tonne for mono-PE/PP).
+    Prefer mono-material Category II or Category I structures where barrier performance permits.
+  severity: high
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjIucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2022-RECYCLING-TARGETS
+  jurisdiction: IN
+  instrument: "Plastic Waste Management (Amendment) Rules, 2022"
+  clause: "Schedule II, Clause 7 (Recycling Obligations)"
+  effective_from: "2024-04-01"
+  applies_when:
+    package.contains_plastic: true
+    brand_owner.is_micro_or_small: false
+  effect: REQUIRE
+  message_en: >
+    PIBOs must fulfill statutory minimum plastic recycling percentages:
+    Category I (Rigid): FY24-25: 50%, FY25-26: 60%, FY26-27: 70%, FY27-28 onwards: 80%.
+    Category II (Flexible): FY24-25: 30%, FY25-26: 40%, FY26-27: 50%, FY27-28 onwards: 60%.
+    Category III (Multilayer): FY24-25: 30%, FY25-26: 40%, FY26-27: 50%, FY27-28 onwards: 60%.
+  requires_document: "CPCB EPR Recycling Certificates (Credit Purchase Proof)"
+  severity: high
+  source_url: "https://cpcb.nic.in/displaypdf.php?id=cGxhc3RpY3dhc3RlL1BXTXJfQW1lbmRtZW50XzIwMjIucGRm"
+  last_verified: "2026-09-21"
+
+- id: IN-PWM-2022-COMPOSTABLE-IS17088
+  jurisdiction: IN
+  instrument: "Plastic Waste Management Rules, 2016 & BIS IS 17088"
+  clause: "Rule 4(h) & Schedule II, Category IV"
+  effective_from: "2016-03-18"
+  applies_when:
+    package.is_compostable: true
+  effect: REQUIRE
+  message_en: >
+    Compostable plastic packaging (Category IV) must strictly conform to Indian Standard IS 17088
+    (Specifications for Compostable Plastics) and the manufacturer/brand owner must hold a valid
+    CPCB certificate before placing into the market.
+  requires_document: "CPCB Compostable Plastic Certificate & BIS IS 17088 Test Report"
+  severity: critical
+  source_url: "https://cpcb.nic.in/rules-2/"
+  last_verified: "2026-09-21"

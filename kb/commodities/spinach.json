@@ -1,0 +1,60 @@
+{
+  "commodity_id": "veg.spinach.spinacia_oleracea",
+  "names": {
+    "en": ["spinach", "palak"],
+    "hi": ["पालक", "palak"],
+    "mr": ["पालक", "palak"],
+    "ta": ["பசலைக்கீரை", "pasalai"],
+    "bn": ["পালং শাক", "palong"],
+    "te": ["పాలకూర", "palakura"],
+    "kn": ["ಪಾಲಕ್", "palak"],
+    "gu": ["પાલક", "palak"],
+    "pa": ["ਪਾਲਕ", "palak"]
+  },
+  "group": "leafy_greens",
+  "class": "extremely_high_respiration",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 91.6, "range": [90.0, 93.5], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.99, "range": [0.98, 0.99], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 0.6, "range": [0.4, 0.8], "src": "IFCT-2017", "conf": 0.92},
+    "pH": {"v": 6.2, "range": [5.5, 6.8], "src": "FDA-pH-db", "conf": 0.90}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 68.0,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 75.0, "range": [60.0, 110.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90
+  },
+  "storage_optimum": {
+    "T_C": [0.0, 2.0],
+    "RH_pct": [95.0, 100.0],
+    "life_days": [10.0, 14.0],
+    "chilling_sensitive_below_C": null,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "very_low",
+    "sensitivity": "extremely_high",
+    "note": "Extremely high sensitivity to ethylene; causes rapid yellowing (chlorophyll breakdown) and decay"
+  },
+  "failure_modes": [
+    "yellowing_chlorophyll_loss",
+    "wilting_transpiration",
+    "bacterial_soft_rot",
+    "decay",
+    "fermentation_if_sealed"
+  ],
+  "light_sensitive": true,
+  "light_note": "Post-harvest light exposure accelerates chlorophyll breakdown, stomatal opening, and rapid moisture loss",
+  "state_modifiers": {
+    "washed": {"free_moisture": true, "requires_antifog": true},
+    "cut": {
+      "respiration_x": [2.5, 4.5],
+      "microbial_risk": "high",
+      "new_failure": "rapid_soft_rot",
+      "max_ambient_hours": 3.0
+    }
+  }
+}

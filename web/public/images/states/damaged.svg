@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <rect width="120" height="120" fill="#FFFDF2"/>
+  <!-- Bruised distorted fruit -->
+  <path d="M 60 20 C 90 20, 105 50, 100 75 C 95 95, 75 100, 60 100 C 35 100, 20 85, 20 60 C 20 35, 40 20, 60 20 Z" fill="#FFE500" stroke="#0B0B0B" stroke-width="6"/>
+  <!-- Bruise patch -->
+  <path d="M 35 45 C 50 40, 60 55, 55 70 C 45 80, 30 70, 35 45 Z" fill="#FF6B52" stroke="#0B0B0B" stroke-width="4"/>
+  <!-- Cracks / damage lines -->
+  <path d="M 40 50 L 52 62 L 48 70" stroke="#0B0B0B" stroke-width="4" stroke-linecap="round"/>
+  <!-- Warning badge -->
+  <circle cx="88" cy="35" r="16" fill="#FF6B52" stroke="#0B0B0B" stroke-width="4"/>
+  <text x="88" y="42" font-family="sans-serif" font-weight="900" font-size="20" text-anchor="middle" fill="#0B0B0B">!</text>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "moisture": {
+    "shelf_life_days": 1277.5974,
+    "required_wvtr": 132.4916,
+    "gab_moisture_at_aw_0_4": 0.0537
+  },
+  "oxidation": {
+    "shelf_life_days": 77.6257
+  },
+  "respiration": {
+    "arrhenius_rate": 59.1582,
+    "q10_rate": 75.0
+  },
+  "map": {
+    "hole_count": 44
+  },
+  "microbial": {
+    "mu_max_per_day": 10.3347
+  },
+  "safety": {
+    "botulinum_blocked": true,
+    "histamine_blocked": true,
+    "fresh_cut_blocked": true
+  }
+}

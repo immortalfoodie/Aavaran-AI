@@ -1,0 +1,60 @@
+{
+  "commodity_id": "veg.okra.abelmoschus_esculentus",
+  "names": {
+    "en": ["okra", "ladyfinger", "bhindi"],
+    "hi": ["भिंडी", "bhindi"],
+    "mr": ["भेंडी", "bhendi"],
+    "ta": ["வெண்டைக்காய்", "vendakkai"],
+    "bn": ["ঢেঁড়শ", "dherosh"],
+    "te": ["బెండకాయ", "bendakaya"],
+    "kn": ["ಬೆಂಡೆಕಾಯಿ", "bendekayi"],
+    "gu": ["ભીંડા", "bhinda"],
+    "pa": ["ਭਿੰਡੀ", "bhindi"]
+  },
+  "group": "pod_vegetable",
+  "class": "very_high_respiration",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 89.6, "range": [87.0, 91.5], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.99, "range": [0.98, 0.99], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 0.2, "range": [0.1, 0.3], "src": "IFCT-2017", "conf": 0.94},
+    "pH": {"v": 6.1, "range": [5.8, 6.5], "src": "FDA-pH-db", "conf": 0.92}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 62.0,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 50.0, "range": [40.0, 60.0]},
+    "src": "USDA-AH66",
+    "conf": 0.88
+  },
+  "storage_optimum": {
+    "T_C": [7.0, 10.0],
+    "RH_pct": [90.0, 95.0],
+    "life_days": [7.0, 10.0],
+    "chilling_sensitive_below_C": 7.0,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "low",
+    "sensitivity": "high",
+    "note": "Sensitive to ethylene which causes yellowing and tough fibrous tissue development"
+  },
+  "failure_modes": [
+    "toughening_lignification",
+    "chilling_injury_discoloration",
+    "blackening_ridges",
+    "water_loss",
+    "decay"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "bruised": {"respiration_x": [1.4, 2.0], "new_failure": "ridge_blackening"},
+    "cut": {
+      "respiration_x": [3.0, 6.0],
+      "microbial_risk": "high",
+      "new_failure": "mucilage_leakage_and_browning",
+      "max_ambient_hours": 3.0
+    }
+  }
+}

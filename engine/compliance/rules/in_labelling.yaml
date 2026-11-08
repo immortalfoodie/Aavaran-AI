@@ -1,0 +1,139 @@
+# =============================================================================
+# Aavaran Compliance Rules: India - Food Labelling & Legal Metrology
+# Instruments:
+# 1. Food Safety and Standards (Labelling and Display) Regulations, 2020
+# 2. Legal Metrology (Packaged Commodities) Rules, 2011
+# =============================================================================
+
+- id: IN-LABEL-2020-FSSAI-LOGO
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Labelling and Display) Regulations, 2020"
+  clause: "Regulation 5(2)"
+  effective_from: "2021-11-17"
+  applies_when:
+    product.is_food: true
+  effect: REQUIRE
+  message_en: >
+    The FSSAI logo along with the 14-digit licence number of the manufacturer / packer / marketer
+    must be displayed on the principal display panel of the food package in contrast to the background.
+  message_hi: >
+    खाद्य पैकेजिंग के मुख्य डिस्प्ले पैनल पर FSSAI लोगो और 14-अंकों का लाइसेंस नंबर प्रदर्शित करना अनिवार्य है।
+  requires_document: "Valid FSSAI Food Business Operator Licence (14-digit)"
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_23_09_2021.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-LABEL-2020-VEG-NONVEG-MARK
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Labelling and Display) Regulations, 2020"
+  clause: "Regulation 5(4)"
+  effective_from: "2021-11-17"
+  applies_when:
+    product.is_food: true
+  effect: REQUIRE
+  message_en: >
+    Every pre-packaged food must display a vegetarian symbol (green filled circle inside a green outline square)
+    or a non-vegetarian symbol (brown filled triangle inside a brown outline square) prominently on the
+    principal display panel.
+  requires_document: "Artwork proof containing standard Veg/Non-Veg symbol"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_23_09_2021.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-LM-2011-NET-QUANTITY
+  jurisdiction: IN
+  instrument: "Legal Metrology (Packaged Commodities) Rules, 2011"
+  clause: "Rule 6(1)(e) and Rule 7"
+  effective_from: "2011-04-01"
+  applies_when:
+    package.is_packaged_commodity: true
+  effect: REQUIRE
+  message_en: >
+    The net quantity of the commodity contained in the package must be declared in standard metric
+    units of weight (g, kg), volume (ml, L), or number on the principal display panel.
+  requires_document: "Net weight verification record"
+  severity: high
+  source_url: "https://consumeraffairs.nic.in/acts-and-rules/legal-metrology/legal-metrology-packaged-commodities-rules-2011"
+  last_verified: "2026-09-21"
+
+- id: IN-LM-2011-MRP
+  jurisdiction: IN
+  instrument: "Legal Metrology (Packaged Commodities) Rules, 2011"
+  clause: "Rule 6(1)(f)"
+  effective_from: "2011-04-01"
+  applies_when:
+    package.is_packaged_commodity: true
+  effect: REQUIRE
+  message_en: >
+    The Maximum Retail Price (MRP) inclusive of all taxes must be clearly declared on the package
+    in the standard format: 'MRP Rs. XX.XX (inclusive of all taxes)' or 'MRP ₹ XX.XX (incl. of all taxes)'.
+  severity: high
+  source_url: "https://consumeraffairs.nic.in/acts-and-rules/legal-metrology/legal-metrology-packaged-commodities-rules-2011"
+  last_verified: "2026-09-21"
+
+- id: IN-LM-2011-MANUFACTURER-DETAILS
+  jurisdiction: IN
+  instrument: "FSS (Labelling) Regs 2020, reg. 5(6) + Legal Metrology Rules 2011, Rule 6(1)(a)"
+  clause: "FSS Reg 5(6) & LM Rule 6(1)(a)"
+  effective_from: "2021-11-17"
+  applies_when:
+    package.is_packaged_commodity: true
+  effect: REQUIRE
+  message_en: >
+    The full name, complete address, and contact details (consumer care telephone number and email address)
+    of the manufacturer, packer, or importer must be clearly declared on the label.
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_23_09_2021.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-LABEL-2020-DATE-MARKING
+  jurisdiction: IN
+  instrument: "FSS (Labelling) Regs 2020, reg. 5(7) + Legal Metrology Rules 2011, Rule 6(1)(d)"
+  clause: "FSS Reg 5(7) & LM Rule 6(1)(d)"
+  effective_from: "2021-11-17"
+  applies_when:
+    product.is_food: true
+  effect: REQUIRE
+  message_en: >
+    Date marking is mandatory: Date of manufacture or packing, and 'Best Before' date or 'Expiry / Use By'
+    date must be declared in standard DD/MM/YY or MM/YY format.
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_23_09_2021.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-LM-2011-FONT-HEIGHTS
+  jurisdiction: IN
+  instrument: "Legal Metrology (Packaged Commodities) Rules, 2011 & FSS (Labelling) Regs 2020"
+  clause: "Schedule II, Table 1 & FSS Reg. 6"
+  effective_from: "2011-04-01"
+  applies_when:
+    package.is_packaged_commodity: true
+  effect: REQUIRE
+  message_en: >
+    Minimum font/numeral height on Principal Display Panel (PDP) must comply with Schedule II:
+    PDP Area <= 50 cm²: minimum height 1.0 mm;
+    Area > 50 to 100 cm²: minimum height 1.5 mm;
+    Area > 100 to 500 cm²: minimum height 2.5 mm;
+    Area > 500 to 2500 cm²: minimum height 4.0 mm;
+    Area > 2500 cm²: minimum height 6.0 mm.
+  severity: high
+  source_url: "https://consumeraffairs.nic.in/acts-and-rules/legal-metrology/legal-metrology-packaged-commodities-rules-2011"
+  last_verified: "2026-09-21"
+
+- id: IN-LABEL-2020-NUTRITIONAL-INFO
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Labelling and Display) Regulations, 2020"
+  clause: "Regulation 5(3)"
+  effective_from: "2021-11-17"
+  applies_when:
+    product.is_food: true
+    product.exempt_from_nutrition_table: false
+  effect: REQUIRE
+  message_en: >
+    Nutritional information per 100g or 100ml and per single serving must be declared on the label:
+    Energy value (kcal), Protein (g), Carbohydrate (g), Total Sugars (g), Added Sugars (g),
+    Total Fat (g), Saturated Fat (g), Trans Fat (g), and Sodium (mg).
+  requires_document: "Laboratory Nutritional Profile Test Report (NABL accredited)"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Labelling_Display_23_09_2021.pdf"
+  last_verified: "2026-09-21"

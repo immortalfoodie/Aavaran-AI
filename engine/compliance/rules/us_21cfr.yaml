@@ -1,0 +1,74 @@
+# =============================================================================
+# Aavaran Compliance Rules: United States - FDA Food Contact Substances
+# Authority: United States Food and Drug Administration (FDA) / CFSAN
+# Statutory Authority: Federal Food, Drug, and Cosmetic Act (FFDCA), Section 409
+# Code of Federal Regulations: Title 21, Parts 174-190
+# =============================================================================
+
+- id: US-FDA-21CFR-FCS-AUTHORIZATION
+  jurisdiction: US
+  instrument: "Federal Food, Drug, and Cosmetic Act & 21 CFR Parts 174–190"
+  clause: "FFDCA Section 409 & 21 CFR 174.5"
+  effective_from: "1958-09-06"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Any substance that is reasonably expected to migrate into food from packaging must be authorized
+    by the FDA as a direct or indirect food additive (21 CFR 174–190), be Generally Recognized as Safe
+    (GRAS), have prior sanction (pre-1958), or be covered by an effective Food Contact Notification (FCN).
+  requires_document: "FDA Letter of Guarantee citing applicable 21 CFR sections or effective FCN number"
+  severity: critical
+  source_url: "https://www.fda.gov/food/food-ingredients-packaging/packaging-food-contact-substances-fcs"
+  last_verified: "2026-09-21"
+
+- id: US-FDA-21CFR-GMP-174
+  jurisdiction: US
+  instrument: "21 CFR Part 174 - Indirect Food Additives: General"
+  clause: "21 CFR 174.5 (Good Manufacturing Practice)"
+  effective_from: "1977-03-15"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Any food contact substance must be manufactured in accordance with Good Manufacturing Practice (GMP),
+    must be of a purity suitable for its intended use, and the quantity utilized must not exceed the amount
+    reasonably required to achieve the intended physical or technical effect.
+  severity: high
+  source_url: "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-B/part-174/section-174.5"
+  last_verified: "2026-09-21"
+
+- id: US-FDA-21CFR-POLYOLEFINS
+  jurisdiction: US
+  instrument: "21 CFR Part 177 - Indirect Food Additives: Polymers"
+  clause: "21 CFR 177.1520 (Olefin Polymers)"
+  effective_from: "1977-03-15"
+  applies_when:
+    package.polymer_family: {in: ["polyethylene", "polypropylene", "pe", "pp", "lldpe", "hdpe", "bopp", "cpp"]}
+  effect: REQUIRE
+  message_en: >
+    Polyethylene, polypropylene, and olefin copolymers intended for food contact must comply with the
+    specifications, extractables limits (hexane and xylene extractable fractions), and temperature restrictions
+    prescribed under 21 CFR 177.1520.
+  requires_document: "Supplier 21 CFR 177.1520 Olefin Polymer extraction compliance certification"
+  severity: high
+  source_url: "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-B/part-177/section-177.1520"
+  last_verified: "2026-09-21"
+
+- id: US-FDA-RECYCLED-NOL
+  jurisdiction: US
+  instrument: "FDA Guidance for Industry: Use of Recycled Plastics in Food Packaging"
+  clause: "CFSAN Chemistry Review & Letter of No Objection (NOL)"
+  effective_from: "2006-08-01"
+  applies_when:
+    material.recycled_content_pct: {gt: 0}
+    contact: direct
+  effect: CONDITIONAL
+  message_en: >
+    Recycled plastics (post-consumer resin - PCR) used in direct food contact must originate from a recycling
+    process evaluated by the FDA that has received a formal Letter of No Objection (NOL) confirming that the
+    process effectively removes surrogate contaminants and yields food-contact suitable resin.
+  requires_document: "FDA Letter of No Objection (NOL) for the specific recycling process"
+  severity: critical
+  source_url: "https://www.fda.gov/food/packaging-food-contact-substances-fcs/recycled-plastics-food-packaging"
+  last_verified: "2026-09-21"

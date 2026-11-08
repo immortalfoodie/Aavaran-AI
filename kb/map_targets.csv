@@ -1,0 +1,18 @@
+id,product_group,target_o2_min,target_o2_max,target_co2_min,target_co2_max,o2_floor,co2_injury_ceiling,balance_gas,optimum_temp_c_min,optimum_temp_c_max,notes,source_id
+map_general_produce,General fruit & veg EMA envelope,3.0,10.0,3.0,10.0,2.0,10.0,N2,5.0,12.0,"Safe generic default when commodity data is thin",LINDE-MAPAX
+map_fresh_cut_salad,Fresh-cut salad mix,3.0,5.0,5.0,20.0,2.0,20.0,75-90% N2,3.0,5.0,"Passive MAP with 1085-7000 cc/m2.day film",LINDE-MAPAX
+map_fresh_cut_carrot,Fresh-cut carrot,2.0,5.0,15.0,20.0,2.0,20.0,75-83% N2,3.0,5.0,High CO2 tolerance,LINDE-MAPAX
+map_capsicum_chilli,Green pepper / capsicum / chilli,3.0,5.0,3.0,6.0,2.0,6.0,N2,7.0,10.0,Chilling-sensitive below 7 C,LINDE-MAPAX
+map_red_meat,Red meat (retail),70.0,80.0,20.0,30.0,50.0,35.0,Balance,0.0,2.0,High-O2 MAP for oxymyoglobin colour,LINDE-MAPAX
+map_poultry_fish,Poultry / fish (white),0.0,0.0,40.0,60.0,0.0,70.0,N2,0.0,2.0,CO2 bacteriostatic,LINDE-MAPAX
+map_hard_cheese,Hard cheese / paneer (MAP),0.0,0.5,20.0,40.0,0.0,50.0,N2,4.0,8.0,Mould suppression without pack collapse,LINDE-MAPAX
+map_bakery_moist,Bakery (moist),0.0,0.5,50.0,70.0,0.0,80.0,N2,20.0,25.0,Often combined with ethanol emitter,LINDE-MAPAX
+map_fried_snacks,Fried snacks / namkeen,0.0,1.0,0.0,0.0,0.0,2.0,N2 flush,20.0,30.0,"Oxidation control, not MAP proper (<2% residual O2)",LINDE-MAPAX
+map_fresh_mushrooms,Fresh mushrooms,3.0,5.0,8.0,12.0,2.0,15.0,N2,1.0,4.0,High respiration; prevents cap opening and browning,LINDE-MAPAX
+map_berries,Berries (strawberries),5.0,10.0,10.0,15.0,2.0,15.0,N2,0.0,2.0,High CO2 suppresses Botrytis cinerea grey mould,LINDE-MAPAX
+map_tropical_fruit,Mango & tropical climacteric fruit,3.0,5.0,5.0,8.0,2.0,10.0,N2,12.0,13.0,"Chilling-sensitive below 12 C; delays ripening",LINDE-MAPAX
+map_cabbage,Cabbage (whole head),2.0,3.0,4.0,5.0,2.0,8.0,N2,0.0,0.0,"AH-66: 1.5-5% O2 / 0-8% CO2 recommended, 2-3% O2 + 4-5% CO2 general recommendation; <1.5-2% O2 or >8-10% CO2 may injure",USDA-AH66
+map_cauliflower,Cauliflower (whole head),2.0,5.0,2.0,5.0,2.0,5.0,N2,0.0,0.0,"Cantwell 2001: 2-5% O2 + 2-5% CO2; AH-66: injury below 2% O2 and/or above 5% CO2, >10% CO2 injures within 2 days; benefits modest",CANTWELL-2001
+map_eggplant,Eggplant / brinjal,3.0,5.0,0.0,0.0,3.0,10.0,N2,10.0,12.0,"AH-66: 3-5% O2 delays deterioration by only a few days; tolerates up to 10% CO2; CA offers little benefit. Chilling-sensitive below 10 C",USDA-AH66
+map_table_grape,Table grape (Vitis vinifera),5.0,10.0,10.0,15.0,2.0,15.0,N2,-1.0,0.0,"Cantwell 2001: 5-10% O2 + 10-15% CO2 up to 4 weeks (or 2-5% O2 + 1-3% CO2); AH-66: CO2 10-15% in air controls grey mold 2-4 weeks; SO2 remains primary decay control",CANTWELL-2001
+map_pomegranate,Pomegranate (whole fruit),3.0,5.0,5.0,10.0,3.0,10.0,N2,5.0,7.2,"Cantwell 2001: 3-5% O2 + 5-10% CO2; AH-66: optimal 3% O2 + 6% CO2 (Kupper et al. 1995). Floor/ceiling set to cited range limits (no injury threshold published)",CANTWELL-2001

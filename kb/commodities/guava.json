@@ -1,0 +1,65 @@
+{
+  "commodity_id": "fruit.guava.psidium_guajava",
+  "names": {
+    "en": ["guava"],
+    "hi": ["अमरूद", "amrood", "amrud"],
+    "mr": ["पेरू", "peru"],
+    "ta": ["கொய்யா", "koyya"],
+    "te": ["జామ", "jaama"],
+    "kn": ["ಸೀಬೆ", "seebe"],
+    "gu": ["જામફળ", "jamfal"],
+    "pa": ["ਅਮਰੂਦ", "amrood"],
+    "bn": ["পেয়ারা", "peyara"]
+  },
+  "group": "tropical_fruit",
+  "class": "climacteric_tropical",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 83.79, "range": [80.77, 84.09], "src": "IFCT-2017", "conf": 0.95, "note": "IFCT E028 white flesh 83.79+/-0.30; E029 pink flesh 81.22+/-0.45"},
+    "water_activity": {"v": 0.98, "range": [0.97, 0.996], "src": "CHIRIFE-1982", "conf": 0.60, "note": "No guava freezing point found; generic fresh-produce aw range 0.970-0.996 from Chirife & Fontan (1982)"},
+    "fat_pct": {"v": 0.32, "range": [0.22, 0.35], "src": "IFCT-2017", "conf": 0.93, "note": "IFCT E028 0.32+/-0.03; E029 0.25+/-0.03"},
+    "pH": {"v": 3.7, "range": [3.37, 4.10], "src": "FDA-pH-db", "conf": 0.60, "note": "FDA lists only 'Guava, canned' 3.37-4.10; no fresh guava entry"}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 53.7,
+    "ref": {"T_C": 10.0, "rCO2_mg_kg_h": 34.0, "range": [8.0, 60.0]},
+    "src": "USDA-AH66",
+    "conf": 0.60,
+    "note": "AH-66 Table 1: 34 (10 C), 74 (20 C); chapter range 8-60 (10 C), 18-130 (20 C). Ea fitted by Arrhenius to Table 1 values (53-56 kJ/mol across low/mid/high pairs)"
+  },
+  "storage_optimum": {
+    "T_C": [8.0, 10.0],
+    "RH_pct": [90.0, 95.0],
+    "life_days": [14.0, 21.0],
+    "chilling_sensitive_below_C": 4.5,
+    "src": "USDA-AH66",
+    "note": "Mature-green/partially ripe: 2-3 weeks at 8-10 C (AH-66 guava chapter; also Cantwell 2001: 5-10 C, 2-3 weeks). ~7 days at 20 C. Ripe fruit ~1 week at 5-8 C. Chilling threshold 4.5 C from AH-66 chilling-injury table"
+  },
+  "ethylene": {
+    "production": "moderate",
+    "sensitivity": "moderate",
+    "note": "Climacteric; 1-20 uL/kg.h at 20 C varying with cultivar and ripeness (AH-66); ripening accelerated by ethylene. Chilled mature-green fruit show skin scald, pitting, failure to ripen"
+  },
+  "failure_modes": [
+    "chilling_injury_skin_scald",
+    "anthracnose",
+    "desiccation_skin_dulling",
+    "mechanical_injury_browning",
+    "over_ripening_softening"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "cut": {
+      "respiration_x": [3.0, 7.0],
+      "aw_delta": 0.01,
+      "microbial_risk": "high",
+      "new_failure": "flesh_browning_and_microbial_decay",
+      "max_ambient_hours": 4.0,
+      "src": "FDA-FOOD-CODE-2022",
+      "note": "respiration_x from KB generic mod_cut (USDA-AH66); 4 h = FDA Food Code 3-501.19 time-as-control limit"
+    },
+    "bruised": {"respiration_x": [1.3, 2.0], "ethylene_x": [2.0, 4.0], "new_failure": "wound_decay"}
+  }
+}

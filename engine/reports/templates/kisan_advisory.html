@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Advisory · {{ result.result_id }}</title>
+    <style>
+        /* Printable A5 Black & White High Contrast Layout */
+        @page {
+            size: A5 portrait;
+            margin: 10mm;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            color: #000000;
+            background: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+            line-height: 1.35;
+        }
+        .sheet {
+            width: 100%;
+            border: 3px solid #000000;
+            padding: 12px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #000000;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 18pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        .tag {
+            border: 2px solid #000000;
+            padding: 2px 6px;
+            font-weight: 800;
+            font-size: 9pt;
+            text-transform: uppercase;
+        }
+        .verdict-box {
+            border: 2px solid #000000;
+            padding: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+            background: #FFFFFF;
+        }
+        .verdict-title {
+            font-size: 15pt;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        .grid-2 {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .col {
+            flex: 1;
+            border: 2px solid #000000;
+            padding: 8px;
+        }
+        .col-title {
+            font-size: 10pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000000;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+        }
+        .pictorial-icon {
+            font-size: 28pt;
+            line-height: 1;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .do-dont-box {
+            border: 2px solid #000000;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        .check-item {
+            margin-bottom: 6px;
+            font-size: 10pt;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .check-icon {
+            font-weight: 900;
+            font-size: 12pt;
+            line-height: 1;
+        }
+        .qr-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 2px solid #000000;
+            padding-top: 8px;
+            margin-top: 10px;
+        }
+        .qr-img {
+            width: 72px;
+            height: 72px;
+            border: 1px solid #000000;
+        }
+        .qr-text {
+            font-size: 8.5pt;
+            flex: 1;
+        }
+        .footer {
+            margin-top: 8px;
+            border-top: 1px dashed #000000;
+            padding-top: 6px;
+            font-size: 6.5pt;
+            color: #333333;
+            text-align: center;
+            line-height: 1.25;
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="header">
+            <div>
+                <span class="tag">AAVARAN AI · किसान सलाह कार्ड</span>
+                <h1 class="title">{{ commodity_name_hi }} / {{ commodity_name_en }}</h1>
+            </div>
+            <div class="tag">A5 PRINTABLE ADVISORY</div>
+        </div>
+
+        <!-- Big Pictorial Advisory Verdict with Crop Image -->
+        <div class="verdict-box" style="display: flex; align-items: center; justify-content: center; gap: 14px;">
+            {% if crop_image_uri %}
+            <img src="{{ crop_image_uri }}" alt="{{ commodity_name_en }}" style="width: 72px; height: 72px; object-fit: cover; border: 2px solid #000000; flex-shrink: 0;">
+            {% else %}
+            <div class="pictorial-icon">{{ verdict_icon }}</div>
+            {% endif %}
+            <div style="text-align: left;">
+                <div class="verdict-title">{{ kisan_headline }}</div>
+                <div style="font-size: 11pt; margin-top: 4px; font-weight: 700;">{{ kisan_subtext }}</div>
+            </div>
+        </div>
+
+        <!-- 2-Column Storage & Packaging Details -->
+        <div class="grid-2">
+            <div class="col">
+                <div class="col-title">📦 सही थैली / पैकिंग (BAG TYPE)</div>
+                <div style="font-size: 13pt; font-weight: 900; margin-bottom: 4px;">{{ recommended_bag_vernacular }}</div>
+                <div style="font-size: 9pt; color: #222;">
+                    <strong>तकनीकी नाम:</strong> {{ recommended_bag_technical }}<br>
+                    <strong>मोटाई (Gauge):</strong> {{ recommended_gauge }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-title">⏱ जीवनकाल (SHELF LIFE)</div>
+                <div style="font-size: 16pt; font-weight: 900; margin-bottom: 2px;">{{ shelf_life_display }}</div>
+                <div style="font-size: 9pt;">
+                    <strong>भंडारण तापमान:</strong> {{ target_temp_display }}<br>
+                    <strong>नमी (RH):</strong> {{ target_rh_display }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Pictorial DOs and DONTs (survives monochrome photocopying) -->
+        <div class="do-dont-box">
+            <div class="col-title" style="border-bottom: 2px solid #000000;">
+                ✓ क्या करें और क्या न करें (FARMER ACTION RULES)
+            </div>
+            {% for item in kisan_rules %}
+            <div class="check-item">
+                <span class="check-icon">{{ item.icon }}</span>
+                <div>
+                    <strong>{{ item.title_hi }} ({{ item.title_en }}):</strong> {{ item.desc }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- QR Code & Provenance Scan -->
+        <div class="qr-row">
+            {% if qr_data_uri %}
+            <img class="qr-img" src="{{ qr_data_uri }}" alt="QR Code">
+            {% endif %}
+            <div class="qr-text">
+                <strong>मंडी व खरीददार के लिए डिजिटल सत्यापन (SCAN TO VERIFY):</strong><br>
+                इस क्यूआर कोड को मोबाइल कैमरे से स्कैन करके पैकेजिंग प्रमाण व सुरक्षित भंडारण की रिपोर्ट तुरंत देखें।<br>
+                <em>Result ID: {{ result.result_id }}</em>
+            </div>
+        </div>
+
+        <!-- Universal Statutory Footer -->
+        <div class="footer">
+            Aavaran AI Engine v{{ engine_version }} · KB v{{ kb_version }} · Ruleset v{{ ruleset_version }} · Generated: {{ generation_timestamp }}<br>
+            <strong>MANDATORY STATUTORY DISCLAIMER:</strong> Aavaran AI is an AI scientific decision-support tool. It does not replace laboratory shelf-life or migration testing under IS 9845 / EN 1186. Legal responsibility for food safety and regulatory compliance rests strictly with the Food Business Operator (FBO) under FSSAI 2006.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "commodity_id": "spice.turmeric_powder.curcuma_longa",
+  "names": {
+    "en": ["turmeric powder", "haldi"],
+    "hi": ["हल्दी पाउडर", "haldi"],
+    "mr": ["हळद", "halad"],
+    "ta": ["மஞ்சள் தூள்", "manjal thool"],
+    "bn": ["হলুদ গুঁড়ো", "holud guro"],
+    "te": ["పసుపు", "pasupu"],
+    "kn": ["ಅರಿಶಿನ", "arishina"],
+    "gu": ["હળદર", "haldar"],
+    "pa": ["ਹਲਦੀ", "haldi"]
+  },
+  "group": "ground_spice",
+  "class": "low_moisture_light_sensitive_spice",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 8.5, "range": [7.0, 10.0], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.45, "range": [0.38, 0.52], "src": "IFCT-2017", "conf": 0.88},
+    "fat_pct": {"v": 4.2, "range": [3.0, 5.5], "src": "IFCT-2017", "conf": 0.92},
+    "pH": {"v": 6.2, "range": [5.8, 6.6], "src": "FDA-pH-db", "conf": 0.90}
+  },
+  "storage_optimum": {
+    "T_C": [18.0, 25.0],
+    "RH_pct": [45.0, 65.0],
+    "life_days": [365.0, 730.0],
+    "chilling_sensitive_below_C": null,
+    "src": "LABUZA-1985"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Dry spice; zero ethylene activity"
+  },
+  "failure_modes": [
+    "curcumin_photolysis_fading",
+    "volatile_oil_loss_aroma_loss",
+    "caking_moisture_absorption",
+    "insect_infestation"
+  ],
+  "light_sensitive": true,
+  "light_note": "Curcumin undergoes rapid photodegradation in presence of light, leading to bleaching of characteristic deep yellow colour; requires complete light barrier (Al foil or dark amber/opaque laminate).",
+  "state_modifiers": {
+    "foil_packed": {"life_x": [1.5, 2.5]}
+  }
+}

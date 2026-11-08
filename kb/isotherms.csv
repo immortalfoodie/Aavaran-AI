@@ -1,0 +1,10 @@
+id,food_class_or_commodity,model_type,temperature_c,m0,c_g,k,linear_slope_b,linear_intercept_c,aw_min,aw_max,aw_crit,source_id
+isotherm_besan_namkeen,processed.besan_namkeen,GAB,30.0,3.20,14.50,0.780,,,0.10,0.85,0.45,LABUZA-1985
+isotherm_milk_powder,dairy.milk_powder,GAB,25.0,4.10,18.20,0.820,,,0.10,0.85,0.40,LABUZA-1985
+isotherm_turmeric_powder,spice.turmeric_powder,GAB,25.0,5.80,12.00,0.750,,,0.10,0.85,0.60,LABUZA-1985
+isotherm_potato_flakes,veg.potato.dried_flakes,GAB,25.0,6.20,20.00,0.720,,,0.10,0.85,0.50,LABUZA-1985
+isotherm_biscuit_crackers,cereal.biscuits_crackers,GAB,25.0,3.80,16.00,0.800,,,0.10,0.80,0.42,LABUZA-1985
+isotherm_wheat_flour,grain.wheat_flour,GAB,25.0,6.50,15.00,0.740,,,0.10,0.85,0.62,LABUZA-1985
+isotherm_linear_dry_snack,processed.fried_snack.linear,LINEAR,30.0,,,,12.50,1.20,0.10,0.45,0.45,LABUZA-1985
+isotherm_wheat_atta,cereal.wheat_atta,GAB,30.0,5.67,20.82,0.870,,,0.11,0.93,0.75,AHMED-2018
+isotherm_toor_dal,pulse.toor_dal,GAB,30.0,6.89,20.00,0.841,,,0.51,0.91,0.60,VISHWAKARMA-2007

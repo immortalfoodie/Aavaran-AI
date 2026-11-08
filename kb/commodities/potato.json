@@ -1,0 +1,63 @@
+{
+  "commodity_id": "veg.potato.solanum_tuberosum",
+  "names": {
+    "en": ["potato"],
+    "hi": ["आलू", "aloo"],
+    "mr": ["बटाटा", "batata"],
+    "ta": ["உருளைக்கிழங்கு", "urulaikizhangu"],
+    "bn": ["আলু", "alu"],
+    "te": ["బంగాళాదుంప", "bangaladumpa", "ఆలుగడ్డ"],
+    "kn": ["ಆಲೂಗಡ್ಡೆ", "aalugadde"],
+    "gu": ["બટાકા", "bataka"],
+    "pa": ["ਆਲੂ", "aloo"]
+  },
+  "group": "root_tuber",
+  "class": "high_moisture_starchy",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 79.0, "range": [73.0, 83.0], "src": "IFCT-2017", "conf": 0.92},
+    "water_activity": {"v": 0.98, "range": [0.96, 0.99], "src": "IFCT-2017", "conf": 0.85},
+    "fat_pct": {"v": 0.1, "range": [0.05, 0.4], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 6.1, "range": [5.4, 6.3], "src": "FDA-pH-db", "conf": 0.90}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 58.0,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 3.5, "range": [2.0, 6.0]},
+    "src": "USDA-AH66",
+    "conf": 0.88
+  },
+  "storage_optimum": {
+    "T_C": [7.0, 10.0],
+    "RH_pct": [90.0, 95.0],
+    "life_days": [150.0, 300.0],
+    "chilling_sensitive_below_C": 4.0,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "very_low",
+    "sensitivity": "medium",
+    "note": "sprouting accelerated by ethylene"
+  },
+  "failure_modes": [
+    "sprouting",
+    "greening_solanine",
+    "weight_loss",
+    "soft_rot",
+    "enzymatic_browning_if_cut"
+  ],
+  "light_sensitive": true,
+  "light_note": "Light exposure drives chlorophyll + glycoalkaloid (solanine) formation — an opaque or UV-blocking pack is a FOOD SAFETY requirement, not a cosmetic one.",
+  "state_modifiers": {
+    "cut": {
+      "respiration_x": [3.0, 7.0],
+      "aw_delta": 0.01,
+      "microbial_risk": "high",
+      "new_failure": "enzymatic_browning",
+      "max_ambient_hours": 4.0
+    },
+    "washed": {"free_moisture": true, "requires_antifog": true},
+    "bruised": {"respiration_x": [1.3, 2.0], "ethylene_x": [2.0, 4.0]},
+    "cured": {"respiration_x": [0.6, 0.9], "life_x": [1.5, 3.0]}
+  }
+}

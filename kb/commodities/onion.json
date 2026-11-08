@@ -1,0 +1,60 @@
+{
+  "commodity_id": "veg.onion.allium_cepa",
+  "names": {
+    "en": ["onion"],
+    "hi": ["प्याज", "pyaz"],
+    "mr": ["कांदा", "kanda"],
+    "ta": ["வெங்காயம்", "vengayam"],
+    "bn": ["পেঁয়াজ", "peyaj"],
+    "te": ["ఉల్లిపాయ", "ullipaya"],
+    "kn": ["ಈರುಳ್ಳಿ", "eerulli"],
+    "gu": ["ડુંગળી", "dungli"],
+    "pa": ["ਪਿਆਜ਼", "piaz"]
+  },
+  "group": "bulb_allium",
+  "class": "low_respiration_cured",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 86.8, "range": [84.0, 89.0], "src": "IFCT-2017", "conf": 0.94},
+    "water_activity": {"v": 0.97, "range": [0.96, 0.98], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 0.1, "range": [0.05, 0.2], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 5.5, "range": [5.3, 5.8], "src": "FDA-pH-db", "conf": 0.92}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 42.0,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 3.0, "range": [2.0, 5.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90
+  },
+  "storage_optimum": {
+    "T_C": [0.0, 2.0],
+    "RH_pct": [65.0, 70.0],
+    "life_days": [120.0, 240.0],
+    "chilling_sensitive_below_C": null,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "very_low",
+    "sensitivity": "low",
+    "note": "Ventilated mesh or open storage needed; high humidity induces root growth and neck rot"
+  },
+  "failure_modes": [
+    "sprouting",
+    "rooting",
+    "neck_rot_botrytis",
+    "black_mold_aspergillus",
+    "moisture_condensation"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "cured": {"respiration_x": [0.6, 0.9], "life_x": [1.5, 3.0]},
+    "cut": {
+      "respiration_x": [4.0, 8.0],
+      "microbial_risk": "high",
+      "new_failure": "pyruvate_loss_microbial_decay",
+      "max_ambient_hours": 4.0
+    }
+  }
+}

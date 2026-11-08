@@ -1,0 +1,60 @@
+{
+  "commodity_id": "fruit.mango.mangifera_indica",
+  "names": {
+    "en": ["mango"],
+    "hi": ["आम", "aam"],
+    "mr": ["आंबा", "amba"],
+    "ta": ["மாம்பழம்", "mambazham"],
+    "bn": ["আম", "aam"],
+    "te": ["మామిడి", "mamidi"],
+    "kn": ["ಮಾವಿನಹಣ್ಣು", "mavinahannu"],
+    "gu": ["કેરી", "keri"],
+    "pa": ["ਅੰਬ", "amb"]
+  },
+  "group": "tropical_fruit",
+  "class": "climacteric_tropical",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 83.0, "range": [80.0, 86.0], "src": "IFCT-2017", "conf": 0.94},
+    "water_activity": {"v": 0.98, "range": [0.97, 0.99], "src": "IFCT-2017", "conf": 0.88},
+    "fat_pct": {"v": 0.4, "range": [0.2, 0.6], "src": "IFCT-2017", "conf": 0.92},
+    "pH": {"v": 4.5, "range": [4.0, 5.0], "src": "FDA-pH-db", "conf": 0.92}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 55.0,
+    "ref": {"T_C": 13.0, "rCO2_mg_kg_h": 22.0, "range": [15.0, 30.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90
+  },
+  "storage_optimum": {
+    "T_C": [12.0, 13.0],
+    "RH_pct": [85.0, 90.0],
+    "life_days": [14.0, 25.0],
+    "chilling_sensitive_below_C": 10.0,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "moderate",
+    "sensitivity": "high",
+    "note": "Ripening accelerated by ethylene; chilling sensitive below 10-12 C with grey skin scald and uneven ripening"
+  },
+  "failure_modes": [
+    "chilling_injury_grey_scald",
+    "anthracnose",
+    "stem_end_rot",
+    "over_softening",
+    "spoilage"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "ripe": {"respiration_x": [1.8, 2.8], "life_x": [0.3, 0.5]},
+    "cut": {
+      "respiration_x": [3.0, 6.0],
+      "microbial_risk": "high",
+      "new_failure": "leakage_and_fermentation",
+      "max_ambient_hours": 4.0
+    }
+  }
+}

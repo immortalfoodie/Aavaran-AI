@@ -1,0 +1,6 @@
+id,modifier_name,commodity_group,respiration_factor_min,respiration_factor_max,ethylene_factor_min,ethylene_factor_max,aw_delta,microbial_risk_level,new_failure_mode,max_ambient_hours,life_factor_min,life_factor_max,requires_antifog,description,source_id
+mod_cut,cut,fresh_produce,3.0,7.0,1.5,3.0,0.01,high,enzymatic_browning,4.0,0.05,0.20,True,"Wound response multiplies respiration 3-7x; high microbial and botulinum risk; strictly chilled",USDA-AH66
+mod_washed,washed,fresh_produce,1.0,1.0,1.0,1.0,0.00,medium,condensation_decay,24.0,0.80,1.00,True,"Free surface moisture promotes rapid fungal/bacterial decay; anti-fog mandatory",USDA-AH66
+mod_bruised,bruised,fresh_produce,1.3,2.0,2.0,4.0,0.00,high,wound_entry_rot,12.0,0.40,0.70,False,"Impact damage elevates respiration and ethylene; accelerates senescence",USDA-AH66
+mod_cured,cured,root_tuber_bulb,0.6,0.9,0.5,0.8,-0.01,low,none,720.0,1.50,3.00,False,"Suberized periderm protects against dehydration and pathogens; enables ventilated storage",USDA-AH66
+mod_blanched,blanched,vegetables,0.0,0.0,0.0,0.0,0.00,low,oxidation_rancidity,48.0,2.00,5.00,False,"Thermal inactivation of polyphenol oxidase and peroxidases; ceases active respiration",USDA-AH66

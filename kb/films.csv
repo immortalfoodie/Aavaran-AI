@@ -1,0 +1,16 @@
+id,film_name,thickness_um,otr_value,otr_min,otr_max,otr_test_temperature_c,otr_test_rh_pct,otr_test_method,wvtr_value,wvtr_min,wvtr_max,wvtr_test_temperature_c,wvtr_test_rh_pct,wvtr_test_method,barrier_class,typical_use,epr_category,source_id
+film_ldpe_25um,LDPE,25.0,7750.0,7000.0,8500.0,23.0,0.0,ASTM D3985,20.0,10.0,30.0,38.0,90.0,ASTM F1249,Poor O2 / poor moisture,"Liners, breathable produce bags",Cat II,POLYPRINT-2023
+film_hdpe_25um,HDPE,25.0,2700.0,2300.0,3100.0,23.0,0.0,ASTM D3985,7.0,4.0,10.0,38.0,90.0,ASTM F1249,Poor O2 / fair moisture,"Milk pouches, grain liners",Cat II,POLYPRINT-2023
+film_cpp_25um,Cast PP (CPP),25.0,2700.0,2300.0,3100.0,23.0,0.0,ASTM D3985,6.0,4.0,8.0,38.0,90.0,ASTM F1249,Poor O2 / good moisture,"Sealant layer, retort",Cat II,POLYPRINT-2023
+film_bopp_25um,BOPP,25.0,2000.0,1550.0,2500.0,23.0,0.0,ASTM D3985,4.0,2.0,6.0,38.0,90.0,ASTM F1249,Poor O2 / good moisture,"Snacks, biscuit wraps",Cat II,POLYPRINT-2023
+film_pet_25um,PET (oriented),25.0,62.0,31.0,93.0,23.0,0.0,ASTM D3985,18.0,16.0,20.0,38.0,90.0,ASTM F1249,Fair O2 / poor moisture,"Outer print web, bottles",Cat II,POLYPRINT-2023
+film_nylon6_25um,Nylon-6 (biaxial),25.0,29.0,19.0,39.0,23.0,0.0,ASTM D3985,65.0,30.0,100.0,38.0,90.0,ASTM F1249,Good O2 / very poor moisture,"Vacuum/thermoform, tough",Cat II,POLYPRINT-2023
+film_pvdc_pet_25um,PVdC-coated PET,25.0,6.2,4.7,7.8,23.0,0.0,ASTM D3985,6.0,4.0,8.0,38.0,90.0,ASTM F1249,Good both,"Cheese, cured meat",Cat III,POLYPRINT-2023
+film_vmbopp_25um,Metallized BOPP (VMBOPP),25.0,89.0,19.0,160.0,23.0,0.0,ASTM D3985,1.0,0.5,1.5,38.0,90.0,ASTM F1249,Fair O2 / high moisture,"Snacks, mono-PP laminates",Cat II,POLYPRINT-2023
+film_vmpet_25um,Metallized PET (VMPET),25.0,0.93,0.16,1.7,23.0,0.0,ASTM D3985,0.45,0.1,0.8,38.0,90.0,ASTM F1249,High both,"Coffee, namkeen, milk powder",Cat III,POLYPRINT-2023
+film_evoh_25um,EVOH (buried layer),25.0,0.54,0.08,1.0,23.0,0.0,ASTM D3985,2.75,0.5,5.0,38.0,90.0,ASTM F1249,Excellent O2 (humidity sensitive),"Retort, MAP meat, juice",Cat III,POLYPRINT-2023
+film_alox_pet_25um,AlOx / SiOx coated PET,25.0,1.25,0.5,2.0,23.0,0.0,ASTM D3985,1.25,0.5,2.0,38.0,90.0,ASTM F1249,High both transparent,"Microwavable, metal-detectable",Cat II,POLYPRINT-2023
+film_al_foil_laminate,PET / Al foil / PE laminate,70.0,0.05,0.01,0.1,23.0,0.0,ASTM D3985,0.05,0.01,0.1,38.0,90.0,ASTM F1249,Absolute,"Retort pouch, spice, infant food",Cat III,LABTHINK-2022
+film_pet_vmpet_lldpe,PET/VMPET/LLDPE,74.0,1.25,0.8,1.7,23.0,0.0,ASTM D3985,1.05,0.9,1.2,38.0,90.0,ASTM F1249,High both,Standard high-barrier pouch,Cat III,LABTHINK-2022
+film_micro_perf_opp,Micro-perforated OPP/PE,50.0,102500.0,5000.0,200000.0,23.0,0.0,ASTM D3985,45.0,20.0,80.0,38.0,90.0,ASTM F1249,Deliberately leaky,High-respiration fresh-cut produce,Cat II,POLYPRINT-2023
+film_pla_compostable,PLA / compostable (IS 17088),25.0,600.0,300.0,900.0,23.0,0.0,ASTM D3985,80.0,40.0,120.0,38.0,90.0,ASTM F1249,Poor both,"Short-life produce punnets, cutlery",Cat IV,IS-17088

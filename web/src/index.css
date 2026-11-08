@@ -1,0 +1,158 @@
+@import "./design/tokens.css";
+@import "tailwindcss";
+
+@theme {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-yellow: var(--yellow);
+  --color-cyan: var(--cyan);
+  --color-lime: var(--lime);
+  --color-coral: var(--coral);
+  --color-violet: var(--violet);
+  --color-grey: var(--grey);
+
+  --shadow-brut: 6px 6px 0 var(--ink);
+  --shadow-brut-lg: 10px 10px 0 var(--ink);
+  --shadow-brut-sm: 3px 3px 0 var(--ink);
+  --shadow-brut-hover: 8px 8px 0 var(--ink);
+  --shadow-brut-active: 2px 2px 0 var(--ink);
+
+  --font-display: "Archivo Black", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0;
+}
+
+/* Explicit Brutalist Utilities guaranteeing utility availability */
+.border-ink { border-color: var(--ink) !important; }
+.border-paper { border-color: var(--paper) !important; }
+.border-yellow { border-color: var(--yellow) !important; }
+.border-cyan { border-color: var(--cyan) !important; }
+.border-lime { border-color: var(--lime) !important; }
+.border-coral { border-color: var(--coral) !important; }
+.border-violet { border-color: var(--violet) !important; }
+.border-grey { border-color: var(--grey) !important; }
+
+.bg-paper { background-color: var(--paper) !important; }
+.bg-ink { background-color: var(--ink) !important; }
+.bg-yellow { background-color: var(--yellow) !important; }
+.bg-cyan { background-color: var(--cyan) !important; }
+.bg-lime { background-color: var(--lime) !important; }
+.bg-coral { background-color: var(--coral) !important; }
+.bg-violet { background-color: var(--violet) !important; }
+.bg-grey { background-color: var(--grey) !important; }
+
+.text-paper { color: var(--paper) !important; }
+.text-ink { color: var(--ink) !important; }
+.text-yellow { color: var(--yellow) !important; }
+.text-cyan { color: var(--cyan) !important; }
+.text-lime { color: var(--lime) !important; }
+.text-coral { color: var(--coral) !important; }
+.text-violet { color: var(--violet) !important; }
+.text-grey { color: var(--grey) !important; }
+
+.border-3 { border-width: 3px !important; }
+.border-2 { border-width: 2px !important; }
+.border-6 { border-width: 6px !important; }
+
+.shadow-brut { box-shadow: var(--shadow) !important; }
+.shadow-brut-lg { box-shadow: var(--shadow-lg) !important; }
+.shadow-brut-sm { box-shadow: 3px 3px 0 var(--ink) !important; }
+.shadow-brut-hover { box-shadow: 8px 8px 0 var(--ink) !important; }
+.shadow-brut-active { box-shadow: 2px 2px 0 var(--ink) !important; }
+
+.font-display { font-family: var(--font-display) !important; }
+.font-body { font-family: var(--font-body) !important; }
+.font-mono { font-family: var(--font-mono) !important; }
+
+* {
+  border-radius: 0 !important;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@keyframes rfq-pulse {
+  0%, 100% {
+    opacity: 1;
+    border-color: var(--ink);
+  }
+  50% {
+    opacity: 0.4;
+    border-color: var(--ink);
+  }
+}
+
+.rfq-pulse-loading {
+  background-color: var(--grey) !important;
+  color: var(--ink) !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  animation: rfq-pulse 1s infinite ease-in-out !important;
+}
+
+.rfq-result-section {
+  border-top: 6px solid var(--yellow) !important;
+  padding-top: 20px !important;
+  margin-top: 32px !important;
+}
+
+.rfq-section-header {
+  background-color: var(--ink) !important;
+  color: var(--paper) !important;
+  padding: 10px 16px !important;
+  font-family: var(--font-display) !important;
+  text-transform: uppercase !important;
+}
+
+/* Skeleton Shimmer Keyframes and Classes */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #e5e5e5 25%, #f5f5f5 50%, #e5e5e5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite ease-in-out;
+}
+
+/* Thick Animated Progress Bar for Loading Overlay */
+@keyframes progress-fill {
+  0% {
+    width: 6%;
+  }
+  25% {
+    width: 32%;
+  }
+  60% {
+    width: 68%;
+  }
+  85% {
+    width: 88%;
+  }
+  100% {
+    width: 98%;
+  }
+}
+
+.loading-progress-bar {
+  animation: progress-fill 1.5s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}

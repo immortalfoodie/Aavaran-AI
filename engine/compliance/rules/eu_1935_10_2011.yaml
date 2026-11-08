@@ -1,0 +1,95 @@
+# =============================================================================
+# Aavaran Compliance Rules: European Union - Food Contact Materials
+# Authority: European Commission (DG SANTE) / EFSA
+# Instruments:
+# 1. Regulation (EC) No 1935/2004 (Framework Regulation)
+# 2. Commission Regulation (EU) No 10/2011 (Plastics FCM)
+# 3. Commission Regulation (EC) No 2023/2006 (Good Manufacturing Practice)
+# =============================================================================
+
+- id: EU-1935-2004-ART3-SAFETY
+  jurisdiction: EU
+  instrument: "Regulation (EC) No 1935/2004 on materials and articles intended to come into contact with food"
+  clause: "Article 3(1)"
+  effective_from: "2004-12-03"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Materials and articles must be manufactured in compliance with good manufacturing practice
+    so that they do not transfer their constituents to food in quantities that could endanger human health,
+    bring about an unacceptable change in food composition, or deteriorate organoleptic characteristics.
+  requires_document: "GMP Conformity Audit / Documentation per Regulation (EC) 2023/2006"
+  severity: critical
+  source_url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32004R1935"
+  last_verified: "2026-09-21"
+
+- id: EU-10-2011-OML-10MG
+  jurisdiction: EU
+  instrument: "Commission Regulation (EU) No 10/2011 on plastic materials and articles"
+  clause: "Article 12(1)"
+  effective_from: "2011-05-01"
+  applies_when:
+    package.contains_plastic: true
+    product.is_infant_food: false
+  effect: REQUIRE
+  message_en: >
+    Plastic materials and articles shall not transfer their constituents to food simulants in quantities
+    exceeding the Overall Migration Limit (OML) of 10 mg of total constituents released per dm² of food
+    contact surface (10 mg/dm²), determined in accordance with EN 1186 test standards.
+  requires_document: "Overall Migration Test Report per EN 1186 in relevant food simulants"
+  severity: high
+  source_url: "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32011R0010"
+  last_verified: "2026-09-21"
+
+- id: EU-10-2011-INFANT-OML-60MG
+  jurisdiction: EU
+  instrument: "Commission Regulation (EU) No 10/2011 on plastic materials and articles"
+  clause: "Article 12(2)"
+  effective_from: "2011-05-01"
+  applies_when:
+    package.contains_plastic: true
+    product.is_infant_food: true
+  effect: REQUIRE
+  message_en: >
+    For plastic materials and articles intended to be brought into contact with food intended for infants
+    and young children (as defined by Regulation (EU) No 609/2013), the overall migration limit shall be
+    60 mg of total constituents released per kg of food simulant (60 mg/kg), tested per EN 1186.
+  requires_document: "Infant Food Overall Migration Test Report (<60 mg/kg) per EN 1186"
+  severity: critical
+  source_url: "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32011R0010"
+  last_verified: "2026-09-21"
+
+- id: EU-10-2011-DOC-MANDATORY
+  jurisdiction: EU
+  instrument: "Commission Regulation (EU) No 10/2011 on plastic materials and articles"
+  clause: "Article 15 and Annex IV"
+  effective_from: "2011-05-01"
+  applies_when:
+    package.contains_plastic: true
+  effect: REQUIRE
+  message_en: >
+    At marketing stages other than at the retail stage, plastic materials and articles, products from
+    intermediate stages of manufacture, and substances intended for manufacturing must be accompanied by
+    a written Declaration of Compliance (DoC) conforming to Annex IV, backed by supporting migration test data.
+  requires_document: "Declaration of Compliance (DoC) per Annex IV Regulation (EU) 10/2011"
+  severity: critical
+  source_url: "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32011R0010"
+  last_verified: "2026-09-21"
+
+- id: EU-10-2011-UNION-LIST
+  jurisdiction: EU
+  instrument: "Commission Regulation (EU) No 10/2011 on plastic materials and articles"
+  clause: "Article 5 and Annex I (Union List)"
+  effective_from: "2011-05-01"
+  applies_when:
+    package.contains_plastic: true
+  effect: REQUIRE
+  message_en: >
+    Only monomers, other starting substances, and additives included in the Union List of authorized
+    substances (Annex I) may be intentionally used in the manufacture of plastic layers in food contact.
+    Substance-specific migration limits (SMLs) must be verified by calculation or testing per EN 13130.
+  requires_document: "Union List Positive List Formulation Verification & SML Test Data"
+  severity: high
+  source_url: "https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32011R0010"
+  last_verified: "2026-09-21"

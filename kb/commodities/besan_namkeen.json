@@ -1,0 +1,46 @@
+{
+  "commodity_id": "processed.besan_namkeen.fried_snack",
+  "names": {
+    "en": ["besan namkeen", "sev", "bhujia"],
+    "hi": ["बेसन नमकीन", "सेव", "भुजिया", "namkeen"],
+    "mr": ["शेव", "फरसाण", "farsan"],
+    "ta": ["காரசேவ்", "karasev"],
+    "bn": ["ঝুড়িভাজা", "jhuribhaja"],
+    "te": ["కారప్పూస", "karappusa"],
+    "kn": ["ಖಾರಸೇವ್", "kharasev"],
+    "gu": ["સેવ", "ગાંઠિયા", "sev"],
+    "pa": ["ਨਮਕੀਨ", "ਭੁਜੀਆ", "namkeen"]
+  },
+  "group": "fried_snack",
+  "class": "low_moisture_fried_snack",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 2.5, "range": [1.5, 3.5], "src": "IFCT-2017", "conf": 0.94},
+    "water_activity": {"v": 0.22, "range": [0.18, 0.28], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 32.0, "range": [28.0, 36.0], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 6.2, "range": [6.0, 6.5], "src": "FDA-pH-db", "conf": 0.90}
+  },
+  "storage_optimum": {
+    "T_C": [18.0, 28.0],
+    "RH_pct": [35.0, 60.0],
+    "life_days": [120.0, 180.0],
+    "chilling_sensitive_below_C": null,
+    "src": "LABUZA-1985"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Processed fried food; no ethylene production or sensitivity"
+  },
+  "failure_modes": [
+    "loss_of_crispness_aw_above_045",
+    "rancidity_oil_peroxidation",
+    "off_flavour",
+    "light_accelerated_oxidation"
+  ],
+  "light_sensitive": true,
+  "light_note": "Frying oils (rich in unsaturated fatty acids) undergo rapid photo-oxidation under light; an opaque or metallized film with optical density > 2.5 is mandatory.",
+  "state_modifiers": {
+    "nitrogen_flushed": {"life_x": [1.5, 2.2], "new_failure": "none"}
+  }
+}

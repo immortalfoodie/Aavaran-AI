@@ -1,0 +1,35 @@
+{
+  "commodity_id": "pulse.toor_dal.cajanus_cajan",
+  "names": {
+    "en": ["toor dal", "arhar dal", "pigeon pea dal"],
+    "hi": ["तूर दाल", "अरहर दाल", "toor dal", "arhar"],
+    "mr": ["तूर डाळ", "toor daal"]
+  },
+  "group": "pulse_split",
+  "class": "low_moisture_dehulled_pulse",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 9.20, "range": [8.59, 9.81], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.44, "range": [0.40, 0.49], "src": "VISHWAKARMA-2007", "conf": 0.65},
+    "fat_pct": {"v": 1.56, "range": [1.53, 1.59], "src": "IFCT-2017", "conf": 0.95}
+  },
+  "storage_optimum": {
+    "life_days": [60.0, 240.0],
+    "chilling_sensitive_below_C": null,
+    "src": "JEELANI-2025"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Dehulled split seed (dal); no ethylene activity"
+  },
+  "failure_modes": [
+    "insect_infestation_stored_product_pests",
+    "moisture_gain_above_fssai_12pct_mould_risk",
+    "sensory_flavour_loss",
+    "protein_content_decline"
+  ],
+  "light_sensitive": false,
+  "light_note": "No source identifies light as a primary failure driver for toor dal; JEELANI-2025 found insect infestation (onset 60 d in LDPE/jute, 180 d in HDPE, none to 240 d in BoPP/PET) to be the dominant ambient failure.",
+  "state_modifiers": {}
+}

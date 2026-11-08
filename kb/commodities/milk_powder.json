@@ -1,0 +1,46 @@
+{
+  "commodity_id": "dairy.milk_powder.whole",
+  "names": {
+    "en": ["milk powder", "whole milk powder", "WMP"],
+    "hi": ["दूध पाउडर", "doodh powder"],
+    "mr": ["दूध पावडर", "doodh powder"],
+    "ta": ["பால் பவுடர்", "paal powder"],
+    "bn": ["দুধের গুঁড়ো", "dudher guro"],
+    "te": ["పాల పొడి", "paala podi"],
+    "kn": ["ಹಾಲಿನ ಪುಡಿ", "halina pudi"],
+    "gu": ["દૂધ પાવડર", "dudh powder"],
+    "pa": ["ਦੁੱਧ ਪਾਊਡਰ", "dudh powder"]
+  },
+  "group": "dairy_powder",
+  "class": "low_moisture_oxidation_sensitive",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 3.5, "range": [2.5, 4.5], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.24, "range": [0.18, 0.30], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 26.5, "range": [25.5, 28.0], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 6.6, "range": [6.4, 6.8], "src": "FDA-pH-db", "conf": 0.92}
+  },
+  "storage_optimum": {
+    "T_C": [15.0, 25.0],
+    "RH_pct": [40.0, 60.0],
+    "life_days": [365.0, 540.0],
+    "chilling_sensitive_below_C": null,
+    "src": "LABUZA-1985"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Non-plant commodity; zero ethylene activity"
+  },
+  "failure_modes": [
+    "caking_lumping_aw_above_040",
+    "lipid_oxidation_rancidity_hexanal",
+    "maillard_browning_insolubility",
+    "light_degradation"
+  ],
+  "light_sensitive": true,
+  "light_note": "UV and short-wavelength visible light catalyze free radical generation in dairy butterfat, causing rapid hexanal production and oxidized off-flavor.",
+  "state_modifiers": {
+    "high_humidity_exposed": {"aw_delta": 0.15, "new_failure": "irreversible_caking"}
+  }
+}

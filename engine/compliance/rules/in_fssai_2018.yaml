@@ -1,0 +1,248 @@
+# =============================================================================
+# Aavaran Compliance Rules: India - Food Safety and Standards (Packaging) Regulations, 2018
+# Authority: Food Safety and Standards Authority of India (FSSAI)
+# Compendium: https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf
+# =============================================================================
+
+- id: IN-FSSAI-PKG-2018-FOOD-GRADE
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(1)"
+  effective_from: "2019-07-01"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Any packaging material in direct or likely contact with food must be of food-grade
+    quality and appropriate to the product, storage conditions, and filling equipment.
+    It must not yield its constituents to the food in quantities that endanger human health.
+  message_hi: >
+    खाद्य सामग्री के सीधे या संभावित संपर्क में आने वाली कोई भी पैकेजिंग सामग्री खाद्य-ग्रेड गुणवत्ता की
+    और उत्पाद, भंडारण स्थितियों तथा भरने वाले उपकरणों के उपयुक्त होनी चाहिए।
+  requires_document: "Food-grade certificate of conformity for the product-contact layer"
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-SCHEDULES
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(2), Schedules I, II and III"
+  effective_from: "2019-07-01"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Packaging materials must conform to Indian Standards listed in the Schedules:
+    Paper and board to Schedule I (e.g. IS 1699, IS 6615);
+    Metals and metal cans to Schedule II (e.g. IS 1997 tinplate, IS 737 aluminium);
+    Plastics to Schedule III (e.g. IS 10146 PE, IS 10910 PP, IS 12252 PET, IS 10151 PVC, IS 11434 ionomer).
+  requires_document: "Certificate of conformity with relevant Indian Standard (Schedule I/II/III)"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-INTL-STANDARDS
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(2), Proviso"
+  effective_from: "2019-07-01"
+  applies_when:
+    indian_standard_available: false
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Where an Indian Standard does not exist for a specific packaging material or article,
+    the relevant international standard (ISO, ASTM, or Codex Alimentarius) may be complied with.
+  requires_document: "International standard conformity certificate (ISO/ASTM/Codex)"
+  severity: medium
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-NABL-CERT
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(3)"
+  effective_from: "2019-07-01"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Every Food Business Operator must hold a certificate of conformity issued by a
+    NABL-accredited laboratory for the food-contact layer of the packaging material.
+  requires_document: "NABL-accredited laboratory certificate of conformity for the food-contact layer"
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-MULTILAYER-CONTACT
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(4)"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.is_multilayer: true
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    In multilayer packaging, the layer that comes into direct contact with food (or is likely to)
+    must itself meet the standards specified in Schedule I, II or III as applicable.
+  requires_document: "Contact-layer Indian Standard conformity documentation"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-INK-IS15495
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(5)"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.is_printed: true
+  effect: REQUIRE
+  message_en: >
+    Printing inks used on food packaging must conform to Indian Standard IS 15495
+    (Printing ink for food packaging - code of practice), prohibiting heavy metals and toxic solvents.
+  requires_document: "Declaration of ink conformity with IS 15495"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-PRINT-NO-CONTACT
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(5)"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.printed_surface_in_contact: true
+  effect: BLOCK
+  message_en: >
+    The printed surface of any packaging material must not come into direct contact with food.
+    Printing must be external or reverse-printed behind a functional barrier.
+  message_hi: >
+    पैकेजिंग सामग्री की मुद्रित (प्रिंटेड) सतह कभी भी खाद्य पदार्थ के सीधे संपर्क में नहीं आनी चाहिए।
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-NO-NEWSPAPER
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018 + FSSAI Advisory"
+  clause: "Regulation 4(6) & FSSAI MOSH/MOAH Advisory"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.material_type: {in: ["newspaper", "recycled_newsprint", "printed_scrap_paper"]}
+  effect: BLOCK
+  message_en: >
+    Newspaper or similar printed scrap material must not be used to wrap, store, or serve food.
+    Newspaper printing ink contains mineral oil saturated hydrocarbons (MOSH), aromatic hydrocarbons (MOAH),
+    and heavy metals that readily migrate into food and present severe carcinogenic risks.
+  message_hi: >
+    भोजन को लपेटने, रखने या परोसने के लिए अखबार का उपयोग पूर्णतः प्रतिबंधित है। अखबार की स्याही में कैंसरकारी रसायन होते हैं।
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-COLOURANTS-IS9833
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4(7)"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.is_coloured_plastic: true
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Pigments and colourants used in plastics in contact with food must conform to IS 9833
+    (List of pigments and colourants for use in plastics in contact with foodstuffs, pharmaceuticals and drinking water).
+  requires_document: "Colourant conformity certificate to IS 9833"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-TIN-NO-REUSE
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 5(1)"
+  effective_from: "2019-07-01"
+  applies_when:
+    package.material_type: {in: ["tin_can", "tinplate_container", "tin_box"]}
+    package.is_reused: true
+  effect: BLOCK
+  message_en: >
+    Tin containers, once used, must not be re-used for packaging or storing food products.
+    Corrosion, lacquer micro-fractures, and residual contaminants pose immediate food safety hazards.
+  message_hi: >
+    टीन के डिब्बों का एक बार उपयोग होने के बाद, खाद्य पदार्थों के लिए उनका दोबारा उपयोग कानूनी रूप से निषिद्ध है।
+  severity: critical
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-SML-TABLE1
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "Regulation 4 and Table 1"
+  effective_from: "2019-07-01"
+  applies_when:
+    contact: {in: ["direct", "likely"]}
+  effect: REQUIRE
+  message_en: >
+    Specific migration limits (SML) specified in Table 1 must not be exceeded:
+    Barium: 1.0 mg/kg; Cobalt: 0.05 mg/kg; Copper: 5.0 mg/kg; Iron: 48.0 mg/kg;
+    Lithium: 0.6 mg/kg; Manganese: 0.6 mg/kg; Zinc: 25.0 mg/kg; Overall migration: 60 mg/kg or 10 mg/dm².
+  requires_document: "Migration test report (Overall & SML Table 1 per IS 9845)"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+- id: IN-FSSAI-PKG-2018-R4e
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "4(4)(e), as substituted by the 2022 Amendment"
+  effective_from: "2022-09-01"
+  applies_when:
+    material.recycled_content_pct: {gt: 0}
+    contact: direct
+  effect: CONDITIONAL
+  message_en: >
+    Recycled plastic in direct food contact was prohibited under the original 2018 regulation.
+    FSSAI operationalised the 2022 Amendment permitting it, following the Plastic Waste Management
+    (Second Amendment) Rules 2021. Permitted ONLY where the recycled material meets applicable
+    FSSAI/BIS requirements for recycled food-contact plastics and is supported by test evidence.
+  message_hi: >
+    पुनर्चक्रित (रीसायकल्ड) प्लास्टिक का खाद्य संपर्क में उपयोग केवल तभी अनुमत है जब वह 2022 संशोधन के
+    तहत निर्धारित FSSAI/BIS मानकों को पूरा करता हो तथा वैध NABL परीक्षण प्रमाण पत्र उपलब्ध हो।
+  requires_document: "NABL-accredited conformity certificate for the food-contact layer"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: "2026-09-21"
+
+# -----------------------------------------------------------------------------
+# DRAFT AMENDMENT (February 2026) - PROACTIVE REGULATORY WARNING
+# -----------------------------------------------------------------------------
+- id: IN-FSSAI-PKG-2026-DRAFT-PFAS-BPA
+  jurisdiction: IN
+  instrument: "Draft Food Safety and Standards (Packaging) Amendment Regulations, 2026"
+  clause: "Draft Regulation 4, Clauses (8) and (9)"
+  effective_from: "2026-02-15"
+  applies_when:
+    or:
+      - package.contains_pfas: true
+      - package.contains_bpa: true
+      - package.layer_materials: {contains_any: ["polycarbonate", "epoxy", "pfas_treated_paper"]}
+      - material.is_polycarbonate: true
+      - material.is_epoxy_coated: true
+  effect: WARN
+  message_en: >
+    DRAFT AMENDMENT (PENDING, NOT IN FORCE): The Draft FSS (Packaging) Amendment Regulations (Feb 2026)
+    propose a total prohibition of Per- and Polyfluoroalkyl Substances (PFAS) in food-contact materials
+    and require polycarbonate and epoxy food-contact materials to be free of Bisphenol A (BPA) and its
+    derivatives. Marketers and converters are advised to proactively migrate to PFAS-free and BPA-free
+    barrier coatings.
+  message_hi: >
+    प्रारूप संशोधन (विचाराधीन, अभी लागू नहीं): FSSAI के फरवरी 2026 के प्रारूप संशोधन में खाद्य पैकेजिंग में
+    PFAS रसायनों पर प्रतिबंध तथा पॉलीकार्बोनेट/एपॉक्सी में BPA-मुक्त होने का प्रस्ताव है।
+  requires_document: "Proactive PFAS-free declaration and BPA-free test report"
+  severity: medium
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Draft_Notification_Packaging_PFAS_BPA_2026.pdf"
+  last_verified: "2026-09-21"

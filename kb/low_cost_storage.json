@@ -1,0 +1,384 @@
+{
+  "version": "2026-11-08",
+  "description": "Low-cost, mostly no-plastic post-harvest storage and handling options for Indian smallholders and mandi traders. Every number carries a source id from 'sources'. Where no sourced number exists the field is null and the note says so.",
+  "conventions": {
+    "ambient_days / with_option_days": "Shelf life in days as [low, high]. Both numbers come from the same cited study unless the note says otherwise. Results depend on season, variety and maturity, so treat them as indicative.",
+    "loss_reduction_pct": "Percentage points of produce saved compared with the traditional practice named in the note (e.g. 41.75% loss falling to 26.08% is 15.7 points). Not a relative percent.",
+    "cost_inr": "Indicative rupees on the price basis stated. Old price years are kept as published, with no inflation adjustment.",
+    "commodity_ids": "Uses the ids in kb/commodities/*.json. Grape is 'fruit.grape.vitis_vinifera' (singular), as in kb/commodities/grape.json."
+  },
+  "options": [
+    {
+      "id": "zecc",
+      "names": {
+        "en": "Zero Energy Cool Chamber (brick and wet-sand cool box)",
+        "hi": "ईंट और गीली रेत का ठंडा कोठा",
+        "mr": "विटा आणि ओल्या वाळूची थंड कोठी"
+      },
+      "how_to": {
+        "en": "Build a double brick wall in the shade and fill the gap with river sand. Wet the bricks and sand morning and evening, keep produce inside in ventilated crates and cover the top with a wet straw mat.",
+        "hi": "छाँव में ईंटों की दोहरी दीवार बनाइए। बीच की जगह में रेत भरिए। सुबह और शाम पानी डालिए। सब्ज़ी अंदर टोकरी में रखिए और ऊपर गीली घास का ढक्कन रखिए।",
+        "mr": "सावलीत विटांची दुहेरी भिंत बांधा. मधल्या जागेत वाळू भरा. सकाळी आणि संध्याकाळी पाणी घाला. भाजी आत टोपलीत ठेवा आणि वर ओल्या गवताचे झाकण ठेवा."
+      },
+      "cost_inr": {
+        "low": 4000,
+        "high": 6000,
+        "basis": "One-time build. Rs 4,000 = Pusa design, about 100 kg capacity, 165 x 115 cm floor, 67.5 cm double wall, 2011-12 Odisha RKVY prices (bricks 400 nos Rs 1,000; sand Rs 100; bamboo/khas top Rs 300; thatch shed Rs 500; water tank/pipes Rs 600; 6 crates Rs 1,200; labour Rs 300). Bricks last about 3 years. Rs 6,000 = ICAR-CAZRI improved chamber, 20-40 kg capacity, 2021 factsheet.",
+        "src": "DHO-ODISHA-2011"
+      },
+      "temperature_effect": {
+        "claimed_drop_c": [10, 15],
+        "claimed_rh_pct": [90, 95],
+        "claimed_src": "DHO-ODISHA-2011",
+        "measured": [
+          {"drop_c": [8.1, 9.0], "note": "Average dry-bulb difference from ambient, winter guava trial, CCS HAU Hisar (river sand 8.1 C; rice husk ash 9.0 C).", "src": "SINGH-YADAV-2012"},
+          {"inside_c": [14.6, 20.3], "inside_rh_pct": [83.6, 91.9], "ambient_c": [19.7, 26.9], "ambient_rh_pct": [41.0, 70.2], "note": "MPKV Rahuri, pomegranate trial.", "src": "KAD-DHEMRE-2017"},
+          {"inside_c": [15, 18], "inside_rh_pct": [95, 95], "note": "FAO manual describing the Indian brick chamber; RH about 95%.", "src": "FAO-KK-2002"},
+          {"drop_c": [8, 10], "note": "ICAR-CAZRI improved chamber factsheet. CAZRI research reports 12-14 C in summer and 6-8 C in winter, RH 80-95%. Figures taken from search-index text because the PDF could not be fetched directly.", "src": "CAZRI-2021"}
+        ]
+      },
+      "applies_to": [
+        "veg.tomato.solanum_lycopersicum",
+        "veg.potato.solanum_tuberosum",
+        "fruit.banana.musa_acuminata",
+        "fruit.mango.mangifera_indica",
+        "veg.okra.abelmoschus_esculentus",
+        "veg.spinach.spinacia_oleracea",
+        "veg.green_chilli.capsicum_annuum",
+        "fruit.guava.psidium_guajava",
+        "veg.brinjal.solanum_melongena",
+        "veg.cauliflower.brassica_oleracea_botrytis",
+        "veg.cabbage.brassica_oleracea_capitata",
+        "fruit.pomegranate.punica_granatum"
+      ],
+      "benefit": [
+        {"commodity_id": "veg.tomato.solanum_lycopersicum", "ambient_days": [7, 7], "with_option_days": [15, 16], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "IARI multilocation table, April-May: 15 days in chamber vs 7 days at room temperature. Weight loss 4.42% vs 18.62%. The upper value of 16 days (vs 7 ambient) is from Islam & Morimoto 2012 (JARQ). Kamal & Pandey 2018 report 6 vs 1 days in summer and 12 vs 3 in winter."},
+        {"commodity_id": "veg.potato.solanum_tuberosum", "ambient_days": [46, 46], "with_option_days": [90, 90], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "IARI table, March-May: 90 days in chamber vs 46 days at room temperature. Weight loss 7.67% vs 19.08%. The chamber holds only about 100 kg, so it is of little use for bulk potato. For bulk potato see the potato_heap_pit option."},
+        {"commodity_id": "fruit.banana.musa_acuminata", "ambient_days": [14, 14], "with_option_days": [20, 20], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "IARI table, October-November: 20 days vs 14 days. Weight loss 2.50% vs 4.80%. No summer banana figure was found."},
+        {"commodity_id": "fruit.mango.mangifera_indica", "ambient_days": [6, 6], "with_option_days": [9, 9], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "IARI table, June-July: 9 days vs 6 days. Weight loss 5.04% vs 14.90%."},
+        {"commodity_id": "veg.okra.abelmoschus_esculentus", "ambient_days": [1, 1], "with_option_days": [5, 6], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "IARI table, May-July: 6 days vs 1 day. Weight loss 5.00% vs 14.00%. Chitranshi et al. 2025 (Noida, winter) recommend a maximum of 5 days in the chamber for okra."},
+        {"commodity_id": "veg.spinach.spinacia_oleracea", "ambient_days": [1, 3], "with_option_days": [3, 10], "loss_reduction_pct": null, "src": "DHO-ODISHA-2011", "note": "No true-spinach ZECC figure was found, so these are other leafy greens from the IARI table: amaranth in May-June, 3 days vs 1 day; methi in Feb-March, 10 days vs 3 days. Chitranshi et al. 2025 report about 3 days for spinach beet (palak) in the chamber. Kamal & Pandey 2018 report leafy vegetables at 5 days vs 0.5 days in summer."},
+        {"commodity_id": "veg.green_chilli.capsicum_annuum", "ambient_days": [2, 2], "with_option_days": [6, 6], "loss_reduction_pct": null, "src": "SHIL-2018", "note": "KVK Khowai, Tripura, 2015-16, four local chilli genotypes: usable up to day 6 in the chamber vs 2 days at ambient."},
+        {"commodity_id": "fruit.guava.psidium_guajava", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "SINGH-YADAV-2012", "note": "Day counts are not in the abstract. Guava in the evaporative cool chamber had about double the shelf life of ambient storage (winter, Hisar). No summer guava figure was found."},
+        {"commodity_id": "veg.brinjal.solanum_melongena", "ambient_days": [1, 2], "with_option_days": [5, 11], "loss_reduction_pct": null, "src": "KAMAL-PANDEY-2018", "note": "Summer: 5 days vs 1 day. Winter: 11 days vs 2 days. Islam & Morimoto 2012 report 9 days vs 4 days."},
+        {"commodity_id": "veg.cauliflower.brassica_oleracea_botrytis", "ambient_days": [6, 6], "with_option_days": [15, 15], "loss_reduction_pct": null, "src": "ROMADEVI-2015", "note": "Imphal West, Manipur: 15 days vs 6 days. Kamal & Pandey 2018 report 6 days vs 1 day in summer and 12 days vs 2 days in winter."},
+        {"commodity_id": "veg.cabbage.brassica_oleracea_capitata", "ambient_days": [4, 4], "with_option_days": [10, 10], "loss_reduction_pct": null, "src": "ROMADEVI-2015", "note": "Imphal West, Manipur: 10 days vs 4 days."},
+        {"commodity_id": "fruit.pomegranate.punica_granatum", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "KAD-DHEMRE-2017", "note": "The only figure found is for lac-wax-coated (20%) Bhagwa fruit: 32 days in the chamber vs 12 days at room temperature, MPKV Rahuri. No number for plain, unwaxed fruit was found, so the fields are left null."}
+      ],
+      "works_when": {
+        "max_ambient_c": null,
+        "requires": [
+          "Water twice daily (morning and evening), or a drip line from an overhead tank",
+          "Thatch or shed over the chamber; no direct sun or rain",
+          "Raised site with a water source and natural airflow",
+          "Clean porous bricks and clean river sand",
+          "Most effective in the dry season; IARI says it works best in dry weather, and evaporative coolers lose effect when the air is already humid",
+          "Rebuild with new bricks about every 3 years"
+        ]
+      },
+      "not_for": {
+        "en": "Not for cut produce. Do not let water drip onto the produce. Capacity is about 100 kg, so it is a few-days holding store, not bulk storage. It works poorly in humid monsoon weather."
+      }
+    },
+    {
+      "id": "wet_gunny_shade",
+      "names": {
+        "en": "Wet jute (gunny) cover in shade",
+        "hi": "छाँव में गीले टाट से ढकना",
+        "mr": "सावलीत ओल्या पोत्याने झाकणे"
+      },
+      "how_to": {
+        "en": "Keep harvested produce in shade and cover it with a wet jute sack. Re-wet the sack when it dries, but do not let it drip onto the produce.",
+        "hi": "तोड़ा हुआ माल छाँव में रखिए। ऊपर गीला टाट या बोरा ढकिए। टाट सूखे तो फिर भिगोइए। पानी माल पर टपके नहीं।",
+        "mr": "काढलेला माल सावलीत ठेवा. वर ओले पोते झाका. पोते सुकले की पुन्हा भिजवा. पाणी मालावर गळू देऊ नका."
+      },
+      "cost_inr": {"low": null, "high": null, "basis": "No sourced price for a used gunny sack. It is usually already on the farm.", "src": null},
+      "applies_to": [
+        "veg.spinach.spinacia_oleracea",
+        "veg.brinjal.solanum_melongena",
+        "veg.okra.abelmoschus_esculentus",
+        "veg.green_chilli.capsicum_annuum",
+        "veg.cauliflower.brassica_oleracea_botrytis",
+        "veg.cabbage.brassica_oleracea_capitata"
+      ],
+      "benefit": [
+        {"commodity_id": "veg.spinach.spinacia_oleracea", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "BHUVANESWARI-2017-IJH", "note": "No spinach figure was found. The only sourced figure is for coriander held in a crate under wet gunny cloth (the common Indian practice), which lasted 48 h at 26-28 C and 58% RH. An ICAR-IIHR high-humidity box gave 72 h. The study had no uncovered control."},
+        {"commodity_id": "veg.brinjal.solanum_melongena", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "TALUKDER-2003", "note": "In a Bangladesh study, wet gunny bag gave the best appearance, lowest weight loss and highest return 4 days after storage. The abstract gives no numbers."}
+      ],
+      "other_evidence": [
+        {"note": "In Mali, sack-type evaporative chambers cooled less and less steadily than brick chambers, and the authors did not recommend them. Ambient RH was below 40% and temperature 29-37 C.", "src": "MIT-DLAB-2018"},
+        {"note": "Produce left in the sun can become 4-6 C warmer than the air. Keep harvested produce in shade or loosely covered.", "src": "FAO-KK-2002"}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Shade", "Water to re-wet the cover several times a day", "Dry air (cooling is weak in humid weather)"]},
+      "not_for": {"en": "Not for onion, potato or garlic, which need dry storage. Not for cut produce. Do not soak the produce itself."}
+    },
+    {
+      "id": "crates_not_sacks",
+      "names": {
+        "en": "Ventilated crates instead of sacks or baskets for transport",
+        "hi": "बोरी की जगह छेद वाले क्रेट में ढुलाई",
+        "mr": "पोत्याऐवजी छिद्रे असलेल्या क्रेटमधून वाहतूक"
+      },
+      "how_to": {
+        "en": "Pack fruit and vegetables in rigid ventilated crates instead of gunny sacks or soft baskets, and do not overfill so the stacked crate does not press the produce.",
+        "hi": "फल और सब्ज़ी बोरी में मत भरिए। छेद वाले मज़बूत क्रेट में भरिए। क्रेट को ऊपर तक ठूँसकर मत भरिए।",
+        "mr": "फळे आणि भाजी पोत्यात भरू नका. छिद्रे असलेल्या मजबूत क्रेटमध्ये भरा. क्रेट खूप दाबून भरू नका."
+      },
+      "cost_inr": {"low": 400, "high": 400, "basis": "Per plastic crate, unit cost fixed by Bihar Agriculture Dept, Special Intervention Scheme 2024-25 (80% subsidy, 10-50 crates per farmer). The crates are plastic but reusable for years.", "src": "BIHAR-AGRI-2025"},
+      "applies_to": [
+        "veg.tomato.solanum_lycopersicum",
+        "fruit.mango.mangifera_indica",
+        "fruit.banana.musa_acuminata",
+        "fruit.guava.psidium_guajava",
+        "fruit.grape.vitis_vinifera",
+        "fruit.pomegranate.punica_granatum",
+        "veg.brinjal.solanum_melongena",
+        "veg.okra.abelmoschus_esculentus",
+        "veg.green_chilli.capsicum_annuum",
+        "veg.cauliflower.brassica_oleracea_botrytis",
+        "veg.cabbage.brassica_oleracea_capitata"
+      ],
+      "benefit": [
+        {"commodity_id": "veg.tomato.solanum_lycopersicum", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "BHUVANESWARI-2017-JHS", "note": "ICAR-IIHR, 28-30 C: shelf life was 11 days in every package, so crates did not change shelf life and the day fields are left null. Spoilage was 7.65% in plastic crate, 8.70% in CFB box and 10.92% in polythene bag. No Indian basket-vs-crate tomato trial with loss numbers was found."},
+        {"commodity_id": "fruit.mango.mangifera_indica", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "FAO-MANGO-2018", "note": "FAO and Sathguru (Andhra Pradesh) found 15% quantitative loss at the collection and transport stage for fresh mango. Rented plastic crates are recommended, with a projected (not measured) 20% relative cut in that loss."}
+      ],
+      "other_evidence": [
+        {"note": "Sapota over about 350 km by goods rickshaw, Junagadh-Jamnagar, Gujarat: total transport loss was 10.28% in gunny bag and 4.48% in plastic crate, a saving of 5.8 points. Bruising was 2.36% vs 1.55%.", "src": "ANTALA-2021"}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Up-front money or a subsidy or rental scheme", "Return transport for empty crates"]},
+      "not_for": {"en": "This is a plastic option. Where plastic is not wanted, line rigid bamboo baskets with paper or leaves and do not overfill them; no sourced loss number exists for lined baskets."}
+    },
+    {
+      "id": "sort_before_storage",
+      "names": {
+        "en": "Sort out damaged produce before storing",
+        "hi": "रखने से पहले खराब माल छाँटना",
+        "mr": "साठवण्याआधी खराब माल वेगळा करणे"
+      },
+      "how_to": {
+        "en": "Before storing or packing, remove cut, bruised, diseased and over-ripe pieces, and keep big and small fruit separate so they ripen evenly.",
+        "hi": "रखने से पहले कटा, दबा, सड़ा और ज़्यादा पका माल अलग कीजिए। बड़े और छोटे फल अलग रखिए।",
+        "mr": "साठवण्याआधी कापलेला, दबलेला, सडलेला आणि जास्त पिकलेला माल वेगळा करा. मोठी आणि लहान फळे वेगळी ठेवा."
+      },
+      "cost_inr": {"low": 0, "high": 0, "basis": "No material cost, only labour time. This is a definitional zero, not a figure taken from a source.", "src": null},
+      "applies_to": [
+        "veg.tomato.solanum_lycopersicum",
+        "veg.potato.solanum_tuberosum",
+        "veg.onion.allium_cepa",
+        "fruit.mango.mangifera_indica",
+        "fruit.banana.musa_acuminata",
+        "fruit.guava.psidium_guajava",
+        "fruit.grape.vitis_vinifera",
+        "fruit.pomegranate.punica_granatum",
+        "veg.brinjal.solanum_melongena",
+        "veg.okra.abelmoschus_esculentus",
+        "veg.green_chilli.capsicum_annuum",
+        "veg.cauliflower.brassica_oleracea_botrytis",
+        "veg.cabbage.brassica_oleracea_capitata",
+        "veg.spinach.spinacia_oleracea"
+      ],
+      "benefit": [
+        {"commodity_id": "fruit.mango.mangifera_indica", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "NHB-MANGO", "note": "NHB advises discarding immature, over-ripe, damaged and diseased fruit. Bigger fruit take 2-4 days longer to ripen, so do not pack sizes together. Post-harvest losses of mango are 25-40%. No measured loss reduction from sorting alone was found."},
+        {"commodity_id": "fruit.banana.musa_acuminata", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "NHB-BANANA", "note": "NHB advises discarding over-ripe and injured fruit at grading. No number."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Labour time", "A clean, shaded sorting place"]},
+      "not_for": {"en": "Sorted-out pieces should be sold or used quickly, not stored."}
+    },
+    {
+      "id": "cool_hour_harvest_shade",
+      "names": {
+        "en": "Harvest in cool hours and keep in shade",
+        "hi": "ठंडे समय में तुड़ाई और छाँव में रखना",
+        "mr": "थंड वेळी तोडणी आणि सावलीत ठेवणे"
+      },
+      "how_to": {
+        "en": "Harvest early in the morning while the produce is cool, and move it into shade straight away instead of leaving it in the sun.",
+        "hi": "तुड़ाई सुबह जल्दी ठंडे समय में कीजिए। तोड़ा हुआ माल तुरंत छाँव में रखिए। धूप में मत छोड़िए।",
+        "mr": "तोडणी सकाळी लवकर थंड वेळी करा. तोडलेला माल लगेच सावलीत ठेवा. उन्हात ठेवू नका."
+      },
+      "cost_inr": {"low": 0, "high": 0, "basis": "No material cost, only a change of timing. This is a definitional zero, not a figure taken from a source.", "src": null},
+      "applies_to": [
+        "veg.tomato.solanum_lycopersicum",
+        "fruit.mango.mangifera_indica",
+        "fruit.banana.musa_acuminata",
+        "fruit.guava.psidium_guajava",
+        "fruit.grape.vitis_vinifera",
+        "fruit.pomegranate.punica_granatum",
+        "veg.brinjal.solanum_melongena",
+        "veg.okra.abelmoschus_esculentus",
+        "veg.green_chilli.capsicum_annuum",
+        "veg.cauliflower.brassica_oleracea_botrytis",
+        "veg.cabbage.brassica_oleracea_capitata",
+        "veg.spinach.spinacia_oleracea"
+      ],
+      "benefit": [],
+      "other_evidence": [
+        {"note": "Produce left in sunlight can soon become 4-6 C warmer than the air. Night or early-morning harvest catches produce when its internal temperature is low. Any delay in cooling shortens post-harvest life. Mango and papaya latex flow is lower later in the morning than at dawn. No sourced shelf-life-in-days gain was found.", "src": "FAO-KK-2002"}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Shade near the field (tree, shed or thatch)"]},
+      "not_for": {"en": "For mango, wait until mid-morning to cut, because sap (latex) flows more at dawn and stains the fruit."}
+    },
+    {
+      "id": "onion_ventilated_store",
+      "names": {
+        "en": "Bottom- and side-ventilated onion store (kanda chawl)",
+        "hi": "नीचे और बगल से हवादार प्याज़ भंडार",
+        "mr": "खालून आणि बाजूने हवा खेळती कांदा चाळ"
+      },
+      "how_to": {
+        "en": "Store cured onions on a raised bamboo or slatted platform so air passes from below and from the sides, under a thatch roof that keeps out sun and rain.",
+        "hi": "सूखे प्याज़ को ऊँचे बाँस के मचान पर रखिए। नीचे और बगल से हवा आनी चाहिए। ऊपर घास-फूस की छत रखिए ताकि धूप और बारिश न लगे।",
+        "mr": "सुकवलेला कांदा उंच बांबूच्या माचावर ठेवा. खालून आणि बाजूने हवा खेळली पाहिजे. वर गवताचे छप्पर ठेवा म्हणजे ऊन आणि पाऊस लागणार नाही."
+      },
+      "cost_inr": {"low": 25000, "high": 50000, "basis": "One-time build. Rs 25,000 = bottom-ventilated single-row thatched-roof store, 12 t capacity, 40 x 8 ft, about 4-year life (Western Maharashtra survey, published 2025). Rs 50,000 = NHRDF-type brick room with straw roof and bamboo racks, 50 q (5 t), KVK Hooghly 2015. Maharashtra MSAMB subsidy of up to Rs 3,500 per tonne is available for kanda chawl.", "src": "JOSHI-2025"},
+      "applies_to": ["veg.onion.allium_cepa"],
+      "benefit": [
+        {"commodity_id": "veg.onion.allium_cepa", "ambient_days": null, "with_option_days": [120, 180], "loss_reduction_pct": [15.7, 15.7], "src": "JOSHI-2025", "note": "Total quantitative loss was 26.08% in the bottom-ventilated single-row thatched store vs 41.75% in the traditional double-row store, a saving of 15.7 points over the storage season. The study discusses about 6 months of storage. KVK Hooghly reports 4-5 months of storage, with 50 q falling to 40 q after 5 months and an extra income of Rs 27,000."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Onions well cured before storage", "Rabi onion (kharif onion does not store well)", "Dry, raised site; roof must stop rain"]},
+      "not_for": {"en": "Not for uncured, wet or damaged bulbs. Do not pile onions on the bare floor."}
+    },
+    {
+      "id": "onion_field_curing",
+      "names": {
+        "en": "Field curing of onion before storage",
+        "hi": "भंडार से पहले प्याज़ को खेत में सुखाना",
+        "mr": "साठवणीआधी कांदा शेतात सुकवणे"
+      },
+      "how_to": {
+        "en": "After lifting, leave the onions in the field with their leaves for 3-4 days to dry. Then cut the tops leaving a short neck and dry them further in shade before storing.",
+        "hi": "खुदाई के बाद प्याज़ को पत्तों समेत 3 से 4 दिन खेत में सुखाइए। फिर थोड़ी गर्दन छोड़कर पत्ते काटिए। भंडार से पहले छाँव में और सुखाइए।",
+        "mr": "काढणीनंतर कांदा पातीसह 3 ते 4 दिवस शेतात सुकवा. मग थोडी मान ठेवून पात कापा. साठवण्याआधी सावलीत आणखी सुकवा."
+      },
+      "cost_inr": {"low": 0, "high": 0, "basis": "No material cost, only time and labour. This is a definitional zero, not a figure taken from a source.", "src": null},
+      "applies_to": ["veg.onion.allium_cepa"],
+      "benefit": [
+        {"commodity_id": "veg.onion.allium_cepa", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "VITNOR-2017", "note": "Four days of field curing gave the lowest weight loss among curing treatments, 25.72% after 3 months, and was significantly better than no curing. The uncured figure is not in the abstract. KVK Hooghly (NHRDF method) advises 3-4 days of sun curing."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Dry weather at harvest"]},
+      "not_for": {"en": "Do not leave bulbs exposed to strong sun for long after the tops are cut; they can scald."}
+    },
+    {
+      "id": "potato_heap_pit",
+      "names": {
+        "en": "Shaded potato heap or pit covered with straw",
+        "hi": "छाँव में घास से ढका आलू का ढेर या गड्ढा",
+        "mr": "सावलीत गवताने झाकलेला बटाट्याचा ढीग किंवा खड्डा"
+      },
+      "how_to": {
+        "en": "Pile cured, sound potatoes in a heap under tree shade and cover them with about 30 cm (one foot) of dry grass or about 60 cm of sugarcane leaves. Put a tarpaulin on top when it rains.",
+        "hi": "साफ़ और सही आलू को पेड़ की छाँव में ढेर बनाकर रखिए। ऊपर लगभग एक फुट सूखी घास, या दो फुट गन्ने की पत्ती ढकिए। बारिश में ऊपर तिरपाल डालिए।",
+        "mr": "चांगले बटाटे झाडाच्या सावलीत ढीग करून ठेवा. वर सुमारे एक फूट सुके गवत, किंवा दोन फूट उसाची पाने झाका. पावसात वर ताडपत्री टाका."
+      },
+      "cost_inr": {"low": null, "high": null, "basis": "The only sourced figure is from 1995-96 in Malwa, MP: covering material Rs 17 plus labour Rs 22 per tonne, and Rs 210 per tonne including the money value of losses. It is too old to state as a present-day cost, so the fields are left null.", "src": "KHATANA-LEISA"},
+      "applies_to": ["veg.potato.solanum_tuberosum"],
+      "benefit": [
+        {"commodity_id": "veg.potato.solanum_tuberosum", "ambient_days": null, "with_option_days": [60, 90], "loss_reduction_pct": null, "src": "KUMAR-2005", "note": "CPRI Modipuram, about 1 t heaps and pits stored from late February or early March for 90 days. Average temperature was 28.5 C inside the heap, 25 C in a kutcha pit and 25.5 C in a pucca pit, against 39 C ambient. Physiological loss over 90 days was 7-13%. Malwa farmers usually keep heaps about 45 days to 2 months, with farmer-estimated losses of 2% to end of April and 9% to mid-June (Khatana et al.)."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Well-cured, unbruised tubers", "Tree shade or a shed", "Sell before the monsoon (stored about March to June)"]},
+      "not_for": {"en": "Not for seed potato, and not as long-term storage beyond about 3 months. Sprouting rises in some varieties (Kufri Bahar sprouts more than Kufri Jyoti)."}
+    },
+    {
+      "id": "fruit_wrap_straw",
+      "names": {
+        "en": "Paper wrap and straw padding for mango, banana and brinjal",
+        "hi": "आम, केला और बैंगन के लिए अख़बार और पुआल",
+        "mr": "आंबा, केळी आणि वांग्यासाठी कागद आणि पेंढा"
+      },
+      "how_to": {
+        "en": "Wrap each mango in newspaper or lay dry paddy straw between layers, keeping big and small fruit apart. Pad banana bunches with banana leaves for transport.",
+        "hi": "हर आम को अख़बार में लपेटिए, या परतों के बीच सूखी पुआल बिछाइए। बड़े और छोटे आम अलग रखिए। केले के गुच्छे को केले के पत्तों से ढककर ले जाइए।",
+        "mr": "प्रत्येक आंबा वर्तमानपत्रात गुंडाळा, किंवा थरांमध्ये सुका पेंढा घाला. मोठे आणि लहान आंबे वेगळे ठेवा. केळीचे घड केळीच्या पानांनी झाकून न्या."
+      },
+      "cost_inr": {"low": null, "high": null, "basis": "No sourced price. Old newspaper, straw and banana leaves are usually on hand.", "src": null},
+      "applies_to": ["fruit.mango.mangifera_indica", "fruit.banana.musa_acuminata", "veg.brinjal.solanum_melongena"],
+      "benefit": [
+        {"commodity_id": "veg.brinjal.solanum_melongena", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": [5.7, 6.3], "src": "KIRAN-SHARMA-2023", "note": "Gwalior lab trial, 12 days of storage: decay was 16.40% unwrapped, 10.14% with paddy straw (6.3 points saved), 10.33% with gunny bag and 10.70% with newspaper (5.7 points saved). Weight loss was 22.40% unwrapped vs 16.20% with paddy straw."},
+        {"commodity_id": "fruit.mango.mangifera_indica", "ambient_days": [4, 10], "with_option_days": null, "loss_reduction_pct": null, "src": "NHB-MANGO", "note": "NHB: mature green mango keeps 4-10 days at room temperature depending on variety. Wrapping each fruit in newspaper or tissue gives optimum ripening with reduced spoilage, but no number is given. Ripening at 19-21 C improves quality. FAO 2018 says mango ripens in 4-5 days at ambient."},
+        {"commodity_id": "fruit.banana.musa_acuminata", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "NHB-BANANA", "note": "NHB advises padding bunches with banana leaves for packing and transport, and stacking them on wilted or dry banana leaves if transport is delayed. No number."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Dry, clean straw or paper", "Shaded, airy place"]},
+      "not_for": {"en": "Do not use calcium carbide to ripen fruit; it is banned under FSSAI rules. Wet or mouldy straw spreads rot."}
+    },
+    {
+      "id": "leafy_water_wet_cloth",
+      "names": {
+        "en": "Cool water splash and wet cloth for leafy greens",
+        "hi": "पत्तेदार सब्ज़ी पर पानी के छींटे और गीला कपड़ा",
+        "mr": "पालेभाजीवर पाण्याचा शिडकावा आणि ओले कापड"
+      },
+      "how_to": {
+        "en": "Pick greens in the cool morning, splash them with clean cool water, then keep them in shade under a damp cloth. Do not leave them dripping wet.",
+        "hi": "पत्तेदार सब्ज़ी सुबह ठंडे समय में तोड़िए। साफ़ ठंडे पानी के छींटे मारिए। फिर छाँव में गीले कपड़े से ढकिए। पानी टपकता न छोड़िए।",
+        "mr": "पालेभाजी सकाळी थंड वेळी तोडा. स्वच्छ थंड पाण्याचा शिडकावा करा. मग सावलीत ओल्या कापडाने झाका. पाणी गळत ठेवू नका."
+      },
+      "cost_inr": {"low": 0, "high": 0, "basis": "No material cost beyond clean water and a cloth. This is a definitional zero, not a figure taken from a source.", "src": null},
+      "applies_to": ["veg.spinach.spinacia_oleracea"],
+      "benefit": [
+        {"commodity_id": "veg.spinach.spinacia_oleracea", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "FAO-KK-2002", "note": "FAO: chilling leafy vegetables with cold water at harvest helps keep quality and prevents wilting. In a Philippine evaporative cooler, mustard greens showed little wilting for up to 5 days. ICAR-IIHR found coriander under wet gunny cloth in a crate lasted 48 h at 26-28 C. No spinach-specific day count was found."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Clean (potable) water", "Shade"]},
+      "not_for": {"en": "Do not use dirty pond or drain water. Do not pack wet greens tightly in a closed bag, because they rot."}
+    },
+    {
+      "id": "clay_pot_cooler",
+      "names": {
+        "en": "Clay pot cooler (pot-in-pot, matka cooler)",
+        "hi": "मिट्टी के मटके वाला कूलर",
+        "mr": "मातीच्या माठाचा कूलर"
+      },
+      "how_to": {
+        "en": "Put a smaller clay pot inside a bigger one, fill the gap with wet sand, put the vegetables in the inner pot and cover with a wet cloth. Keep it in shade and add water daily.",
+        "hi": "बड़े मटके के अंदर छोटा मटका रखिए। बीच में गीली रेत भरिए। सब्ज़ी अंदर वाले मटके में रखिए, ऊपर गीला कपड़ा ढकिए। छाँव में रखिए और रोज़ पानी डालिए।",
+        "mr": "मोठ्या माठात लहान माठ ठेवा. मधल्या जागेत ओली वाळू भरा. भाजी आतल्या माठात ठेवा, वर ओले कापड झाका. सावलीत ठेवा आणि रोज पाणी घाला."
+      },
+      "cost_inr": {"low": null, "high": 400, "basis": "The EPCC-2 earthen pot cool chamber (Tamil Nadu, 2012) cost less than Rs 400 and holds 7-8 kg. No sourced lower bound. The Mitticool clay fridge (NIF award 2009) holds about 5 kg, but no official price was found.", "src": "MURUGAN-2012"},
+      "temperature_effect": {
+        "measured": [
+          {"drop_c": [4, 5], "inside_rh_pct": [87, 92], "ambient_c": [29, 30], "ambient_rh_pct": [58, 60], "note": "EPCC-2, Tamil Nadu.", "src": "MURUGAN-2012"},
+          {"drop_c": [5, 8], "note": "Mitticool clay refrigerator; keeps fruit and vegetables fresh about 2-3 days.", "src": "NIF-MITTICOOL"},
+          {"drop_c": [6.7, 6.7], "inside_rh_pct": [80, 100], "note": "Average for a pot-in-pot cooler in Mali, with ambient RH below 40% and 29-37 C.", "src": "MIT-DLAB-2018"}
+        ]
+      },
+      "applies_to": ["fruit.banana.musa_acuminata", "veg.okra.abelmoschus_esculentus", "veg.tomato.solanum_lycopersicum", "veg.green_chilli.capsicum_annuum", "veg.brinjal.solanum_melongena"],
+      "benefit": [
+        {"commodity_id": "fruit.banana.musa_acuminata", "ambient_days": null, "with_option_days": [9, 9], "loss_reduction_pct": null, "src": "MURUGAN-2012", "note": "EPCC-2: banana was still well accepted (>90%) at day 9, against 50-60% at room temperature. Weight loss at 9 days was 7.59% vs 28.24% at room temperature."},
+        {"commodity_id": "veg.okra.abelmoschus_esculentus", "ambient_days": null, "with_option_days": [9, 9], "loss_reduction_pct": null, "src": "MURUGAN-2012", "note": "EPCC-2 tested okra (ladies finger), which kept good quality to day 9. The paper's weight-loss sentence says 'tomato' where its methods and tables say ladies finger: 4.11% in EPCC-2 vs 27.91% at room temperature."},
+        {"commodity_id": "veg.tomato.solanum_lycopersicum", "ambient_days": null, "with_option_days": null, "loss_reduction_pct": null, "src": "KUMARI-2018", "note": "An earthen pot cooler in Jamtara, Jharkhand kept fruit and vegetables 7-9 days without significant loss. The abstract gives no per-crop split, so no tomato-specific figure is set."}
+      ],
+      "works_when": {"max_ambient_c": null, "requires": ["Dry air (works best when humidity is low)", "Shade and airflow", "Water daily"]},
+      "not_for": {"en": "Only for small household or retail amounts (5-8 kg). Not for onion or potato. It works poorly in humid weather."}
+    }
+  ],
+  "sources": [
+    {"id": "DHO-ODISHA-2011", "citation": "Directorate of Horticulture, Odisha. Project proposal for Pusa Zero Energy Cool Chambers (RKVY 2011-12), with cost structure and IARI storage-life table (Roy & Khurdiya design).", "url": "https://images.template.net/wp-content/uploads/2016/07/14062510/project-report-on-cool-chamber.pdf", "year": 2011},
+    {"id": "CAZRI-2021", "citation": "ICAR-Central Arid Zone Research Institute, Jodhpur. Technology factsheet T22: Improved evaporative cool chamber.", "url": "https://www.cazri.res.in/publications/technologies/T22E.pdf", "year": 2021},
+    {"id": "ISLAM-MORIMOTO-2012", "citation": "Islam, M.P. & Morimoto, T. (2012). Zero Energy Cool Chamber for extending the shelf-life of tomato and eggplant. Japan Agricultural Research Quarterly 46(3): 257-267. doi:10.6090/jarq.46.257", "url": "https://www.jircas.go.jp/en/publication/jarq/46/3/257", "year": 2012},
+    {"id": "ROMADEVI-2015", "citation": "Roma Devi, S. & Kanta Singh, L. (2015). Scope for post harvest management in North East India through Zero Energy Cool Chamber. Indian Journal of Hill Farming 28(2).", "url": "https://epubs.icar.org.in/index.php/IJHF/article/view/54818", "year": 2015},
+    {"id": "SHIL-2018", "citation": "Shil, S., Mandal, J. & Das, S.P. (2018). Evaluation of postharvest quality of four local chilli genotypes of Tripura under zero energy cool chamber. Journal of Pharmacognosy and Phytochemistry 7(3): 3698-3702.", "url": "https://www.phytojournal.com/archives/2018/vol7issue3/PartAY/7-3-498-160.pdf", "year": 2018},
+    {"id": "KAMAL-PANDEY-2018", "citation": "Kamal, S.K. & Pandey, D.K. (2018). Zero energy cool chambers for extending the shelf life of green vegetables. Journal of Pharmacognosy and Phytochemistry 7(2): 3555-3556.", "url": "https://www.phytojournal.com/archives/2018.v7.i2.4104/zero-energy-cool-chambers-for-extending-the-shelf-life-of-green-vegetables", "year": 2018},
+    {"id": "CHITRANSHI-2025", "citation": "Chitranshi, S., Verma, A. & Agrahari, P.R. (2025). Evaluation of okra (cv. A5) and spinach beet (cv. Pusa Bharati) for enhancing shelf life using different storage conditions for the benefit of marginal farmers. Journal of Applied and Natural Science 17(1): 369-376. doi:10.31018/jans.v17i1.6333", "url": "https://doi.org/10.31018/jans.v17i1.6333", "year": 2025},
+    {"id": "SINGH-YADAV-2012", "citation": "Singh, Y. & Yadav, Y.K. (2012). Storage behaviour of guava fruits in evaporative cool chambers during winter season. Journal of Agricultural Engineering 49(3). CCS HAU Hisar.", "url": "https://epubs.icar.org.in/index.php/JAE/article/view/26505", "year": 2012},
+    {"id": "KAD-DHEMRE-2017", "citation": "Kad, V.P. & Dhemre, J.K. (2017). Effect of post harvest treatments on quality of pomegranate in zero energy cool chamber and ambient conditions. Indian Journal of Ecology 44(1): 103-107. MPKV Rahuri.", "url": "https://indianecologicalsociety.com/wp-content/themes/ecology/volume_pdfs/Final_44_1__22.pdf", "year": 2017},
+    {"id": "FAO-KK-2002", "citation": "Kitinoja, L. & Kader, A.A. (2002). Small-scale postharvest handling practices: a manual for horticultural crops, 4th ed. UC Davis / FAO.", "url": "https://www.fao.org/4/ae075e/ae075e00.htm", "year": 2002},
+    {"id": "BHUVANESWARI-2017-JHS", "citation": "Bhuvaneswari, S., Singh, T.H. & Sadashiva, A.T. (2017). Effect of different packages on quality and extension of shelf-life in tomato. Journal of Horticultural Sciences 11(2): 182-185. ICAR-IIHR.", "url": "https://jhs.iihr.res.in/index.php/jhs/article/download/93/64/124", "year": 2017},
+    {"id": "BHUVANESWARI-2017-IJH", "citation": "Bhuvaneswari, S., Senthil Kumaran, G., Raghupathi, H.B. & Oberoi, H.S. (2017). Enhancement of shelf-life of coriander leaves through storage in a novel high humidity storage box. Indian Journal of Horticulture 74(3). ICAR-IIHR.", "url": "https://indianjournals.com/article/ijh-74-3-030", "year": 2017},
+    {"id": "TALUKDER-2003", "citation": "Talukder, S. et al. (2003). Prepackaging, storage losses and physiological changes of fresh brinjal as influenced by post harvest treatments. Journal of Biological Sciences 3(5): 474-477 (Bangladesh).", "url": "https://scialert.net/abstract/?doi=jbs.2003.474.477", "year": 2003},
+    {"id": "ANTALA-2021", "citation": "Antala, D.K., Satasiya, R.M. & Chauhan, P.M. (2021). Design, development and performance evaluation of transportation container for sapota fruit. Journal of Food Science and Technology 58(10): 4024-4033.", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8357876/", "year": 2021},
+    {"id": "BIHAR-AGRI-2025", "citation": "Agriculture Department, Govt. of Bihar, Special Intervention Scheme under the 4th Agriculture Road Map 2024-25: unit cost of plastic crate Rs 400, 80% subsidy (as reported by Indian Masterminds, 1 Dec 2025).", "url": "https://indianmasterminds.com/news/bihar-subsidy-scheme-80-percent-support-plastic-crates-leno-bags-fruit-trap-bags-164607/", "year": 2025},
+    {"id": "FAO-MANGO-2018", "citation": "FAO (2018). Food loss analysis: causes and solutions - Mango supply chain in India (FAO/Sathguru information sheet BU690EN).", "url": "https://openknowledge.fao.org/server/api/core/bitstreams/3163f897-c6df-4168-a069-437d995d7a8b/content", "year": 2018},
+    {"id": "NHB-MANGO", "citation": "National Horticulture Board, Govt. of India. Mango - Post Harvest Technology (crop bulletin).", "url": "https://nhb.gov.in/bulletin_files/fruits/mango/man009.pdf", "year": 2001},
+    {"id": "NHB-BANANA", "citation": "National Horticulture Board, Govt. of India. Banana - Post Harvest Technology (crop bulletin).", "url": "https://nhb.gov.in/bulletin_files/fruits/banana/ban009.pdf", "year": 2001},
+    {"id": "JOSHI-2025", "citation": "Joshi, G.G., Sapkal, S.B., Hile, R.B. & Mohalkar, S.S. (2025). Economic evaluation of onion storage structures and strategic marketing approaches for price risk mitigation. International Journal of Agriculture Extension and Social Development 8(5): 110-117. MPKV Rahuri. doi:10.33545/26180723.2025.v8.i5b.1865", "url": "https://www.extensionjournal.com/article/view/1865/8-4-119", "year": 2025},
+    {"id": "ATARI-KOLKATA-2015", "citation": "ICAR-ATARI Kolkata, KVK Hooghly. Success story: Low cost storage of onion for enhancing income of farmers (NHRDF design, modified).", "url": "https://www.atarikolkata.org/success-story/low-cost-storage-of-onion-for-enhancing-income-of-farmers/", "year": 2015},
+    {"id": "VITNOR-2017", "citation": "Vitnor, D.S., Vitnor, S.S., Tambe, G.R. & Singh, S. (2017). Effect of methods of harvesting and time of curing on storage life of onion cv. Agrifound Light Red. Journal of Pharmacognosy and Phytochemistry 6(6): 520-522.", "url": "https://phytojournal.com/archives/2017.v6.i6.2128/effect-of-methods-of-harvesting-and-time-of-curing-on-storage-life-of-onion-allium-cepa-l-cultivar-agrifound-light-red", "year": 2017},
+    {"id": "KUMAR-2005", "citation": "Kumar, D., Paul, V. & Ezekiel, R. (2005). Chipping quality of potatoes stored in heaps and pits in subtropical plains of India. Horticultural Science (Prague) 32(1): 23-30. doi:10.17221/3762-HORTSCI", "url": "https://hortsci.agriculturejournals.cz/pdfs/hor/2005/01/05.pdf", "year": 2005},
+    {"id": "KHATANA-LEISA", "citation": "Khatana, V.S., Dahiya, P.S. & Ilangantileke, S.G. Farmer innovations in potato storage: a case of Malwa tract of Madhya Pradesh. LEISA India (cost data 1995-96).", "url": "https://www.leisaindia.org/farmer-innovations-in-potato-storage-a-case-of-malwa-tract-of-madhya-pradesh/", "year": null},
+    {"id": "MEHTA-EZEKIEL-2010", "citation": "Mehta, A. & Ezekiel, R. (2010). Non-refrigerated storage of potatoes (review). Potato Journal 37(3-4). States on-farm indigenous storage losses of 10-40% from sprouting and rotting.", "url": "https://epubs.icar.org.in/index.php/PotatoJ/article/view/32560", "year": 2010},
+    {"id": "KIRAN-SHARMA-2023", "citation": "Asha Kiran & Sharma, C.K. (2023). Studies on shelf life of brinjal under different organic packaging materials. Plant Archives 23(2): 39-42. doi:10.51470/PLANTARCHIVES.2023.v23.no2.007", "url": "https://www.plantarchives.org/article/07 STUDIES-ON-SHELF-LIFE-OF-BRINJAL-(SOLANUM-MELONGENA-L.)-UNDER-DIFFERENT-ORGANIC-PACKAGING-MATERIALS.pdf", "year": 2023},
+    {"id": "MURUGAN-2012", "citation": "Murugan, A.M. et al. (2012). A study on cost effective and eco friendly earthen pot cool chamber (EPCC-2) system for rural population to store post harvest vegetables. Biosciences Biotechnology Research Asia 9(1): 85-96.", "url": "https://www.biotech-asia.org/vol9no1/a-study-on-cost-effective-and-eco-friendly-earthen-pot-cool-chamber-epcc-2-system-for-rural-population-to-store-post-harvest-vegetables/", "year": 2012},
+    {"id": "KUMARI-2018", "citation": "Kumari, K., Kumar, S. & Krishna, G. (2018). Storage analysis of fruits and vegetables stored in low cost earthen pot cooling chamber and Pusa zero energy cool chamber. Journal of Pharmacognosy and Phytochemistry 7(1S): 1259-1263.", "url": "https://www.phytojournal.com/special-issue/2018.v7.i1S.3374/storage-analysis-of-fruits-and-vegetables-stored-in-low-cost-earthen-pot-cooling-chamber-and-pusa-zero-energy-cool-chamber", "year": 2018},
+    {"id": "NIF-MITTICOOL", "citation": "National Innovation Foundation - India. Mitti Cool refrigerator (Mansukhbhai Prajapati, Rajkot); 5th National Grassroots Innovation Award 2009.", "url": "https://www.nif.org.in/innovation/mitti-cool-refrigerator/751", "year": 2009},
+    {"id": "MIT-DLAB-2018", "citation": "Verploegen, E., Sanogo, O. & Chagomoka, T. Executive summary: Evaluation of evaporative cooling technologies for improved vegetable storage in Mali. MIT D-Lab / World Vegetable Center.", "url": "https://d-lab.mit.edu/sites/default/files/inline-files/Evaporative%20Cooling%20Technologies%20for%20Improved%20Vegetable%20Storage%20in%20Mali%20-%20Executive%20Summary.pdf", "year": 2018}
+  ]
+}

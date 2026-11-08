@@ -1,0 +1,888 @@
+
+BUILD BLUEPRINT · v1.0 · FOOD PACKAGING DECISION SUPPORT
+Aavaran AI
+
+An AI packaging advisor that works whether the user knows ten parameters or one. It turns "potato, cut two days ago, sitting in a Mumbai shed" into a specific, regulation-checked packaging spec with a shelf-life number, a cost, a confidence band, and an honest warning when packaging isn't the answer.
+Hybrid physics + rules + ML FSSAI / BIS / PWM-EPR aware 3 user modes Offline-first PWA Neo-brutalist UI
+Contents
+01 · The solution in one page
+02 · System architecture
+03 · Knowledge base & official data
+04 · The inference engine (incl. sparse input)
+05 · The maths that must be right
+06 · Compliance engine (law as data)
+07 · Three user modes
+08 · Trust architecture
+09 · Tech stack & repo layout
+10 · Neo-brutalist design system
+11 · Step-by-step build plan
+12 · The prompt pack (Parts 0–14)
+13 · Sources & datasets
+01
+The solution in one page
+
+Most teams will read this problem statement and build a classifier: feed in food properties, predict a material. That is the wrong shape of solution and it will not survive contact with a real user.
+
+Three reasons. First, there is no labelled dataset of "food → correct packaging" large enough to train on, so a model would be learning someone's spreadsheet. Second, packaging selection is governed by physics (permeation, sorption, respiration) and by law (FSSAI, BIS, PWM Rules) — both of which are knowable exactly, so approximating them with a neural net throws away precision for no gain. Third, the user who most needs this tool cannot supply the model's inputs. A farmer does not know their potato's water activity.
+
+Aavaran AI is built the other way round. A deterministic, auditable engine does the deciding. AI does the two things AI is genuinely good at: filling in what the user didn't say, and explaining the result in their language.
+Resolve
+
+Turn whatever the user gave you — a photo, a crop name, a voice note in Marathi — into a complete parameter set, with explicit uncertainty on every value you had to guess.
+Decide
+
+Derive barrier targets from first principles, filter by law, rank candidate structures on cost / shelf-life / recyclability. Every number traceable to a standard or an equation.
+Explain
+
+Render the same result three ways: a picture and one sentence for a farmer, a spec sheet and RFQ for a startup, a full model dump for a researcher.
+The single most important design decision
+
+The system must be allowed to say "packaging will not save this." A cut potato at 30 °C ambient has no packaging solution — any film that slows moisture loss also traps condensation and accelerates microbial growth, and a low-oxygen pack at abuse temperature is a Clostridium botulinum hazard. A tool that always produces a confident material recommendation is a tool that will eventually poison someone. Aavaran AI routes that case to: chill it, sell it within N hours, or process it. This refusal capability is what makes the rest of the advice credible.
+What it does, mapped to the problem statement
+Every requirement in the brief has a named component that satisfies it. Requirement from the brief	Component in Aavaran AI	How
+Recommend material from food properties + environment	Requirement Derivation → Material Matcher	Physics-derived OTR/WVTR targets, then constrained ranking over a film database
+Predict barrier & permeability requirements	Barrier Solver	Labuza/GAB moisture model, O₂-budget oxidation model, MAP permeation balance
+Suggest structures and thickness	Structure Composer	Layer stack builder (print / barrier / sealant) with gauge solved from required permeance
+Respiration rate & breathable / micro-perforated films	MAP Designer	Steady-state gas balance; solves for film permeability or perforation count and diameter
+Recommended MAP gas composition	MAP Designer	Commodity-specific target O₂/CO₂ envelope with injury and safety floors
+Sealability, mechanical strength, MAP suitability	Spec Sheet Generator	Seal initiation temperature, ASTM F88 seal strength target, ASTM D882 tensile, puncture
+Shelf-life prediction	Shelf-Life Simulator	Four failure-mode models run in parallel; shortest one wins and is named
+Sustainability analysis	Sustainability Scorer	EPR category, recyclability, recycled-content obligation, mono-material alternative
+Cost optimization	Pareto Optimizer	₹/pack and ₹/kg-protected, multi-objective frontier against shelf life
+QR-based traceability	Trace Module	Hash-chained batch record, QR on pack resolves to a public provenance page
+Eco-friendly alternatives	Alternatives Engine	Always returns at least one lower-impact option with the honest trade-off stated
+Usable by farmers, startups, experts	Three-mode UI over one engine	Same answer, three renderings; complexity is a presentation choice, not a different product
+Why this matters, in numbers
+6.0–15.1%Fruit post-harvest loss, India (NABCONS 2022)
+4.9–11.6%Vegetable post-harvest loss
+₹1.53 lakh crAnnual value of post-harvest loss
+15.05%Guava — worst-hit crop
+Source: MoFPI / NABCONS "Study to Determine Post-Harvest Losses of Agri Produce in India" (2022), compared against ICAR-CIPHET (2015). Press Information Bureau release PRID 1885038.
+02
+System architecture
+
+One engine, ten stages, three front doors. Everything downstream of stage 2 is deterministic and unit-tested. Stages 1 and 10 are the only places a language model touches the flow, and neither can change a number.
+1
+Input Parser
+
+Free text, voice, photo, or form. LLM + fuzzy matcher maps to a commodity ID, a physical state, and any explicit parameters. Outputs strict JSON against a schema. Confidence per field.
+2
+Commodity Profile Resolver
+
+Hierarchical lookup: cultivar → commodity → group → physicochemical class. Never fails; degrades to a wider band with lower confidence. Produces every missing parameter with a source tag.
+3
+State Adjuster
+
+Applies modifiers for cut/whole, hours since harvest, ripeness stage, washed, bruised, blanched. Adjusts respiration rate, water activity, microbial risk class, and consumes elapsed shelf-life budget.
+4
+Environment Resolver
+
+Storage temperature and RH from the user, or from geolocation + month climatology, or from the storage-type default (ambient / chilled / frozen). Models the worst leg of the journey, not the average.
+5
+Requirement Derivation
+
+The physics. Produces a requirement vector: max WVTR, max OTR (or min OTR for produce), gauge, seal strength, puncture, light barrier OD, target gas mix, anti-fog need.
+6
+Material Matcher
+
+Hard-filter the film/structure database on the requirement vector plus process constraints (FFS machine, retort, microwave, metal detection). Then score and rank.
+7
+Compliance Filter
+
+Law-as-data rules for the destination market. Blocks, warnings, and required documents. Nothing reaches the user that is illegal where they will sell it.
+8
+Shelf-Life Simulator
+
+Runs all four failure-mode models per surviving candidate. Reports the shortest and names the mechanism. Returns a curve, not just a number.
+9
+Cost & Sustainability Optimizer
+
+₹/pack, ₹ per kg of food protected, EPR category and liability, recyclability. Emits the Pareto frontier so the user sees what an extra rupee buys.
+10
+Explanation Renderer
+
+Takes the sealed result object and renders it for the active mode and language. The LLM writes prose around numbers it is forbidden to alter.
+Hard architectural rule
+
+The engine returns a sealed result object — a JSON document with every input, assumption, intermediate value, equation ID, and citation. The UI and the LLM are pure functions of that object. This means you can replay any recommendation months later, diff two engine versions against the same input, and hand a regulator a complete audit trail. Build this on day one; retrofitting provenance is impossible.
+Where machine learning actually earns its place
+
+Being precise about this is a differentiator, not a weakness. Three legitimate ML jobs:
+Perception
+
+A MobileNetV3/EfficientNet-Lite classifier on-device (ONNX) identifies commodity, ripeness stage, and visible defects from a phone photo. Trained on public sets (Fruits-360, PlantVillage-style, plus your own field captures). This removes the hardest input barrier for a farmer.
+Resolution
+
+A sentence-transformer embedding index maps "aloo", "batata", "potato bora" to the same commodity node. An LLM handles messy free text into schema-valid JSON. Both are matching problems, which is what these models are for.
+Calibration
+
+A gradient-boosted residual model that corrects the physics prediction using logged real outcomes. Starts as identity (zero data, zero harm) and improves regionally. Never replaces the physics — it adds a bounded correction term with its own confidence interval.
+
+Everything else — the decision itself — is deterministic. When a judge, a food-safety officer, or a customer asks "why this film?", the answer is an equation and a regulation, not a weight matrix.
+03
+Knowledge base & official data
+
+The engine is only as good as its tables. These are the real numbers to seed with, all traceable to a citable source. Build the seeding as a versioned migration, not a one-off script — you will re-import as standards change.
+3.1 · Packaging film barrier properties
+
+This is the core material table. Note that OTR is thickness-dependent for bulk polymers (divide by gauge in mil to scale) but essentially thickness-independent for metallized and coated films, where the barrier lives in the coating.
+Normalised to ~25 µm (1 mil) at 23 °C. Store both a representative value and a min/max range; suppliers vary widely. Always require a supplier CoA before committing a commercial spec. Film	OTR
+cc/m²·day	WVTR
+g/m²·day	Barrier class	Typical use	EPR category (India)
+LDPE	7,000–8,500	10–30	Poor O₂ / poor moisture	Liners, breathable produce bags	II
+HDPE	2,300–3,100	4–10	Poor O₂ / fair moisture	Milk pouches, grain liners	I or II
+Cast PP (CPP)	2,300–3,100	4–8	Poor O₂ / good moisture	Sealant layer, retort	II
+BOPP	1,550–2,500	2–6	Poor O₂ / good moisture	Snacks, biscuit wraps	II
+PET (oriented)	31–93	16–20	Fair O₂ / poor moisture	Outer print web, bottles	I or II
+Nylon-6 (biaxial)	19–39	30–100	Good O₂ / very poor moisture	Vacuum/thermoform, tough	II
+PVdC-coated PET	4.7–7.8	4–8	Good both	Cheese, cured meat	II / III
+Metallized BOPP (VMBOPP)	19–160	0.5–1.5	Fair O₂ / high moisture	Snacks, mono-PP laminates	II
+Metallized PET (VMPET)	0.16–1.7	0.1–0.8	High both	Coffee, namkeen, milk powder	II / III
+EVOH (buried layer)	0.08–1.0	0.5–5	Excellent O₂ (humidity sensitive)	Retort, MAP meat, juice	III
+AlOx / SiOx coated PET	≤2.0	0.5–2	High both, transparent	Microwavable, metal-detectable	II
+PET / Al foil / PE laminate	≈0–0.1	≈0–0.1	Absolute	Retort pouch, spice, infant food	III
+PET/VMPET/LLDPE	0.8–1.7	0.9–1.2	High both	Standard high-barrier pouch	III
+Micro-perforated OPP/PE	5,000–200,000	high	Deliberately leaky	High-respiration fresh-cut produce	II
+PLA / compostable (IS 17088)	300–900	40–120	Poor both	Short-life produce punnets, cutlery	IV
+Kraft paper / bagasse	—	very high	Breathable	Dry ambient, short-life, food service	n/a (paper)
+Compiled from: Poly Print film property tables (normalised 1 mil, 23 °C / 0 % RH); Labthink barrier-material reference; polfilm.net OTR/WVTR comparison; VMPET vs aluminium foil comparative data (hncypacking). Treat as design-stage defaults only — a commercial spec needs supplier CoA per ASTM D3985 (OTR) and ASTM F1249 (WVTR).
+
+Useful threshold to encode: a pack is conventionally called a barrier pack when its OTR is below roughly 70 cc/m²·day·atm. Above that you are in produce/breathable territory; passive-MAP fresh-cut salad films typically sit around 1,085–7,000 cc/m²·day·atm. These two numbers split your material database into two very different design regimes and should be a literal branch in your engine.
+3.2 · Commodity respiration & storage
+
+Respiration class drives everything for fresh produce. Seed from USDA Agriculture Handbook 66 (The Commercial Storage of Fruits, Vegetables, and Florist and Nursery Stocks) — it is public-domain, expert-authored, and contains respiration rates at five temperatures, ethylene production, chilling sensitivity, and optimum storage conditions for ~140 commodities. That single handbook is the backbone of your produce KB.
+Respiration classes at 5 °C. Values are CO₂ production. Class determines whether you need a barrier film, a breathable film, or perforations. Class	Rate @5 °C (mg CO₂/kg·h)	Example commodities	Packaging regime
+Very low	< 5	Dates, dried fruits, nuts, onion (cured), garlic, potato (cured)	Moisture/oxygen barrier; no gas exchange needed
+Low	5–10	Apple, citrus, grape, kiwi, watermelon, sweet potato	Moderate barrier, some venting
+Moderate	10–20	Apricot, banana, cherry, peach, pear, plum, fig, cabbage, carrot, tomato, capsicum	Breathable film, passive MAP
+High	20–40	Strawberry, blackberry, raspberry, cauliflower, avocado, leafy greens, beans	High-OTR film or perforation
+Very high	40–60	Artichoke, snap bean, Brussels sprouts, spring onion, okra	Perforated, vented, iced
+Extremely high	> 60	Asparagus, broccoli, mushroom, pea, spinach, sweet corn, all fresh-cut produce	Macro-perforated or open; cold chain is the real control
+Classification scheme after USDA AH-66 and Kader (UC Davis Postharvest Technology). Note: respiration roughly doubles to triples per 10 °C rise (Q₁₀ ≈ 2–3); reported activation energies for common fruits and vegetables in air span ~29–92.9 kJ/mol.
+3.3 · MAP gas-composition targets
+Equilibrium modified atmosphere (EMA) targets. The engine must clamp to these envelopes — going below the O₂ floor causes fermentation and, for fresh-cut, a botulinum hazard; going above the CO₂ ceiling causes physiological injury. Product group	Target O₂ %	Target CO₂ %	Balance	Storage temp	Note
+General fruit & veg EMA envelope	3–10	3–10	N₂	Commodity optimum	Safe generic default when commodity data is thin
+Fresh-cut salad mix	~5	5–20	75–90 % N₂	3–5 °C	Passive MAP with 1,085–7,000 cc/m²·day film
+Fresh-cut carrot	2–5	15–20	75–83 % N₂	3–5 °C	High CO₂ tolerance
+Green pepper / capsicum	3–5	3–6	N₂	7–10 °C	Chilling-sensitive below 7 °C
+Red meat (retail)	70–80	20–30	—	0–2 °C	High-O₂ MAP for oxymyoglobin colour
+Poultry / fish (white)	0	40–60	N₂	0–2 °C	CO₂ bacteriostatic
+Hard cheese	0	20–40	N₂	4–8 °C	Mould suppression without pack collapse
+Bakery (moist)	0	50–70	N₂	Ambient	Often combined with ethanol emitter
+Fried snacks / namkeen	< 2 residual	0	N₂ flush	Ambient	Oxidation control, not MAP proper
+Fresh-produce values from Linde MAPAX application data and peer-reviewed MAP reviews; the 1–10 % O₂ / ≥5–10 % CO₂ generic envelope is the consensus range in the MAP literature. Protein and bakery values are standard industry practice — verify against your own challenge testing before commercial use.
+
+Safety interlock to hardcode: never allow a recommended equilibrium O₂ below 2 % for any respiring produce, and never permit low-O₂ MAP for fresh-cut produce or vacuum-packed chilled foods without an enforced ≤5 °C cold chain plus a validated intervention. Anaerobic conditions plus temperature abuse plus a low-acid food is the classic C. botulinum scenario. This rule should be un-overridable in every mode, including Expert.
+3.4 · Commodity profile record
+
+Every field carries a value, a range, a source and a confidence. This structure is what makes the sparse-input case work.
+
+{
+  "commodity_id": "veg.potato.solanum_tuberosum",
+  "names": {"en":["potato"],"hi":["आलू","aloo"],"mr":["बटाटा","batata"],
+            "ta":["உருளைக்கிழங்கு"],"bn":["আলু"]},
+  "group": "root_tuber",
+  "class": "high_moisture_starchy",
+  "physchem": {
+    "moisture_pct":   {"v":79.0,"range":[73,83],"src":"IFCT-2017","conf":0.92},
+    "water_activity": {"v":0.98,"range":[0.96,0.99],"src":"lit","conf":0.85},
+    "fat_pct":        {"v":0.1,"range":[0.05,0.4],"src":"IFCT-2017","conf":0.95},
+    "pH":             {"v":6.1,"range":[5.4,6.3],"src":"FDA-pH-db","conf":0.9}
+  },
+  "respiration": {
+    "model":"arrhenius","Ea_kJ_mol":58.0,
+    "ref":{"T_C":5,"rCO2_mg_kg_h":3.5,"range":[2,6]},
+    "src":"USDA-AH66","conf":0.88
+  },
+  "storage_optimum": {"T_C":[7,10],"RH_pct":[90,95],
+                      "life_days":[150,300],"chilling_sensitive_below_C":4,
+                      "src":"USDA-AH66"},
+  "ethylene": {"production":"very_low","sensitivity":"medium",
+               "note":"sprouting accelerated by ethylene"},
+  "failure_modes": ["sprouting","greening_solanine","weight_loss",
+                    "soft_rot","enzymatic_browning_if_cut"],
+  "light_sensitive": true,
+  "light_note":"Light exposure drives chlorophyll + glycoalkaloid (solanine) formation — an opaque or UV-blocking pack is a FOOD SAFETY requirement, not a cosmetic one.",
+  "state_modifiers": {
+    "cut":     {"respiration_x":[3,7],"aw_delta":+0.01,
+                "microbial_risk":"high","new_failure":"enzymatic_browning",
+                "max_ambient_hours":4},
+    "washed":  {"free_moisture":true,"requires_antifog":true},
+    "bruised": {"respiration_x":[1.3,2.0],"ethylene_x":[2,4]},
+    "cured":   {"respiration_x":[0.6,0.9],"life_x":[1.5,3.0]}
+  }
+}
+
+3.5 · Where to get the data, legally and free
+Dataset	What it gives you	Licence / access
+USDA Agriculture Handbook 66	Respiration at 5 temps, ethylene production & sensitivity, optimum T/RH, chilling injury, CA/MA recommendations, ~140 commodities	US Government work — public domain. The single highest-value source for this project.
+Indian Food Composition Tables (IFCT 2017), NIN-ICMR	Moisture, fat, protein, ash for 528 Indian foods — the inputs to your moisture and oxidation models	Free PDF from NIN. Indian cultivars, which matters.
+FDA "Approximate pH of Foods and Food Products"	pH ranges for hundreds of foods — drives the acid/low-acid safety branch	Public domain (FDA BAM appendix).
+ComBase	>60,000 microbial growth/survival curves; predictive models for Listeria, Salmonella, spoilage flora vs T/aw/pH	Free registration; browser + downloadable models.
+FSSAI Packaging Compendium	Consolidated FSS (Packaging) Regulations 2018 + amendments, Schedules I–III, migration limits	Free PDF on fssai.gov.in.
+CPCB EPR portal & PWM Rules	Plastic packaging categories, recycling and recycled-content targets, registration thresholds	Public, cpcb.nic.in.
+ICAR-CIPHET / NABCONS loss studies	Commodity-wise, stage-wise post-harvest loss percentages for India — your impact baseline	Public via MoFPI / PIB.
+Agmarknet	Daily mandi prices by commodity and market — makes your ₹-saved calculation real rather than notional	Government portal with data API.
+Open-Meteo / IMD	Temperature and RH climatology by lat/long and month — fills "ambient storage" when the user has no thermometer	Open-Meteo is free with no key for non-commercial volumes.
+Supplier datasheets (Uflex, Jindal, Cosmo, Polyplex, Amcor…)	Real, purchasable film structures with real OTR/WVTR and real prices	Public PDFs. Scrape carefully, attribute, and mark as vendor-claimed.
+04
+The inference engine — and the sparse-input problem
+
+"Potato, cut two days ago" is the hardest and most important case in the brief. Here is exactly how the engine handles it.
+4.1 · Hierarchical fallback
+
+The resolver never returns "unknown". It walks a ladder and reports how far down it had to go:
+L0
+Measured
+
+User supplied the value. Confidence 1.0. Used as-is.
+L1
+Cultivar
+
+"Kufri Jyoti potato" → cultivar-specific record. Confidence ~0.9, narrow band.
+L2
+Commodity
+
+"Potato" → species record from AH-66 + IFCT. Confidence ~0.8, band = observed cultivar spread.
+L3
+Group
+
+"Root/tuber" → group medians. Confidence ~0.6, wide band.
+L4
+Physicochemical class
+
+"High-moisture starchy, cut surface, low-acid" → class envelope. Confidence ~0.4. The engine now designs to the worst case in the band and says so loudly.
+
+Two rules make this safe. First, design to the conservative end of the band: if respiration might be 8–24 mg CO₂/kg·h, size the perforation for 24, because an over-breathable pack loses quality slowly while an under-breathable pack ferments fast. Second, propagate uncertainty through the models — run the shelf-life simulation over the parameter band (Monte Carlo, 2,000 draws) and report P10/P50/P90, not a single number. "7 days (likely 5–9)" is a far more useful and far more honest output than "7 days".
+4.2 · State modifiers
+
+The difference between a potato and a cut potato is not a different commodity — it is the same commodity with multipliers applied. Encoding this as modifiers rather than separate records keeps the KB small and the logic inspectable.
+Modifier	Effect on respiration	Other effects	Engine consequence
+Cut / sliced / peeled	×3 to ×7 (wound response)	Exposed surface → enzymatic browning; microbial risk jumps to high; cut surface loses moisture fast	Forces chilled branch; adds anti-browning step; adds botulinum interlock; adds anti-fog
+Hours since harvest/cut	Declining but elevated	Consumes shelf-life budget	Subtract elapsed equivalent-days via Q₁₀ before predicting remaining life
+Ripeness stage	Climacteric peak ×2–3	Ethylene autocatalysis	May add ethylene scavenger (KMnO₄ sachet) to recommendation
+Washed / hydro-cooled	—	Free surface moisture → condensation	Mandatory anti-fog film; increase perforation; warn about drying before packing
+Bruised / mechanically damaged	×1.3 to ×2	Ethylene ×2–4; rot entry point	Downgrade predicted life; recommend sorting before packing
+Cured (onion, potato, sweet potato)	×0.6 to ×0.9	Suberised wound periderm	Extends life 1.5–3×; unlocks ventilated mesh/jute instead of film
+Blanched / thermally treated	→ 0	Enzymes inactivated; becomes a non-respiring product	Switch entirely to barrier regime
+4.3 · Worked example A — "Potato, cut 2 days ago, Mumbai"
+
+Input: commodity = potato; state = cut; time since cut = 48 h; location = Mumbai (19.08 N, 72.88 E), September; storage = "the shed"; destination = local market.
+
+Resolver output (L2 + modifiers): intact potato respiration ≈ 3.5 mg CO₂/kg·h at 5 °C (AH-66). Environment Resolver pulls Mumbai September climatology → 28–31 °C, 78–85 % RH. Arrhenius with Ea ≈ 58 kJ/mol scales 5 °C → 30 °C, roughly ×8. Cut modifier ×3–7. Effective respiration ≈ 84–196 mg CO₂/kg·h — an extremely-high-respiration product in a hot, humid environment.
+
+Failure-mode race: microbial growth model (low-acid, pH 6.1, aw 0.98, 30 °C) predicts spoilage in 6–14 hours. Enzymatic browning is visible in 1–3 hours. Moisture and oxidation models are irrelevant at this timescale. The shortest mechanism wins and is named.
+
+Engine verdict: packaging is not the limiting factor. The system refuses to recommend a sealed film and instead outputs, in farmer mode:
+
+⚠ Cut potato kept 2 days in the heat is not safe to sell.
+
+No bag or wrap can fix this. If it smells sour, is slimy, or has grey/dark patches, discard it.
+
+Then it gives the forward-looking advice — what to do next time, which is the actual value:
+
+    Don't cut until you sell. Whole cured potato at 7–10 °C and 90–95 % RH keeps for months; cut potato keeps for hours. Cutting destroys ~99 % of the shelf life.
+    If you must sell cut potato: dip in cold water with a little lemon juice and salt (citric + ionic anti-browning), drain fully, keep on ice or at ≤5 °C, pack in a perforated 25–40 µm LDPE or PP bag with anti-fog, and sell the same day.
+    Never seal cut potato airtight at room temperature. A sealed bag with no air is dangerous, not fresher.
+    Whole potato packaging: ventilated jute or 5 kg woven PP mesh, kept dark. Light turns potato green and bitter — that green is a toxin, and an opaque sack is a safety measure.
+
+4.4 · Worked example B — "Besan namkeen, want 6 months, selling across Maharashtra"
+
+Resolver: fried snack class → aw ≈ 0.25, fat ≈ 28 %, critical aw for crispness ≈ 0.45, oxidation-sensitive (unsaturated fat), light-sensitive.
+
+Two failure modes race. Moisture model (Labuza with GAB isotherm) at 30 °C / 75 % RH for 180 days on a 100 g pack with 0.055 m² area gives a required WVTR ≤ 0.6 g/m²·day. Oxidation model with a peroxide-value budget gives a required OTR ≤ 1.2 cc/m²·day. Both must be met simultaneously, so the binding spec is the stricter of each dimension.
+
+Matcher output, three ranked options:
+Rank	Structure	OTR / WVTR	Predicted life	₹/pack	EPR
+1	12µ PET / 12µ VMPET / 50µ LLDPE + N₂ flush	0.8 / 1.0	7–9 mo	2.10	Cat III
+2	20µ BOPP / 18µ VMBOPP / 40µ CPP (mono-PP)	~20 / 0.7	5–7 mo	1.75	Cat II, recyclable
+3	12µ PET / 9µ Al foil / 50µ LLDPE	~0 / ~0	12+ mo	3.40	Cat III, poor recyclability
+
+The engine's recommendation is #2, not #1. It meets the 6-month target with margin, costs 17 % less, and is a mono-material PP structure — Category II rather than III, with a lower EPR obligation and an actual recycling route. The interface shows this reasoning explicitly rather than just ranking. That is the sustainability analysis the brief asks for, delivered as a default rather than a separate tab nobody opens.
+4.5 · The assumption ledger
+
+Every recommendation ships with a visible list of what the system guessed. Each row is tappable to correct. This single UI element does more for trust than any accuracy claim.
+
+ASSUMPTIONS USED  (tap any row to correct it)
+
+  Moisture content      79 %          ← IFCT-2017, potato average     ▓▓▓▓▓▓▓▓░░  0.92
+  Storage temperature   29 °C         ← Mumbai, September average     ▓▓▓▓▓░░░░░  0.55
+  Respiration rate      84–196        ← AH-66 + cut modifier ×3–7     ▓▓▓░░░░░░░  0.35
+  Relative humidity     82 %          ← Mumbai, September average     ▓▓▓▓▓░░░░░  0.55
+  Pack size             1 kg          ← default for "local market"    ▓▓░░░░░░░░  0.25
+
+  → Telling us your actual storage temperature would narrow the
+    shelf-life estimate from ±4 days to about ±1 day.
+
+That last line is the value-of-information hint: the engine computes which single unknown, if resolved, would most reduce output variance, and asks for only that one. It is a one-line sensitivity analysis and it makes the app feel like it is thinking.
+05
+The maths that must be right
+
+Four failure-mode models run in parallel for every candidate package. The predicted shelf life is the minimum across them, and the winning mechanism is reported by name. Implement each as a pure function with property tests.
+5.1 · Moisture-limited (dry foods: biscuits, namkeen, powders, spices)
+
+Water vapour permeates the film until the food reaches its critical water activity — the point where a biscuit goes soft or a powder cakes. The classical treatment couples the film's permeance to the food's moisture sorption isotherm.
+
+Steady-state moisture flux into the pack:
+
+    dm/dt = (WVTR_film / Δp_test) · A · (p_out − p_in)
+
+With a LINEAR isotherm (m = b·a_w + c), valid up to a_w ≈ 0.5, this
+integrates to a closed form:
+
+    ln[ (m_e − m_i) / (m_e − m_c) ]  =  (k/x)·(A / W_s)·(p_0 / b)·t
+
+    m_e = equilibrium moisture at external RH      (kg water / kg solids)
+    m_i = initial moisture,  m_c = critical moisture
+    k/x = film permeance                            (g / m²·day·kPa)
+    A   = pack surface area (m²),  W_s = dry solids mass (kg)
+    p_0 = saturation vapour pressure at storage T   (kPa)
+    b   = isotherm slope
+    t   = shelf life (days)
+
+Rearranged for DESIGN — the spec the engine actually emits:
+
+    permeance_max = (W_s · b) / (A · p_0 · t) · ln[(m_e−m_i)/(m_e−m_c)]
+
+    → convert to a quotable WVTR at 38 °C / 90 % RH (ASTM F1249)
+
+Above aw ≈ 0.5 the linear isotherm under-predicts moisture uptake and therefore over-predicts shelf life — the dangerous direction. Use the GAB isotherm there; a closed-form t(aw) solution for GAB now exists in the literature, avoiding numerical integration. Comparative work shows GAB gives the most consistent and stable estimates of time-to-critical-aw, with the linear model acceptable only when its fit covers the low-aw range including the critical limit.
+Implementation guidance: fit GAB constants (m₀, C_g, K) per food class and store them in the KB. Use the linear model only when a_w,crit < 0.5, and have the engine log which isotherm it used.
+5.2 · Oxidation-limited (fats, nuts, fried snacks, milk powder, ghee)
+
+Give the product an OXYGEN BUDGET: the total mass of O₂ it can absorb
+before peroxide value / hexanal crosses the sensory threshold.
+
+    Q_budget  [mg O₂ per kg product]   ← from the KB, per fat class
+                                          (typical 5–30 mg/kg for
+                                           unsaturated fried snacks)
+
+    O₂ available = residual headspace O₂ + ingress through film
+
+    ingress(t) = OTR_film · A · Δp(O₂) · t        [cc]
+               → × 1.43 mg/cc  to convert to mass
+
+    OTR_max = (Q_budget · M_product − O₂_headspace) / (1.43 · A · Δp · t)
+
+Practical consequence, worth hardcoding as a sanity check:
+    for 6–12 month ambient shelf life on an oxidation-sensitive food,
+    you need OTR ≤ ~1 cc/m²·day AND WVTR ≤ ~0.5 g/m²·day
+    → metallized PET/PE, AlOx-PET/PE, or foil laminate. Nothing else.
+
+Nitrogen flush matters more than people expect: reducing residual
+headspace O₂ from 21 % to 1 % can dominate the total budget for a
+short-to-medium shelf life. Recommend it BEFORE recommending a
+more expensive film.
+
+5.3 · Respiration-limited (fresh produce MAP) — the core produce maths
+
+At equilibrium, oxygen entering through the film exactly equals oxygen consumed by the produce. Set the two equal and solve for the film you need.
+
+O₂ balance at steady state:
+
+    OTR_req · A · (y_out − y_in)  =  R_O2 · M · 24
+
+    OTR_req  required film O₂ transmission  [mL / m²·day·atm]
+    A        pack surface area              [m²]
+    y_out    external O₂ fraction           = 0.209 atm
+    y_in     TARGET internal O₂ fraction    e.g. 0.05 atm
+    R_O2     respiration rate               [mL O₂ / kg·h]
+    M        product mass                   [kg]
+
+    →  OTR_req = (R_O2 · M · 24) / (A · (y_out − y_in))
+
+CO₂ balance, same form:
+
+    CO2TR_req = (R_CO2 · M · 24) / (A · (y_in,CO2 − y_out,CO2))
+
+THE SELECTIVITY PROBLEM — this is the real design decision:
+
+    β = P_CO2 / P_O2
+
+    Continuous polymer films:  β ≈ 3 – 6   (CO₂ dissolves far better)
+    Perforations (gas in air): β ≈ 0.78    (ratio of diffusivities,
+                                            D_CO2 0.160 / D_O2 0.205 cm²/s)
+
+    Compute β_required from your target O₂ and CO₂ simultaneously.
+    If β_req ≈ 3–6  → a continuous film can hit both targets.
+    If β_req ≈ 1    → you MUST use micro-perforation.
+    This single comparison is the breathable-vs-barrier branch point.
+
+Temperature scaling of respiration (Arrhenius):
+
+    R(T) = R_ref · exp[ (Ea/Rg) · (1/T_ref − 1/T) ]      T in Kelvin
+    Ea for common fruit & veg in air: ~29 – 93 kJ/mol
+    Or the field-friendly form: R(T) = R_ref · Q10^((T−T_ref)/10),
+    Q10 ≈ 2–3
+
+Micro-perforation sizing (Fick through the hole, with end correction):
+
+    N = (R_O2 · M · L_eff) / (D_O2 · A_hole · Δc_O2)
+
+    A_hole = π d² / 4        typical d = 50–200 µm (laser drilled)
+    L_eff  = L + 1.18 r      L = film thickness, r = hole radius
+    Δc_O2  = (y_out − y_in) · P / (Rg · T)
+
+    Report N, d, and their placement. Always round UP on N.
+
+CLAMPS (non-negotiable):
+    y_in(O₂)  ≥ 0.02          fermentation + botulinum floor
+    y_in(CO₂) ≤ commodity CO₂ injury threshold from KB
+    If no (film, N, d) satisfies both within the clamps →
+    return "no passive MAP solution; use active flush or vented packaging"
+
+Sanity anchor for your unit tests: published modelling of fresh-cut pineapple found target O₂ and CO₂ transmission rates of roughly 7,300–12,500 and 13,900–23,500 mL/m²·day·atm respectively, covering intrinsic and extrinsic variability. If your solver returns values in that ballpark for a similar high-respiration fresh-cut product, your maths is wired correctly.
+5.4 · Microbially-limited (chilled, high-aw, cut, protein)
+
+Use a square-root (Ratkowsky/Belehrádek) growth-rate model for the
+relevant spoilage organism or pathogen, parameterised from ComBase:
+
+    √μ_max = b · (T − T_min)  ·  f(a_w) · f(pH) · f(CO₂)
+
+    Time to spoilage = (log10 N_spoil − log10 N_0) / (μ_max / ln10)
+                       + lag phase
+
+    CO₂ in MAP is bacteriostatic — include the CO₂ inhibition term or
+    you will systematically UNDER-predict MAP shelf life.
+
+SAFETY BRANCH — runs before, and independently of, quality:
+    IF a_w > 0.92 AND pH > 4.6 AND O₂_target < 2 % AND T_max > 5 °C:
+        → HARD BLOCK. C. botulinum hazard.
+        → Message: "This combination is unsafe. Either guarantee
+          ≤5 °C throughout, or do not remove oxygen."
+
+Quality prediction and SAFETY prediction are separate outputs.
+Never let a good quality number mask a safety failure.
+
+5.5 · Putting it together
+
+def predict_shelf_life(profile, env, package):
+    results = []
+    if profile.a_w < 0.6:
+        results.append(moisture_model(profile, env, package))
+    if profile.fat_pct > 3 or profile.oxidation_sensitive:
+        results.append(oxidation_model(profile, env, package))
+    if profile.respiring:
+        results.append(respiration_model(profile, env, package))
+    if profile.a_w > 0.85:
+        results.append(microbial_model(profile, env, package))
+
+    safety = safety_gate(profile, env, package)     # separate, blocking
+    limiting = min(results, key=lambda r: r.days)
+
+    return ShelfLife(
+        days_p50   = limiting.days,
+        days_p10   = monte_carlo_p10(results, profile.bands),
+        days_p90   = monte_carlo_p90(results, profile.bands),
+        mechanism  = limiting.name,       # "moisture uptake", "rancidity"...
+        all_modes  = results,             # show the race, not just winner
+        safety     = safety,              # PASS / WARN / BLOCK
+        equations  = [r.equation_id for r in results],
+        confidence = aggregate_conf(profile, env),
+    )
+
+Reporting which mechanism limits shelf life is what converts a number into an action. "90 days, limited by moisture uptake" tells a manufacturer to improve the moisture barrier or add a desiccant. "90 days, limited by rancidity" tells them to flush with nitrogen or add an antioxidant. The same number, two completely different fixes.
+06
+Compliance engine — law as data
+
+Do not write regulations into your application code. Write them as versioned data files with citations, effective dates, and jurisdictions, and evaluate them as a rule set. Regulations change; your code should not have to.
+6.1 · Rule format
+
+- id: IN-FSSAI-PKG-2018-R4e
+  jurisdiction: IN
+  instrument: "Food Safety and Standards (Packaging) Regulations, 2018"
+  clause: "4(4)(e), as substituted by the 2022 Amendment"
+  effective_from: 2022-09-01
+  applies_when:
+    material.recycled_content_pct: {gt: 0}
+    contact: direct
+  effect: CONDITIONAL
+  message_en: >
+    Recycled plastic in direct food contact was prohibited under the
+    original 2018 regulation. FSSAI operationalised the 2022 Amendment
+    permitting it, following the Plastic Waste Management (Second
+    Amendment) Rules 2021. Permitted ONLY where the recycled material
+    meets the applicable FSSAI/BIS requirements for recycled food-contact
+    plastics and is supported by test evidence.
+  requires_document: "NABL-accredited conformity certificate for the
+                      food-contact layer"
+  severity: high
+  source_url: "https://fssai.gov.in/upload/uploadfiles/files/Compendium_Packaging_01_02_2022.pdf"
+  last_verified: 2026-09-21
+
+6.2 · India — the rules your engine must enforce
+Effect codes: BLOCK removes the option entirely; REQUIRE adds a mandatory action or document; WARN surfaces a risk or cost the user should price in. Rule	Effect	Instrument
+Any material in direct or likely contact with food must be of food-grade quality and appropriate to the product, storage conditions and filling equipment	REQUIRE	FSS (Packaging) Regs 2018, reg. 4
+Plastics must conform to an Indian Standard listed in Schedule III (e.g. IS 10146 polyethylene, IS 10910 polypropylene, IS 12252 PET, IS 10151 PVC); paper & board to Schedule I; metals to Schedule II	REQUIRE	FSS (Packaging) Regs 2018, Schedules I–III
+Where an Indian Standard does not exist, the relevant international standard may be complied with	REQUIRE	FSS (Packaging) Regs 2018
+FBO must hold a certificate of conformity from a NABL-accredited laboratory for the food-contact layer	REQUIRE	FSS (Packaging) Regs 2018
+In multilayer packaging, the layer contacting food (or likely to) must itself meet Schedule I/II/III	REQUIRE	FSS (Packaging) Regs 2018
+Printing inks must conform to IS 15495; the printed surface must not contact food	BLOCK	FSS (Packaging) Regs 2018
+Newspaper or similar material must not be used to store or wrap food	BLOCK	FSS (Packaging) Regs 2018 + FSSAI advisory (mineral-oil MOSH/MOAH migration)
+Pigments and colourants in food-contact plastics must conform to IS 9833	REQUIRE	FSS (Packaging) Regs 2018
+Tin containers, once used, must not be re-used for food	BLOCK	FSS (Packaging) Regs 2018
+Specific migration limits (Table 1 of the regulation) must not be exceeded	REQUIRE	FSS (Packaging) Regs 2018
+Recycled plastic in food contact — permitted only per the operationalised 2022 Amendment with conforming material and evidence	CONDITIONAL	FSS (Packaging) Amendment Regs 2022
+Banned single-use plastic items (plates, cups, cutlery, stirrers, straws, trays, polystyrene containers for service) — illegal regardless of food-grade status	BLOCK	PWM (Amendment) Rules 2021, in force 1 July 2022
+Plastic carry bags must be ≥ 120 µm (from 31 Dec 2022; 75 µm from 30 Sep 2021)	BLOCK	PWM (Amendment) Rules 2021
+Plastic sheets not integral to multilayer packaging must be ≥ 50 µm unless thickness impairs functionality	REQUIRE	PWM Rules
+Producers, Importers and Brand Owners must register on the CPCB centralised EPR portal and meet category-wise targets (micro and small enterprises exempt from the EPR obligation)	REQUIRE	PWM (Amendment) Rules 2022
+Multi-layered plastic (Category III) carries lower recyclability, escalating recycled-content obligations and higher EPR cost — prefer mono-material where performance permits	WARN	PWM (Amendment) Rules 2022, Schedule II
+Compostable plastics must conform to IS 17088	REQUIRE	PWM Rules / BIS
+Draft amendment (Feb 2026) proposes prohibiting PFAS in food-contact materials and requiring polycarbonate/epoxy FCMs to be free of BPA and derivatives — track and flag proactively	WARN	Draft FSS (Packaging) Amendment, 2026
+Label must carry FSSAI logo and licence number, net quantity, MRP, manufacturer details, date marking, veg/non-veg mark, and meet minimum font-height rules	REQUIRE	FSS (Labelling & Display) Regs 2020 + Legal Metrology (Packaged Commodities) Rules 2011
+
+EPR economics are now a real design input, not a footnote. Indian recycling targets escalate by category — roughly 50 %→80 % for Category I and IV, and 30 %→60 % for Categories II and III, across FY2024-25 to FY2027-28 — with recycled-content obligations phasing in separately. When your engine ranks a mono-material PP laminate above a PET/VMPET/PE one, it should show the EPR liability difference in rupees, not just a green leaf icon. That is what actually moves a procurement decision.
+6.3 · Export markets
+Market	Framework	Key numeric limits	Document the user must produce
+European Union	Reg. (EC) 1935/2004 (framework) + Reg. (EU) 10/2011 (plastics) + Reg. (EC) 2023/2006 (GMP)	Overall migration limit 10 mg/dm², or 60 mg/kg for articles intended for infants and young children. Substance-specific SMLs per the Union List. Metal-ion limits per Reg. 2016/1416.	Declaration of Compliance, plus supporting migration test data (overall migration by EN 1186 in the relevant simulants)
+United States	FFDCA §409; 21 CFR 174–190; Food Contact Notification (FCN) route	Material must be a listed/sanctioned substance, GRAS, prior-sanctioned, or covered by an effective FCN	Letter of Guarantee citing the applicable 21 CFR sections or FCN number
+Japan	Food Sanitation Act positive-list system for synthetic resins	Only listed substances; specification tests for each resin	Supplier positive-list conformity statement
+Global baseline	Codex Alimentarius CXC 1-1969 (General Principles of Food Hygiene)	No numeric packaging limits; requires packaging that protects against contamination and is suitable for the food and conditions	Documented HACCP/FSMS covering packaging
+6.4 · Test methods to quote on every spec sheet
+Property	Method	Conditions to state
+Oxygen transmission rate	ASTM D3985 (coulometric) / ASTM F1927 / ISO 15105-2	23 °C, 0 % RH — and separately at 23 °C / 50–90 % RH if the structure contains EVOH or nylon, whose barrier collapses with humidity
+Water vapour transmission rate	ASTM F1249 (IR sensor) / ISO 15106	38 °C, 90 % RH (the standard tropical condition)
+Seal strength	ASTM F88 / F88M	Technique A/B/C, 25 mm specimen, 200–300 mm/min; report average and maximum
+Hot tack	ASTM F1921	Method B; critical for vertical form-fill-seal at speed
+Tensile / elongation	ASTM D882 / ISO 527-3	MD and TD separately
+Tear resistance	ASTM D1922 (Elmendorf) / ISO 6383-2	MD and TD
+Puncture / impact	ASTM D1709 (dart drop)	Relevant for frozen and heavy fills
+Flex-crack resistance	Gelbo Flex (ASTM F392)	Essential for metallized and foil laminates — barrier degrades after flexing, so specify post-flex OTR/WVTR
+Burst	ASTM F1140 / F2054	Pack integrity, especially MAP
+Overall migration	EN 1186 (EU) / IS 9845 (India)	Simulant, time, temperature, surface-to-volume ratio
+
+Specify post-flex barrier for any metallized or foil structure. Unflexed VMPET can show OTR around 1.2 cc/m²·day and WVTR around 0.8 g/m²·day, but real packs are creased by the filling machine and by handling. A spec that omits the Gelbo condition is a spec that will be met on paper and missed in the warehouse.
+07
+Three user modes, one engine
+
+The brief asks for a tool that a farmer, a startup founder and a packaging technologist can all trust. That does not mean three products. It means one engine and three renderings of the same sealed result object — plus three different amounts of work the resolver has to do.
+KISAN MODE
+
+For: farmers, FPO members, mandi traders, fruit & vegetable sellers.
+
+Input: three taps maximum. Photo or crop picker → state (whole / cut / washed, days since harvest via a slider with pictures) → destination (sell today / cold store / send by truck).
+
+Output: one big card. A picture of the right bag or crate. One sentence of instruction. Three "do not do this" icons. A price and where to buy locally.
+
+Non-negotiables: works offline, works on a 2 GB Android phone, reads aloud in the local language, never shows a number with a unit the user has not met.
+BUSINESS MODE
+
+For: food startups, MSMEs, FPO processing units, cloud kitchens, D2C brands.
+
+Input: product form, batch size, pack size, target shelf life, distribution route, budget per pack, filling machine type.
+
+Output: three ranked structures with full spec sheets, shelf-life curves, ₹/pack, a compliance checklist for their FSSAI licence category, an EPR liability estimate, and a generated RFQ document they can email to converters verbatim.
+
+The killer feature: the RFQ. Most small brands cannot write a film specification, so they accept whatever a converter offers. Generating a correct, standards-referenced RFQ shifts the power in that negotiation.
+EXPERT MODE
+
+For: packaging technologists, food scientists, IIP/CFTRI/NIFTEM researchers, QA managers.
+
+Input: every parameter, directly editable. Override any assumption. Supply your own isotherm constants, your own respiration data, your own film CoA.
+
+Output: the full model dump — every equation with its inputs, sensitivity tornado chart, Pareto frontier, Monte Carlo distribution, side-by-side scenario comparison, CSV and PDF export, and a permanent link to the sealed result object.
+
+Why it matters: experts are the ones who will validate you publicly. Give them enough rope to check your work and they become your distribution channel.
+7.1 · Same case, three renderings
+
+Take one result — "tomato, ripe, 5 kg, 3-day road transport, no refrigeration" — and look at what each mode shows.
+Element	Kisan	Business	Expert
+The recommendation	Picture of a ventilated CFB crate + one line: "Use a vented cardboard crate with a soft liner, not a sack."	"5-ply CFB, 5 % vent area, 400 × 300 × 150 mm, 30-count single layer, EPE foam liner. ₹38/crate."	Full structure spec + compression strength (ISO 12048), vent geometry, stacking calculation
+Shelf life	"Keeps about 4 days on the road. Sell within 5."	"4.2 days P50 (3.1–5.4 P10–P90), limited by physiological softening + bruise-initiated rot"	Full Monte Carlo distribution, all four failure-mode curves, limiting-mechanism crossover chart
+Why	Two icons: a tomato breathing, a tomato being squashed.	"Tomato respires 10–20 mg CO₂/kg·h at 20 °C; a sealed sack traps heat and CO₂ and causes off-flavour. Compression damage is the dominant loss at 3 days."	Equations R-03, M-07, with parameter provenance and Ea value used
+Compliance	Nothing shown unless something is illegal, then one red line.	Checklist: food-grade liner, no printed surface in contact, labelling requirements	Full rule trace: rules evaluated, fired, and passed, with citations
+Cost	"About ₹38. Saves about ₹210 of tomatoes."	₹/crate, ₹/kg protected, break-even loss rate, EPR liability	Sensitivity of cost-benefit to loss-rate assumption
+Alternatives	One: "If you have no crate, use a shallow basket, max 2 layers."	Three ranked, with trade-offs	Full Pareto frontier, exportable
+7.2 · Reaching users who will not install an app
+
+    PWA first, not native. Installable, offline-capable, no Play Store friction, one codebase. Cache the commodity KB and the rule set in IndexedDB so the core recommendation works with no signal — which is exactly the condition in a field or a cold-storage basement.
+    WhatsApp bot. Send a photo of your crop, get a voice note back. For a large share of Indian farmers this is the only interface they will ever actually use. Same engine, a thin adapter.
+    IVR / missed-call. For feature phones. A short decision tree in the local language, results read aloud.
+    FPO / extension-officer console. One trained person serving 200 farmers is a far more realistic adoption path than 200 individual installs. Give them a batch mode and printable one-page advisories.
+    Printable advisory cards. A QR-coded A5 sheet per commodity that an FPO can print and pin up in a collection centre. Technology that survives a power cut.
+
+Language is not a translation task, it is a vocabulary task. Do not translate "Oxygen Transmission Rate" into Hindi. In Kisan Mode that concept should never appear. Write the farmer-facing copy natively in each language with a local agronomist, using the words used at the mandi — "hawa aane wali thaili" (a bag that lets air in), not "sacchidra film". Machine translation of technical English into Indian languages produces text that is grammatical and meaningless.
+08
+Trust architecture
+
+You are asking people to change how they handle food based on software output. The engineering that earns that right is as important as the engineering that produces the answer.
+1 · Provenance on every number
+
+Each value carries a source badge — STANDARD PEER-REVIEWED VENDOR DATA MODEL ESTIMATE — and tapping it shows the citation. No unattributed numbers anywhere in the product.
+2 · Confidence, shown not hidden
+
+A chunky segmented bar, never a percentage. Ranges, not points: "5 to 9 days" beats "7 days". Users forgive a wide range; they do not forgive a confident wrong number.
+3 · The confidence gate
+
+Below a threshold the engine does not give a single answer. It gives a conservative safe envelope, says why it is uncertain, and names the one input that would fix it. Refusing to over-claim is a feature.
+4 · The assumption ledger
+
+Everything guessed is listed and one tap from being corrected. Users who correct one value immediately understand what the system is doing and start trusting the rest.
+5 · Separate safety from quality
+
+A safety BLOCK is a different visual language entirely — full coral fill, no dismissal, no override in any mode. Quality advice is negotiable; safety is not.
+6 · The outcome loop
+
+"How did it actually go?" after the predicted shelf life elapses. Logged outcomes train the residual calibrator and, more importantly, let you publish a real accuracy figure instead of a claim.
+7 · Lab referral, not lab replacement
+
+Directory of NABL-accredited packaging labs with an auto-generated test request listing exactly which tests, which standards, which conditions, and an indicative cost. The tool tells you when it has reached its limit.
+8 · Versioned and replayable
+
+Every result records engine version, KB version and rule-set version. Any recommendation can be replayed months later and diffed against the current engine. This is what a food-safety auditor will ask for.
+Say this plainly, everywhere
+
+Aavaran AI is a decision-support tool. It does not replace validation studies, accelerated shelf-life testing, migration testing, or a NABL conformity certificate. Under the Food Safety and Standards Act the responsibility for compliance rests with the Food Business Operator. Print that in the footer, in the PDF export, and in the onboarding. Teams that hide their limitations lose trust the first time they are wrong; teams that state them survive it.
+8.1 · Evaluation plan — prove it works
+
+    Golden test set. 60–100 commodity × condition cases with published or expert-agreed correct answers, drawn from AH-66, IIP handbooks, and peer-reviewed MAP studies. Run on every commit. Report accuracy publicly in the app.
+    Physics property tests. Assert the invariants: doubling area halves required permeance; raising temperature never increases predicted shelf life; MAP solver output must satisfy the mass balance it was derived from; a perfect barrier must return an infinite moisture-limited life.
+    Limiting-case tests. Zero respiration must collapse to the pure-barrier case. Zero permeability must collapse to hermetic. Aluminium foil must beat every polymer on both axes.
+    Expert panel. Five packaging technologists blind-score 30 recommendations on a 5-point scale. Target: median ≥4, zero unsafe recommendations. Publish the result including the failures.
+    Field validation. Partner with one FPO. Twenty side-by-side batches, packed per recommendation versus current practice, measured loss at day N. This one number — "18 % loss became 7 %" — is worth more than every other metric combined.
+    Adversarial testing. Deliberately feed unsafe combinations (cut melon in vacuum at ambient; low-acid vegetable in oil at room temperature) and verify a BLOCK every time.
+
+09
+Tech stack & repo layout
+Layer	Choice	Why this one
+Frontend	React 18 + Vite + TypeScript + Tailwind, as a PWA (vite-plugin-pwa)	Offline via service worker, installable, one codebase for all three modes. Tailwind makes a rigid neo-brutalist token system trivial to enforce.
+Mobile (optional)	Flutter shell wrapping the PWA, or a native Flutter client on the same API	The brief names Flutter. Only build it if you need on-device camera inference or Play Store presence — the PWA covers most needs.
+Backend	Python 3.11 + FastAPI + Pydantic v2	Pydantic gives you the sealed-result-object schema for free and validates the LLM's JSON output at the boundary.
+Engine	Standalone aavaran-engine package: pure Python, no I/O, no framework	Testable, versionable, embeddable. Can be compiled to WASM later to run entirely offline in the browser.
+Units	pint	OTR alone appears as cc/m²·day, cc/100in²·day, and mL/m²·day·atm. Unit bugs here produce wrong-by-15× answers. Do not hand-roll conversions.
+Numerics	numpy + scipy (brentq for the MAP solver, odeint where needed)	Standard, fast, well-tested.
+Database	PostgreSQL 16 + pgvector	Relational KB plus embedding search for commodity name matching in one engine. JSONB for profile records.
+Cache / queue	Redis + Celery	Monte Carlo runs and PDF generation go async.
+ML	LightGBM (calibration), sentence-transformers (matching), ONNX Runtime Web (on-device image model)	Small, fast, deployable. The image model must run offline on the phone.
+LLM	Claude via API, constrained to strict JSON schemas, at stages 1 and 10 only	Parse messy input; render explanations. Never touches a number. Validate every response against the Pydantic schema and fall back to the deterministic parser on failure.
+Reports	WeasyPrint (PDF) + qrcode	HTML→PDF means the spec sheet and the web view share one template.
+Traceability	Append-only Postgres table with per-row SHA-256 hash chaining + daily Merkle root	Tamper-evident without the operational cost of a blockchain. Publish the root if you want external verifiability.
+i18n	i18next + ICU message format	Handles plurals and gender across Indian languages properly.
+Deploy	Docker Compose → Railway/Render/Fly for the hackathon; ECS + RDS for production	Do not spend hackathon hours on Kubernetes.
+
+aavaran/
+├── engine/                          ← pure python, zero framework deps
+│   ├── models/
+│   │   ├── moisture.py              # Labuza + linear/BET/GAB isotherms
+│   │   ├── oxidation.py             # O2 budget model
+│   │   ├── respiration.py           # Arrhenius / Q10 scaling
+│   │   ├── map_design.py            # permeation balance + perforation solver
+│   │   ├── microbial.py             # Ratkowsky sqrt model, ComBase params
+│   │   └── safety.py                # botulinum + pathogen interlocks
+│   ├── resolver/
+│   │   ├── hierarchy.py             # L0→L4 fallback ladder
+│   │   ├── modifiers.py             # cut / washed / bruised / cured
+│   │   ├── environment.py           # climatology + storage-type defaults
+│   │   └── uncertainty.py           # band propagation + Monte Carlo
+│   ├── matcher/
+│   │   ├── requirements.py          # requirement vector derivation
+│   │   ├── filter.py                # hard constraints
+│   │   ├── score.py                 # multi-objective ranking
+│   │   └── pareto.py
+│   ├── compliance/
+│   │   ├── evaluator.py
+│   │   └── rules/
+│   │       ├── in_fssai_2018.yaml
+│   │       ├── in_pwm_epr.yaml
+│   │       ├── in_labelling.yaml
+│   │       ├── eu_1935_10_2011.yaml
+│   │       └── us_21cfr.yaml
+│   ├── result.py                    # the sealed result object schema
+│   └── version.py
+├── kb/                              ← versioned data, reviewed like code
+│   ├── commodities/*.json
+│   ├── films.csv
+│   ├── structures.csv
+│   ├── isotherms.csv
+│   ├── map_targets.csv
+│   └── CHANGELOG.md
+├── api/                             ← FastAPI
+│   ├── routes/{recommend,commodity,compliance,trace,report,feedback}.py
+│   ├── llm/{parser.py,explainer.py,schemas.py}
+│   └── deps.py
+├── web/                             ← React PWA
+│   ├── src/design/{tokens.css,components/}
+│   ├── src/modes/{kisan,business,expert}/
+│   ├── src/i18n/{en,hi,mr,ta,te,bn,kn,gu,pa}.json
+│   └── src/offline/{db.ts,sync.ts}
+├── ml/
+│   ├── commodity_vision/            # ONNX export for on-device
+│   ├── name_matcher/
+│   └── calibrator/
+├── tests/
+│   ├── golden/                      # 60+ validated cases
+│   ├── property/                    # invariants
+│   └── adversarial/                 # must-BLOCK cases
+└── docs/
+
+9.1 · The one API call that matters
+
+POST /api/v1/recommend
+{
+  "mode": "kisan",
+  "input": {
+    "raw_text": "aloo kaata hua do din pehle",
+    "photo_id": "upl_9f2a",
+    "location": {"lat": 19.08, "lon": 72.88},
+    "known": {}                       // anything the user DID tell us
+  },
+  "locale": "hi-IN"
+}
+
+200 OK  →  the sealed result object
+{
+  "result_id": "res_01J...",
+  "engine_version": "1.4.2",
+  "kb_version": "2026.09.1",
+  "ruleset_version": "in-2026.09",
+  "resolved": {
+    "commodity": {"id":"veg.potato...","level":"L2","conf":0.81},
+    "state": {"cut": true, "hours_since": 48, "conf": 0.9},
+    "environment": {"T_C":{"v":29,"src":"climatology","conf":0.55}, ...}
+  },
+  "assumptions": [ /* the ledger, with per-field conf + source */ ],
+  "requirements": { "regime":"none_viable", ... },
+  "candidates": [],
+  "shelf_life": {"days_p50":0.4,"mechanism":"microbial_spoilage", ...},
+  "safety": {"status":"BLOCK","rule":"SAFETY-BOTULINUM-01","message_key":"..."},
+  "verdict": "NOT_A_PACKAGING_PROBLEM",
+  "guidance": [ /* structured, localisable advice objects */ ],
+  "value_of_information": {"field":"environment.T_C","variance_reduction":0.62},
+  "citations": [...],
+  "computed_at": "2026-09-21T10:14:22Z"
+}
+
+10
+Neo-brutalist design system
+
+Neo-brutalism is a good fit here for a reason that is not aesthetic: it forces hierarchy. Thick borders, hard shadows and flat saturated colour make it impossible to bury a warning in soft grey text. A safety block rendered in this language cannot be missed by a user glancing at a phone in bright sunlight.
+10.1 · Tokens
+
+/* colour — flat, saturated, high contrast */
+--paper:  #FFFDF2;   /* off-white ground, warmer than pure white */
+--ink:    #0B0B0B;   /* borders, text, shadows — ONE black, always */
+--yellow: #FFE500;   /* primary action, highlight */
+--cyan:   #5CE1FF;   /* information, business mode */
+--lime:   #C9FF3D;   /* success, safe, eco */
+--coral:  #FF6B52;   /* danger, safety block — reserved, never decorative */
+--violet: #C3A6FF;   /* expert mode, advanced */
+--grey:   #E8E4D6;   /* table stripes, disabled */
+
+/* structure — the whole system is these four lines */
+--bd:      3px solid var(--ink);      /* every border, no exceptions */
+--radius:  0;                          /* nothing is round */
+--shadow:  6px 6px 0 var(--ink);      /* hard, never blurred */
+--shadow-lg: 10px 10px 0 var(--ink);
+
+/* type */
+--font-display: "Archivo Black";       /* headings, numbers, buttons */
+--font-body:    "Space Grotesk";       /* prose */
+--font-mono:    "JetBrains Mono";      /* specs, units, codes */
+
+/* motion — snap, don't ease */
+--t: 80ms linear;
+
+10.2 · Component rules
+Button
+
+3px ink border, 6px hard shadow, flat fill, uppercase Archivo Black. Hover: translate(-2px,-2px) + shadow 8px. Active: translate(4px,4px) + shadow 2px — it physically presses.
+
+Kisan mode minimum height 64px. Assume a cracked screen and a calloused thumb.
+Card
+
+Border + shadow, never both a shadow and a background gradient. Cards may overlap deliberately with negative margin — the layered-paper look is the whole point. Nesting cards more than two deep looks like a bug; use colour fill instead.
+Confidence meter
+
+Ten discrete blocks, filled or empty, 3px border around the whole row. Never a smooth gradient bar — segmentation communicates "this is an estimate" honestly. Label it in words: LOW / FAIR / GOOD / HIGH.
+Safety block
+
+Full coral fill, ink text, 6px border, 10px shadow, an icon, and no dismiss button. Reserve coral exclusively for this. The moment coral appears somewhere decorative, the safety language is dead.
+Spec table
+
+2px internal rules, ink header row with paper text, alternating grey stripes. Numbers in JetBrains Mono, right-aligned, unit in a smaller weight. Horizontal scroll inside its own bordered container, never a page-level sideways scroll.
+Mode switcher
+
+Three chunky tabs, active one sits 3px lower with a reduced shadow and takes its mode's colour (yellow / cyan / violet). Colour-codes the entire session so the user always knows which lens they are in.
+10.3 · Accessibility, non-negotiable
+
+    Contrast ≥ 7:1 for all body text. The palette above is chosen to pass on the paper ground — check every new colour before adding it.
+    Never colour alone. Every coral block carries a ⚠ icon and the word "UNSAFE". Every lime block carries ✓. Roughly 8 % of men have some colour vision deficiency, and your users are largely men working outdoors.
+    Sunlight legibility. Flat high-contrast fills survive glare; soft shadows and low-contrast greys do not. This is a genuine functional advantage of the style for a field app.
+    Respect prefers-reduced-motion. The translate-on-press is charming and must be disabled when asked.
+    Every icon paired with text. Icon-only navigation fails with low-literacy users. Icon + word + optional audio.
+    Audio-first Kisan mode. A speaker button on every card that reads the advice aloud in the selected language. For many users this is the primary channel, not an accessibility add-on.
+
+11
+Step-by-step build plan
+11.1 · Hackathon track (5 days, 4 people)
+
+Ruthless scoping. Ten commodities done properly beats two hundred done badly, and judges test the depth of one case, not the breadth of the dropdown.
+Day	Backend / Engine	Frontend	Data / Content
+0
+Prep	Repo, Docker, FastAPI skeleton, result-object schema	Vite + Tailwind + design tokens, component kit	Pick 10 commodities: potato, tomato, onion, banana, mango, leafy greens, besan namkeen, milk powder, turmeric powder, paneer. Covers every regime.
+1	Commodity resolver + hierarchy + modifiers. Moisture and oxidation models with unit tests.	Kisan mode: crop picker, state selector, result card	Seed 10 commodity JSONs from AH-66 + IFCT. Seed 15 film rows.
+2	Respiration + MAP solver + perforation sizing. Safety interlocks.	Business mode: form, ranked results, spec sheet	MAP target table, isotherm constants, 10 structure definitions with prices
+3	Compliance evaluator + the India rule YAMLs. Cost + sustainability scorer.	Expert mode: parameter editor, model dump, Pareto chart	Write the ~25 India rules with citations. Write farmer copy in 2 languages.
+4	LLM parser + explainer, strictly schema-bound. PDF + QR. Golden tests green.	Assumption ledger, confidence meters, offline caching, i18n wiring	Record the demo script. Build the 3 showcase cases.
+5	Deploy, seed, load-test the demo path	Polish, dark mode, empty/error states	Pitch deck, validation slide, honest limitations slide
+Demo script that wins
+
+Three cases, ninety seconds each. (1) Type "aloo kaata hua do din pehle" in Hindi → the system refuses to recommend a bag, explains the botulinum and spoilage risk, and gives actionable next-time advice. That refusal is your differentiator; lead with it. (2) Business mode, besan namkeen, 6 months → three structures ranked, and the engine picks the cheaper mono-material PP over the "better" PET/VMPET, showing EPR liability in rupees. (3) Expert mode → open the same result, change storage temperature from 30 °C to 4 °C, and watch the limiting mechanism flip from microbial to moisture live, with the equations visible. Most teams demo a form and a result. Demo a system that reasons, refuses, and shows its work.
+11.2 · Production track (12 weeks)
+Phase	Weeks	Deliverable	Exit criterion
+Foundation	1–2	Engine package, sealed result object, CI, golden-test harness	All four physics models pass property tests; limiting-case tests green
+Knowledge base	2–4	120 commodities, 60 films, 40 structures, all with provenance	Two food technologists sign off on the KB; every row has a citation
+Compliance	4–5	India rule set complete; EU and US baseline	A food-law practitioner reviews the rule YAMLs; every rule has a clause reference and a verification date
+Kisan mode	5–7	PWA, offline, 5 languages, audio, image classifier	Usability tested with 15 actual farmers; task completion >80 % without help
+Business mode	7–9	Spec sheets, RFQ generator, EPR calculator, PDF export	Three MSMEs use a generated RFQ to obtain a real quotation
+Expert mode	9–10	Full model transparency, sensitivity, scenario comparison, API keys	Expert panel median score ≥4/5, zero unsafe outputs
+Traceability	10–11	Batch records, QR, public provenance page, hash chain	Tamper detection demonstrated end to end
+Validation	11–12	FPO field trial, published accuracy report	Measured loss reduction on ≥20 real batches, results published including misses
+11.3 · What will go wrong
+
+    Unit conversion bugs. OTR in cc/100in²·day versus cc/m²·day differs by 15.5×. Adopt pint on day one and never store a bare float.
+    Over-trusting vendor datasheets. Published film values are best-case, unflexed, and often at 0 % RH. EVOH and nylon barrier collapses at high humidity. Store the test conditions alongside the value or the number is meaningless.
+    Optimistic shelf-life predictions. Every simplification pushes in the optimistic direction. Apply an explicit, documented safety factor (0.7–0.8 on predicted life) and show it in the ledger rather than hiding it inside a constant.
+    The pretty-but-useless dashboard. Resist charts in Kisan mode. A farmer needs one instruction, not a visualisation of gas permeability.
+    Scope creep into blockchain. A hash-chained Postgres table gives you tamper evidence in forty lines. Spend the saved time on the knowledge base, which is where the actual value lives.
+    Regulatory staleness. The 2026 draft amendment on PFAS and BPA shows how fast this moves. Put a last_verified date on every rule and surface rules older than six months on an admin dashboard.
+
+
+13
+Sources & datasets
+Regulatory
+
+    FSSAI Packaging Compendium — consolidated Food Safety and Standards (Packaging) Regulations, 2018 with amendments, Schedules I–III and migration limits. fssai.gov.in
+    FSSAI guidance on safe and suitable food packaging materials — NABL conformity certificate requirement and Schedule structure. fssai-digest.fssai.gov.in
+    Draft FSS (Packaging) Amendment, February 2026 — proposed PFAS prohibition and BPA-free requirement for polycarbonate and epoxy food-contact materials; new FCM definitions.
+    Plastic Waste Management Rules 2016 and amendments 2021 / 2022 — single-use plastic ban from 1 July 2022, carry-bag thickness floors, EPR categories and targets, CPCB centralised portal.
+    Regulation (EC) 1935/2004 and Regulation (EU) 10/2011 — EU framework and plastics regulation; overall migration limit 10 mg/dm² or 60 mg/kg for infant articles; Union List and SMLs; Declaration of Compliance.
+    21 CFR 174–190 — US FDA food-contact substance regulations and the Food Contact Notification route.
+    Codex Alimentarius CXC 1-1969 — General Principles of Food Hygiene, packaging provisions.
+
+Technical data
+
+    USDA Agriculture Handbook 66, The Commercial Storage of Fruits, Vegetables, and Florist and Nursery Stocks — respiration and ethylene production rates, optimum storage conditions, chilling sensitivity, CA/MA recommendations. Public domain and the single most valuable dataset for this project.
+    Poly Print film property tables — OTR for common polymer films normalised to 1 mil at 23 °C / 0 % RH, with coated and metallized films listed separately because their barrier is thickness-independent.
+    Labthink OTR and MVTR specification reference and polfilm.net film comparison — barrier classes by material.
+    Linde MAPAX fresh produce application data — equilibrium modified atmosphere targets by commodity, including fresh-cut salad and carrot.
+    Peer-reviewed MAP literature — the 1–10 % O₂ / ≥5–10 % CO₂ consensus envelope; fresh-cut pineapple target transmission rates of 7,300–12,500 and 13,900–23,500 mL/m²·day·atm; respiration activation energies of 29–92.9 kJ/mol.
+    Shelf-life modelling literature — Labuza packaging equation; comparative evaluation of linear, BET and GAB isotherms for time-to-critical-water-activity, including the recently published closed-form GAB solution.
+    ComBase — predictive microbiology models and growth data.
+    Indian Food Composition Tables 2017, ICMR-NIN — composition of 528 Indian foods.
+    ASTM and ISO test methods — D3985, F1927, F1249, F88/F88M, F1921, D882, D1922, D1709, F392, F1140; ISO 15105, 15106, 527-3, 6383-2; EN 1186.
+
+Impact baseline
+
+    NABCONS (2022), Study to Determine Post-Harvest Losses of Agri Produce in India, commissioned by MoFPI — 6.02–15.05 % for fruits, 4.87–11.61 % for vegetables; guava worst at 15.05 %, tomato at 11.62 %.
+    ICAR-CIPHET (2015), Assessment of Quantitative Harvest and Post-Harvest Losses of Major Crops and Commodities in India — the prior baseline, useful for showing the trend.
+    Agmarknet — daily commodity prices by market, for the rupees-saved calculation.
+
+A note on the numbers in this document
+
+Film barrier values, respiration rates and MAP targets given here are design-stage defaults compiled from public sources. They are appropriate for building and demonstrating the engine. They are not a substitute for a supplier certificate of analysis, a validation study, or migration testing for a commercial product. Build the provenance system described in section 8 so that this distinction is visible to every user, on every number, all the time.
+
+Aavaran AI build blueprint
+
+Decision-support architecture for food packaging selection. Regulatory positions stated here were compiled on 21 September 2026 and must be re-verified before any commercial use — Indian food-contact and plastic-waste rules are amended frequently, and a draft amendment on PFAS and BPA was pending at the time of writing. Under the Food Safety and Standards Act, responsibility for compliance rests with the Food Business Operator

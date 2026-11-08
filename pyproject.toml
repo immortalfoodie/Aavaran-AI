@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aavaran"
+version = "1.0.0"
+description = "Aavaran - AI food-packaging recommendation system"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn>=0.30.0",
+    "pydantic>=2.7.0",
+    "pint>=0.23",
+    "numpy>=1.26.0",
+    "scipy>=1.13.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.13.0",
+    "pgvector>=0.2.0",
+    "psycopg2-binary>=2.9.9",
+    "redis>=5.0.0",
+    "pyyaml>=6.0.1",
+    "jinja2>=3.1.0",
+    "qrcode>=7.4",
+    "pillow>=10.0.0",
+    "fpdf2>=2.7.9",
+    "weasyprint>=60.0",
+    "requests>=2.31.0",
+    "python-multipart>=0.0.9",
+    "httpx>=0.27.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.6",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "hypothesis>=6.0.0",
+    "httpx>=0.27.0",
+    "pyyaml>=6.0.1"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+follow_imports = "skip"
+check_untyped_defs = false
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+warn_return_any = false
+warn_unused_ignores = false
+disable_error_code = ["syntax", "attr-defined", "arg-type", "call-arg", "assignment", "no-redef", "type-arg", "no-untyped-def", "no-any-return", "var-annotated"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    ".git",
+    "__pycache__",
+    "web",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "C4"]
+ignore = [
+    "E501",  # Line length
+    "E402",  # Module level import not at top of file
+    "E722",  # Bare except
+    "E741",  # Ambiguous variable name
+    "F401",  # Unused imports
+    "F841",  # Unused variables
+    "F541",  # f-string without placeholders
+    "B008",  # Depends() in FastAPI routes
+    "B904",  # raise from
+    "B006",  # Mutable default
+    "B007",  # Loop control variable unused
+    "C408",  # dict() literal
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["engine", "api", "ml", "kb"]

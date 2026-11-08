@@ -1,0 +1,62 @@
+{
+  "commodity_id": "veg.tomato.solanum_lycopersicum",
+  "names": {
+    "en": ["tomato"],
+    "hi": ["टमाटर", "tamatar"],
+    "mr": ["टोमॅटो", "tomato"],
+    "ta": ["தக்காளி", "thakkali"],
+    "bn": ["টমেটো", "tometo"],
+    "te": ["టమోటా", "tamata"],
+    "kn": ["ಟೊಮೆಟೊ", "tomato"],
+    "gu": ["ટામેટા", "tameta"],
+    "pa": ["ਟਮਾਟਰ", "tamatar"]
+  },
+  "group": "fruiting_vegetable",
+  "class": "high_moisture_acidic",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 94.0, "range": [92.5, 95.0], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.99, "range": [0.98, 0.99], "src": "IFCT-2017", "conf": 0.90},
+    "fat_pct": {"v": 0.2, "range": [0.1, 0.3], "src": "IFCT-2017", "conf": 0.95},
+    "pH": {"v": 4.5, "range": [4.3, 4.9], "src": "FDA-pH-db", "conf": 0.95}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 46.0,
+    "ref": {"T_C": 10.0, "rCO2_mg_kg_h": 15.0, "range": [10.0, 20.0]},
+    "src": "USDA-AH66",
+    "conf": 0.90
+  },
+  "storage_optimum": {
+    "T_C": [10.0, 13.0],
+    "RH_pct": [90.0, 95.0],
+    "life_days": [14.0, 28.0],
+    "chilling_sensitive_below_C": 10.0,
+    "src": "USDA-AH66"
+  },
+  "ethylene": {
+    "production": "high",
+    "sensitivity": "high",
+    "note": "Climacteric fruit; ripening accelerated by ethylene; susceptible to chilling injury below 10 C"
+  },
+  "failure_modes": [
+    "chilling_injury",
+    "softening",
+    "alternaria_rot",
+    "compression_damage",
+    "weight_loss"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "cut": {
+      "respiration_x": [3.0, 5.0],
+      "aw_delta": 0.01,
+      "microbial_risk": "high",
+      "new_failure": "microbial_decay",
+      "max_ambient_hours": 6.0
+    },
+    "bruised": {"respiration_x": [1.5, 2.5], "ethylene_x": [2.0, 4.0]},
+    "ripe": {"respiration_x": [1.2, 1.8], "life_x": [0.5, 0.7]}
+  }
+}

@@ -1,0 +1,979 @@
+# Aavaran Golden Benchmark Validation Suite
+# Minimum 60 commodity-and-condition cases verified against official literature:
+# - USDA Agriculture Handbook 66 (AH-66): Commercial Storage of Fruits, Vegetables & Florist Stocks
+# - Indian Institute of Packaging (IIP) Commodity Packaging Manuals & Handbooks
+# - Published peer-reviewed Modified Atmosphere Packaging (MAP) literature (Kader, Exama, Labuza)
+# - FSSAI Food Safety and Standards Regulations (2018)
+
+cases:
+  # -------------------------------------------------------------------------
+  # Fresh Vegetables
+  # -------------------------------------------------------------------------
+  - case_id: "VEG-POT-01"
+    commodity: "potato"
+    state: "whole_cured"
+    environment:
+      temperature_c: 12.0
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [120, 180]
+      target_barrier:
+        max_wvtr: 15.0
+        breathability: "macro_ventilated"
+      recommended_packaging: "Macro-perforated LDPE or Leno Net Sacks"
+    source: "USDA Agriculture Handbook 66, Table 2 (2016) - Solanum tuberosum storage"
+
+  - case_id: "VEG-POT-02"
+    commodity: "potato"
+    state: "whole_cured"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [30, 45]
+      target_barrier:
+        max_wvtr: 20.0
+        breathability: "ventilated"
+      recommended_packaging: "Jute or Ventilated Paper/Netting"
+    source: "IIP Commodity Guidelines for Root Vegetables (p. 45)"
+
+  - case_id: "VEG-POT-03"
+    commodity: "potato"
+    state: "cut_raw"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 80.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_botulinum"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: Do not seal. Chill to < 4°C or process immediately."
+    source: "FSSAI Safety Guidance / Aavaran Blueprint Section 8.1 (BOT-01 Interlock)"
+
+  - case_id: "VEG-ONI-01"
+    commodity: "onion"
+    state: "whole_cured"
+    environment:
+      temperature_c: 2.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [150, 210]
+      target_barrier:
+        breathability: "high_ventilation"
+      recommended_packaging: "Open Leno Mesh / Jute Bag"
+    source: "USDA AH-66 (2016) - Allium cepa commercial cold storage"
+
+  - case_id: "VEG-ONI-02"
+    commodity: "onion"
+    state: "whole_cured"
+    environment:
+      temperature_c: 28.0
+      relative_humidity_pct: 75.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [25, 40]
+      target_barrier:
+        breathability: "high_ventilation"
+      recommended_packaging: "Leno Net Bags with aeration"
+    source: "Indian Institute of Packaging Onion Storage Advisory (2020)"
+
+  - case_id: "VEG-TOM-01"
+    commodity: "tomato"
+    state: "mature_green"
+    environment:
+      temperature_c: 14.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [21, 28]
+      target_barrier:
+        max_otr: 3500.0
+        max_wvtr: 25.0
+      recommended_packaging: "Breathable MAP LDPE / PP with anti-fog"
+    source: "USDA AH-66 (2016) - Lycopersicon esculentum mature green storage"
+
+  - case_id: "VEG-TOM-02"
+    commodity: "tomato"
+    state: "firm_red_ripe"
+    environment:
+      temperature_c: 10.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [10, 14]
+      target_barrier:
+        max_wvtr: 30.0
+      recommended_packaging: "Micro-perforated Polyolefin Shrink / Pouch"
+    source: "Kader, A. A. (2002) Postharvest Technology of Horticultural Crops"
+
+  - case_id: "VEG-TOM-03"
+    commodity: "tomato"
+    state: "firm_red_ripe"
+    environment:
+      temperature_c: 2.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "chilling_injury"
+      shelf_life_days_range: [4, 7]
+      target_barrier: null
+      recommended_packaging: "Maintain above 10°C; chilling abuse accelerates softening"
+    source: "USDA AH-66 Chilling Sensitivity Table (< 10°C threshold)"
+
+  - case_id: "VEG-SPI-01"
+    commodity: "spinach"
+    state: "fresh_bunched"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        max_wvtr: 12.0
+      recommended_packaging: "Perforated LDPE with anti-fog additive"
+    source: "USDA AH-66 (2016) - Spinacia oleracea storage"
+
+  - case_id: "VEG-SPI-02"
+    commodity: "spinach"
+    state: "fresh_bunched"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [1, 2]
+      target_barrier:
+        breathability: "macro_perforated"
+      recommended_packaging: "Rapid sale within 24h; seal traps heat"
+    source: "IIP Manual for Leafy Vegetables at Ambient Mandi Conditions"
+
+  - case_id: "VEG-CHL-01"
+    commodity: "green_chilli"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 8.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [21, 28]
+      target_barrier:
+        max_wvtr: 18.0
+      recommended_packaging: "Micro-perforated Polypropylene Pouch"
+    source: "IIP Green Chilli Post-Harvest Export Standards"
+
+  - case_id: "VEG-CHL-02"
+    commodity: "green_chilli"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 32.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [4, 6]
+      target_barrier:
+        max_wvtr: 25.0
+      recommended_packaging: "Ventilated LDPE bags"
+    source: "ICAR-CIPHET Mandi Produce Studies (2015)"
+
+  - case_id: "VEG-OKR-01"
+    commodity: "okra"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 9.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [7, 10]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "Breathable MAP Film (40-50 µm LDPE)"
+    source: "USDA AH-66 (2016) - Abelmoschus esculentus storage"
+
+  - case_id: "VEG-OKR-02"
+    commodity: "okra"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 2.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "chilling_injury"
+      shelf_life_days_range: [3, 5]
+      target_barrier: null
+      recommended_packaging: "Store > 7°C; severe chilling surface pitting"
+    source: "USDA AH-66 Okra Chilling Sensitivity Review"
+
+  - case_id: "VEG-CAU-01"
+    commodity: "cauliflower"
+    state: "fresh_whole_trimmed"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [21, 28]
+      target_barrier:
+        max_wvtr: 20.0
+      recommended_packaging: "Perforated LDPE Wrap"
+    source: "USDA AH-66 - Brassica oleracea var. botrytis storage"
+
+  - case_id: "VEG-CAR-01"
+    commodity: "carrot"
+    state: "topped_washed"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 98.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [90, 150]
+      target_barrier:
+        max_wvtr: 8.0
+      recommended_packaging: "Non-perforated or micro-vented LDPE liner"
+    source: "USDA AH-66 (2016) - Daucus carota storage"
+
+  - case_id: "VEG-CAB-01"
+    commodity: "cabbage"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [90, 120]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "Perforated LDPE Box Liner"
+    source: "USDA AH-66 (2016) - Brassica oleracea Capitata group"
+
+  - case_id: "VEG-CAP-01"
+    commodity: "capsicum"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 8.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        max_wvtr: 12.0
+      recommended_packaging: "Micro-perforated Polyolefin Wrap"
+    source: "USDA AH-66 (2016) - Capsicum annuum Grossum group"
+
+  - case_id: "VEG-CUC-01"
+    commodity: "cucumber"
+    state: "fresh_whole"
+    environment:
+      temperature_c: 11.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [10, 14]
+      target_barrier:
+        max_wvtr: 10.0
+      recommended_packaging: "Individual Polyolefin Shrink Film"
+    source: "USDA AH-66 (2016) - Cucumis sativus commercial storage"
+
+  - case_id: "VEG-MUS-01"
+    commodity: "mushroom"
+    state: "fresh_button"
+    environment:
+      temperature_c: 1.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [5, 8]
+      target_barrier:
+        max_otr: 8000.0
+      recommended_packaging: "High-permeability PVC / Macro-perforated film"
+    source: "Exama et al. (1993) J. Food Sci. MAP of Agaricus bisporus"
+
+  - case_id: "VEG-PEA-01"
+    commodity: "green_peas"
+    state: "fresh_in_pod"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [7, 12]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "Micro-perforated Polypropylene Pouch"
+    source: "USDA AH-66 (2016) - Pisum sativum storage"
+
+  - case_id: "VEG-GAR-01"
+    commodity: "garlic"
+    state: "dry_cured_bulbs"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [180, 240]
+      target_barrier:
+        breathability: "high_ventilation"
+      recommended_packaging: "Open Mesh / Leno Netting"
+    source: "USDA AH-66 (2016) - Allium sativum storage"
+
+  - case_id: "VEG-GIN-01"
+    commodity: "ginger"
+    state: "fresh_rhizome"
+    environment:
+      temperature_c: 13.0
+      relative_humidity_pct: 75.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [60, 90]
+      target_barrier:
+        max_wvtr: 20.0
+      recommended_packaging: "Ventilated carton with paper lining"
+    source: "IIP Spices and Underground Crops Guidelines (2019)"
+
+  - case_id: "VEG-COR-01"
+    commodity: "coriander"
+    state: "fresh_herb_bunched"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [10, 14]
+      target_barrier:
+        max_wvtr: 10.0
+      recommended_packaging: "Perforated LDPE with anti-fog"
+    source: "IIP Fresh Culinary Herbs Preservation Manual"
+
+  # -------------------------------------------------------------------------
+  # Fresh Fruits
+  # -------------------------------------------------------------------------
+  - case_id: "FRU-BAN-01"
+    commodity: "banana"
+    state: "mature_green"
+    environment:
+      temperature_c: 13.5
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [20, 30]
+      target_barrier:
+        max_otr: 2500.0
+        max_wvtr: 15.0
+      recommended_packaging: "Active MAP Bag with ethylene absorber"
+    source: "Kader, A. A. (2002) & USDA AH-66 Musa spp. storage"
+
+  - case_id: "FRU-BAN-02"
+    commodity: "banana"
+    state: "mature_green"
+    environment:
+      temperature_c: 8.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "chilling_injury"
+      shelf_life_days_range: [4, 7]
+      target_barrier: null
+      recommended_packaging: "Must keep > 13°C; subepidermal vascular browning"
+    source: "USDA AH-66 Banana Chilling Injury Advisory"
+
+  - case_id: "FRU-MAN-01"
+    commodity: "mango"
+    state: "mature_green"
+    environment:
+      temperature_c: 12.5
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [21, 28]
+      target_barrier:
+        max_otr: 2000.0
+        max_wvtr: 15.0
+      recommended_packaging: "Micro-perforated LDPE / PP (30-40 µm)"
+    source: "IIP Export Packaging of Mangoes to European Markets (2021)"
+
+  - case_id: "FRU-MAN-02"
+    commodity: "mango"
+    state: "ripe_table"
+    environment:
+      temperature_c: 10.0
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [10, 14]
+      target_barrier:
+        max_wvtr: 20.0
+      recommended_packaging: "Breathable tray overwrap"
+    source: "IIP Mango Technical Handbook & ICAR-CISH"
+
+  - case_id: "FRU-APP-01"
+    commodity: "apple"
+    state: "mature_harvested"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [120, 180]
+      target_barrier:
+        max_wvtr: 10.0
+      recommended_packaging: "Perforated LDPE Crate Liners"
+    source: "USDA AH-66 (2016) - Malus domestica commercial cold storage"
+
+  - case_id: "FRU-GRP-01"
+    commodity: "grapes"
+    state: "fresh_bunches"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [60, 90]
+      target_barrier:
+        max_wvtr: 12.0
+      recommended_packaging: "Perforated liner with dual-release SO2 generator sheet"
+    source: "USDA AH-66 (2016) - Vitis vinifera storage protocols"
+
+  - case_id: "FRU-STR-01"
+    commodity: "strawberry"
+    state: "fresh_ripe"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [5, 8]
+      target_barrier:
+        max_otr: 3000.0
+      recommended_packaging: "High-barrier tray with 10-15% CO2 MAP flush"
+    source: "USDA AH-66 & Hertog et al. (1999) MAP of Strawberries"
+
+  - case_id: "FRU-PAP-01"
+    commodity: "papaya"
+    state: "mature_color_break"
+    environment:
+      temperature_c: 11.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        max_wvtr: 16.0
+      recommended_packaging: "Individual foam sleeve in micro-vented carton"
+    source: "USDA AH-66 (2016) - Carica papaya commercial handling"
+
+  - case_id: "FRU-GUA-01"
+    commodity: "guava"
+    state: "mature_green"
+    environment:
+      temperature_c: 9.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "LDPE film with micro-perforations"
+    source: "NABCONS / MoFPI Post-Harvest Loss Study (PRID 1885038)"
+
+  - case_id: "FRU-POM-01"
+    commodity: "pomegranate"
+    state: "whole_mature"
+    environment:
+      temperature_c: 5.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [60, 90]
+      target_barrier:
+        max_wvtr: 10.0
+      recommended_packaging: "Shrink film or MAP liner in carton"
+    source: "USDA AH-66 (2016) - Punica granatum storage"
+
+  - case_id: "FRU-ORA-01"
+    commodity: "orange"
+    state: "fresh_mandarin"
+    environment:
+      temperature_c: 6.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [30, 45]
+      target_barrier:
+        max_wvtr: 18.0
+      recommended_packaging: "Perforated polyethylene bag or net bag"
+    source: "IIP Citrus & Nagpur Mandarin Packaging Standards"
+
+  - case_id: "FRU-LIM-01"
+    commodity: "lime"
+    state: "fresh_acid_lime"
+    environment:
+      temperature_c: 9.5
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [30, 45]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "LDPE bag with 0.5% ventilation holes"
+    source: "ICAR-CCRI Nagpur Acid Lime Storage Studies"
+
+  - case_id: "FRU-CRN-01"
+    commodity: "sweet_corn"
+    state: "fresh_husked"
+    environment:
+      temperature_c: 0.0
+      relative_humidity_pct: 95.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "respiration_decay"
+      shelf_life_days_range: [4, 8]
+      target_barrier:
+        max_otr: 4000.0
+      recommended_packaging: "High-permeability stretch film with ice packing"
+    source: "USDA AH-66 - Zea mays var. saccharata rapid sugar loss"
+
+  - case_id: "FRU-WTM-01"
+    commodity: "watermelon"
+    state: "whole_ripe"
+    environment:
+      temperature_c: 12.0
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        breathability: "unpacked_or_crate"
+      recommended_packaging: "Corrugated bin with straw / paper dividers"
+    source: "USDA AH-66 (2016) - Citrullus lanatus handling"
+
+  - case_id: "FRU-MEL-CUT"
+    commodity: "cut_melon"
+    state: "fresh_cut"
+    environment:
+      temperature_c: 28.0
+      relative_humidity_pct: 80.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_botulinum"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: Low oxygen at ambient is a fatal C. botulinum risk."
+    source: "FDA Guidance for Fresh-Cut Produce / Blueprint Section 8.1"
+
+  - case_id: "FRU-PIN-01"
+    commodity: "pineapple"
+    state: "fresh_cut_slices"
+    environment:
+      temperature_c: 4.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [7, 10]
+      target_barrier:
+        max_otr: 1200.0
+      recommended_packaging: "Rigid PET/EVOH tray with barrier film lid"
+    source: "Montero-Calderon et al. (2008) Postharvest Biol. Technol."
+
+  # -------------------------------------------------------------------------
+  # Processed, Dairy, Spices, Ambient & Dry Foods
+  # -------------------------------------------------------------------------
+  - case_id: "PRO-PAN-01"
+    commodity: "paneer"
+    state: "fresh_pressed"
+    environment:
+      temperature_c: 4.0
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [14, 21]
+      target_barrier:
+        max_otr: 30.0
+        max_wvtr: 5.0
+      recommended_packaging: "Vacuum pouch (PA / EVOH / PE 70 µm)"
+    source: "IIP Dairy Packaging Standards & Indian Dairy Association"
+
+  - case_id: "PRO-PAN-02"
+    commodity: "paneer"
+    state: "fresh_pressed"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_botulinum"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: aw > 0.98, pH > 6.0 in anaerobic pack at ambient."
+    source: "FSSAI Compendium of Food Safety Regulations, 2018"
+
+  - case_id: "PRO-WMP-01"
+    commodity: "milk_powder"
+    state: "whole_fat_powder"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 60.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [180, 270]
+      target_barrier:
+        max_otr: 0.5
+        max_wvtr: 0.5
+      recommended_packaging: "PET / Al Foil / PE or Nitrogen flushed metal tin"
+    source: "Labuza, T. P. (1984) Moisture Sorption & Oxidation Kinetics"
+
+  - case_id: "PRO-SMP-01"
+    commodity: "skimmed_milk_powder"
+    state: "spray_dried"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [240, 365]
+      target_barrier:
+        max_wvtr: 1.0
+      recommended_packaging: "BOPP / Met-PET / Polyethylene liner"
+    source: "IS 1165: Milk-Powder Specifications (Bureau of Indian Standards)"
+
+  - case_id: "PRO-NAM-01"
+    commodity: "besan_namkeen"
+    state: "fried_extruded"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 75.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [90, 120]
+      target_barrier:
+        max_wvtr: 2.0
+        max_otr: 50.0
+      recommended_packaging: "BOPP / Metallized CPP (35-40 µm)"
+    source: "IIP Snack Food Packaging Guide (p. 88)"
+
+  - case_id: "PRO-CHP-01"
+    commodity: "potato_chips"
+    state: "fried_salted"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [120, 150]
+      target_barrier:
+        max_wvtr: 1.2
+        max_otr: 25.0
+      recommended_packaging: "Nitrogen flushed BOPP / Met-BOPP / PE"
+    source: "Labuza (1984) & ASTM F1249 snack barrier criteria"
+
+  - case_id: "PRO-TUR-01"
+    commodity: "turmeric_powder"
+    state: "ground_powder"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "photo_oxidation"
+      shelf_life_days_range: [180, 365]
+      target_barrier:
+        max_wvtr: 2.0
+        light_barrier: "opaque"
+      recommended_packaging: "Metallized PET / Polyethylene pouch (opaque)"
+    source: "IIP Spices Board Manual for Ground Spices Packaging"
+
+  - case_id: "PRO-CHL-01"
+    commodity: "chilli_powder"
+    state: "ground_spice"
+    environment:
+      temperature_c: 28.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [180, 300]
+      target_barrier:
+        max_otr: 15.0
+        max_wvtr: 3.0
+      recommended_packaging: "PET / Met-PET / Poly pouch"
+    source: "Spices Board of India Quality & Packaging Standards (2019)"
+
+  - case_id: "PRO-NUT-01"
+    commodity: "peanuts"
+    state: "roasted_salted"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [60, 90]
+      target_barrier:
+        max_otr: 20.0
+        max_wvtr: 3.0
+      recommended_packaging: "Nitrogen flushed metallized laminate"
+    source: "IIP Handbook on Oilseeds and Roasted Kernels"
+
+  - case_id: "PRO-CSH-01"
+    commodity: "cashew_nuts"
+    state: "roasted_whole"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 60.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [180, 240]
+      target_barrier:
+        max_otr: 5.0
+      recommended_packaging: "Vacuum pouch with PA / EVOH / PE"
+    source: "Cashew Export Promotion Council of India (CEPCI) Standards"
+
+  - case_id: "PRO-TEA-01"
+    commodity: "tea"
+    state: "ctc_black_granules"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 75.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [180, 365]
+      target_barrier:
+        max_wvtr: 1.5
+      recommended_packaging: "BOPP / Met-BOPP / PE or Foil laminate pouch"
+    source: "Tea Board of India Guidelines for Domestic & Export Packaging"
+
+  - case_id: "PRO-COF-01"
+    commodity: "coffee_beans"
+    state: "roasted_whole"
+    environment:
+      temperature_c: 22.0
+      relative_humidity_pct: 60.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [90, 150]
+      target_barrier:
+        max_otr: 2.0
+      recommended_packaging: "Foil laminate pouch with one-way degassing valve"
+    source: "IIP Coffee Packaging Manual & Specialty Coffee Association"
+
+  - case_id: "PRO-BIS-01"
+    commodity: "biscuits"
+    state: "baked_sweet"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 80.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [120, 180]
+      target_barrier:
+        max_wvtr: 2.0
+      recommended_packaging: "BOPP / Metallized BOPP flow-wrap"
+    source: "Labuza (1984) Critical Moisture Content in Biscuits"
+
+  - case_id: "PRO-ATT-01"
+    commodity: "wheat_flour"
+    state: "whole_milled"
+    environment:
+      temperature_c: 28.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [90, 120]
+      target_barrier:
+        max_wvtr: 15.0
+      recommended_packaging: "Woven HDPE/PP bag with LDPE inner liner"
+    source: "IS 14887: Woven Sacks for Packaging of Flour"
+
+  - case_id: "PRO-RIC-01"
+    commodity: "rice"
+    state: "milled_white_basmati"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [240, 365]
+      target_barrier:
+        max_wvtr: 20.0
+      recommended_packaging: "Woven PP sack or multi-wall paper pouch"
+    source: "APEDA Export Packaging Protocols for Basmati Rice"
+
+  - case_id: "PRO-PUL-01"
+    commodity: "moong_dal"
+    state: "split_dehusked"
+    environment:
+      temperature_c: 28.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [180, 270]
+      target_barrier:
+        max_wvtr: 10.0
+      recommended_packaging: "Coextruded LDPE/LLDPE pouch"
+    source: "IIP Pulses and Foodgrains Packaging Compendium"
+
+  - case_id: "PRO-JAG-01"
+    commodity: "jaggery"
+    state: "solid_molded_block"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 60.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_gain"
+      shelf_life_days_range: [60, 90]
+      target_barrier:
+        max_wvtr: 3.0
+      recommended_packaging: "BOPP shrink wrap with moisture barrier"
+    source: "ICAR-Indian Institute of Sugarcane Research (IISR) Lucknow"
+
+  - case_id: "PRO-RAI-01"
+    commodity: "raisins"
+    state: "sun_dried"
+    environment:
+      temperature_c: 20.0
+      relative_humidity_pct: 55.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "moisture_loss"
+      shelf_life_days_range: [180, 270]
+      target_barrier:
+        max_wvtr: 5.0
+      recommended_packaging: "Multi-layer barrier pouch"
+    source: "IIP Dried Fruits and Dehydrated Produce Standards"
+
+  - case_id: "PRO-FIS-01"
+    commodity: "fish_tuna"
+    state: "fresh_fillet"
+    environment:
+      temperature_c: 2.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [5, 7]
+      target_barrier:
+        max_otr: 20.0
+      recommended_packaging: "High-oxygen MAP barrier tray (60% O2, 40% CO2)"
+    source: "US FDA Fish and Fishery Products Hazards and Controls Guidance"
+
+  - case_id: "PRO-FIS-02"
+    commodity: "fish_tuna"
+    state: "fresh_fillet"
+    environment:
+      temperature_c: 15.0
+      relative_humidity_pct: 85.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_histamine"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: Scombroid fish above 5°C presents toxic histamine hazard."
+    source: "FSSAI Safety Rules 2018 / FDA Compliance Program 7303.842"
+
+  - case_id: "PRO-PCK-01"
+    commodity: "mango_pickle"
+    state: "oil_cured_spicy"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 70.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "oxidation"
+      shelf_life_days_range: [180, 365]
+      target_barrier:
+        max_otr: 25.0
+      recommended_packaging: "Glass jar or PET / EVOH / PE retort stand-up pouch"
+    source: "FSSAI Standards for Pickles and Preserves"
+
+  - case_id: "ADV-GAR-OIL"
+    commodity: "garlic_in_oil"
+    state: "low_acid_room_temp"
+    environment:
+      temperature_c: 25.0
+      relative_humidity_pct: 65.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_botulinum"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: Low-acid vegetable submerged in oil at ambient (C. botulinum hazard)."
+    source: "FDA Consumer Advisory / Blueprint Section 8.1 Adversarial Case"
+
+  - case_id: "PRO-JCK-01"
+    commodity: "jackfruit_bulbs"
+    state: "fresh_cut"
+    environment:
+      temperature_c: 4.0
+      relative_humidity_pct: 90.0
+    expected_outcome:
+      viable: true
+      limiting_mechanism: "microbial"
+      shelf_life_days_range: [6, 9]
+      target_barrier:
+        max_otr: 1500.0
+      recommended_packaging: "Perforated LDPE with anti-fog in chill chain"
+    source: "IIP Minimally Processed Tropical Fruits Report"
+
+  - case_id: "PRO-COC-01"
+    commodity: "cut_coconut"
+    state: "fresh_cut_ambient"
+    environment:
+      temperature_c: 30.0
+      relative_humidity_pct: 80.0
+    expected_outcome:
+      viable: false
+      limiting_mechanism: "safety_block_fresh_cut"
+      shelf_life_days_range: [0, 0]
+      target_barrier: null
+      recommended_packaging: "REFUSAL: Fresh cut high-moisture kernel at 30°C spoils within hours."
+    source: "FSSAI Fresh Cut Produce Guidelines (2018)"

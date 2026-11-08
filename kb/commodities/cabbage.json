@@ -1,0 +1,65 @@
+{
+  "commodity_id": "veg.cabbage.brassica_oleracea_capitata",
+  "names": {
+    "en": ["cabbage"],
+    "hi": ["पत्ता गोभी", "patta gobhi", "band gobhi"],
+    "mr": ["कोबी", "kobi"],
+    "ta": ["முட்டைக்கோஸ்", "muttaikose"],
+    "te": ["క్యాబేజీ", "cabbage"],
+    "kn": ["ಎಲೆಕೋಸು", "elekosu"],
+    "gu": ["કોબીજ", "kobij"],
+    "pa": ["ਬੰਦ ਗੋਭੀ", "band gobhi"],
+    "bn": ["বাঁধাকপি", "bandhakopi"]
+  },
+  "group": "leafy_head_vegetable",
+  "class": "moderate_respiration_long_storage",
+  "source_id": "USDA-AH66",
+  "physchem": {
+    "moisture_pct": {"v": 91.85, "range": [90.88, 92.82], "src": "IFCT-2017", "conf": 0.95, "note": "IFCT C015 Cabbage, green 91.85+/-0.97"},
+    "water_activity": {"v": 0.99, "range": [0.99, 0.996], "src": "CHIRIFE-1982", "conf": 0.80, "note": "From highest freezing point -0.9 C (AH-66) via ln aw = -0.00969*dTf (Chirife & Fontan 1982) = 0.991"},
+    "fat_pct": {"v": 0.12, "range": [0.11, 0.13], "src": "IFCT-2017", "conf": 0.95, "note": "IFCT C015 0.12+/-0.01"},
+    "pH": {"v": 5.8, "range": [5.50, 6.75], "src": "FDA-pH-db", "conf": 0.90, "note": "FDA 'Cabbage' 5.50-6.75; green 5.60-6.00"}
+  },
+  "respiration": {
+    "model": "arrhenius",
+    "Ea_kJ_mol": 63.4,
+    "ref": {"T_C": 5.0, "rCO2_mg_kg_h": 10.5, "range": [9.0, 12.0]},
+    "src": "USDA-AH66",
+    "conf": 0.88,
+    "note": "AH-66 chapter: 4-6 (0 C), 9-12 (4-5 C), 17-19 (10 C), 20-32 (15-16 C), 28-49 (20-21 C), 49-63 (25-27 C). Ea fitted by Arrhenius to midpoints"
+  },
+  "storage_optimum": {
+    "T_C": [0.0, 0.0],
+    "RH_pct": [98.0, 100.0],
+    "life_days": [21.0, 180.0],
+    "chilling_sensitive_below_C": null,
+    "src": "CANTWELL-2001",
+    "note": "0 C, 98-100% RH (AH-66). Storage life: early crop 3-6 weeks, late crop 5-6 months (Cantwell 2001 UC Davis table, after Hardenburg et al. 1986). Indian fresh-market cabbage is closer to the early-crop end"
+  },
+  "ethylene": {
+    "production": "very_low",
+    "sensitivity": "high",
+    "note": "<0.1 uL/kg.h at 20 C; 1 uL/L ethylene accelerates leaf yellowing, wilting and abscission. Not chilling sensitive; freezes at about -0.9 C"
+  },
+  "failure_modes": [
+    "grey_mold_botrytis",
+    "alternaria_leaf_spot",
+    "wilting_weight_loss",
+    "leaf_yellowing_ethylene",
+    "low_o2_high_co2_injury"
+  ],
+  "light_sensitive": false,
+  "light_note": null,
+  "state_modifiers": {
+    "cut": {
+      "respiration_x": [2.0, 4.0],
+      "aw_delta": 0.01,
+      "microbial_risk": "high",
+      "new_failure": "cut_edge_browning_and_microbial_decay",
+      "max_ambient_hours": 4.0,
+      "src": "FDA-FOOD-CODE-2022",
+      "note": "respiration_x from AH-66 shredded-cabbage rates (rough/fine cut 22-40 at 5 C, 42-57 at 10 C) vs whole head (9-12, 17-19); 4 h = FDA Food Code 3-501.19 (cut leafy greens incl. cabbage are TCS food)"
+    },
+    "bruised": {"respiration_x": [1.3, 2.0], "ethylene_x": [2.0, 4.0], "new_failure": "wound_decay"}
+  }
+}

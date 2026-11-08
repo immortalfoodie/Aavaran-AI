@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Specification · {{ result.result_id }}</title>
+    <style>
+        /* Neo-brutalist A4 Professional Packaging Specification Layout */
+        @page {
+            size: A4 portrait;
+            margin: 8mm;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #0B0B0B;
+            background: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            font-size: 8.5pt;
+            line-height: 1.25;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2.5px solid #0B0B0B;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        .brand-badge {
+            background: #0B0B0B;
+            color: #FFFDF2;
+            font-weight: 900;
+            font-size: 13pt;
+            padding: 3px 8px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .title {
+            font-size: 18pt;
+            font-weight: 900;
+            margin: 4px 0 2px 0;
+            text-transform: uppercase;
+        }
+        .sub {
+            font-size: 9pt;
+            color: #444;
+        }
+        .meta-pill {
+            border: 2px solid #0B0B0B;
+            padding: 4px 8px;
+            font-weight: 700;
+            font-size: 8.5pt;
+            text-align: right;
+            background: #FAF7E8;
+        }
+        .section-header {
+            font-size: 11pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #0B0B0B;
+            padding-bottom: 3px;
+            margin: 12px 0 6px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .grid-3 {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .stat-card {
+            flex: 1;
+            border: 2px solid #0B0B0B;
+            padding: 6px 10px;
+            background: #FFFFFF;
+        }
+        .stat-card.accent {
+            background: #EDFCD4;
+        }
+        .stat-lbl {
+            font-size: 7.5pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 2px;
+        }
+        .stat-val {
+            font-size: 13pt;
+            font-weight: 900;
+            color: #0B0B0B;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 8.5pt;
+        }
+        th, td {
+            border: 1.5px solid #0B0B0B;
+            padding: 5px 8px;
+            text-align: left;
+        }
+        th {
+            background: #FAF7E8;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .annexe-box {
+            border: 2px solid #0B0B0B;
+            background: #F4FBF9;
+            padding: 8px 10px;
+            margin-top: 8px;
+        }
+        .annexe-title {
+            font-size: 10pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: #084C38;
+            border-bottom: 1.5px solid #084C38;
+            padding-bottom: 3px;
+        }
+        .compliance-grid {
+            display: flex;
+            gap: 8px;
+        }
+        .comp-col {
+            flex: 1;
+            font-size: 8pt;
+        }
+        .comp-tag {
+            display: inline-block;
+            padding: 1px 4px;
+            font-weight: 800;
+            font-size: 7pt;
+            border: 1px solid #0B0B0B;
+            background: #C9FF3D;
+            margin-bottom: 2px;
+        }
+        .qr-strip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid #0B0B0B;
+            padding: 6px 10px;
+            margin-top: 10px;
+            background: #FFFFFF;
+        }
+        .qr-img {
+            width: 54px;
+            height: 54px;
+        }
+        .footer {
+            margin-top: 10px;
+            border-top: 1.5px solid #0B0B0B;
+            padding-top: 5px;
+            font-size: 6.5pt;
+            color: #333333;
+            line-height: 1.25;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header -->
+    <div class="header-bar">
+        <div>
+            <span class="brand-badge">AAVARAN AI SPECIFICATION SHEET</span>
+            <h1 class="title">{{ commodity_name }} · COMMERCIAL RFQ SPEC</h1>
+            <div class="sub">
+                Target Market: <strong>India (FSSAI / BIS / PWM-EPR)</strong> &nbsp;|&nbsp; 
+                Commodity Class: <strong>{{ commodity_class }}</strong>
+            </div>
+        </div>
+        <div class="meta-pill">
+            Result ID: <code>{{ result.result_id }}</code><br>
+            Verdict: <strong>{{ result.verdict }}</strong><br>
+            Safety Status: <strong>{{ safety_status }}</strong>
+        </div>
+    </div>
+
+    {% if brand_name or converter_name %}
+    <div style="display: flex; gap: 8px; margin-bottom: 10px; border: 2px solid #0B0B0B; background: #FAF7E8; padding: 6px 10px; font-size: 8pt;">
+        <div style="flex: 1;"><strong>BUYER / BRAND:</strong> {{ brand_name or 'Aavaran AI Buyer' }}</div>
+        <div style="flex: 1;"><strong>TARGET CONVERTER:</strong> {{ converter_name or 'Authorized Converter' }}</div>
+        <div style="flex: 1;"><strong>TARGET VOLUME:</strong> {{ order_quantity_display or 'Commercial Run' }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Executive Key Numbers -->
+    <div class="grid-3">
+        <div class="stat-card accent">
+            <div class="stat-lbl">Target Shelf Life (P50)</div>
+            <div class="stat-val">{{ shelf_life_p50 }} DAYS</div>
+            <div style="font-size: 7pt; color:#444;">Range: {{ shelf_life_p10 }} to {{ shelf_life_p90 }} d</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-lbl">Primary Limiting Mechanism</div>
+            <div class="stat-val" style="font-size: 11pt;">{{ limiting_mechanism }}</div>
+            <div style="font-size: 7pt; color:#444;">Safety Factor: {{ safety_factor }}× applied</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-lbl">Storage Environment</div>
+            <div class="stat-val" style="font-size: 11pt;">{{ temp_val }} / {{ rh_val }}</div>
+            <div style="font-size: 7pt; color:#444;">Regime: {{ storage_regime }}</div>
+        </div>
+    </div>
+
+    <!-- Section 1: Derived Barrier Targets -->
+    <div class="section-header">
+        <span>1. Physical Barrier & Mechanical Requirements</span>
+        <span style="font-size: 8pt; font-weight: normal;">ASTM F1249 / ASTM D3985</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Target Specification</th>
+                <th>Standard</th>
+                <th>Driver / Physics Mechanism</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Water Vapor Transmission (WVTR)</strong></td>
+                <td>{{ target_wvtr }} g/m²·day</td>
+                <td>ASTM F1249 (38°C, 90% RH)</td>
+                <td>Desiccation / crispness loss prevention</td>
+            </tr>
+            <tr>
+                <td><strong>Oxygen Transmission Rate (OTR)</strong></td>
+                <td>{{ target_otr }} cc/m²·day</td>
+                <td>ASTM D3985 (23°C, 0% RH)</td>
+                <td>Oxidative rancidity & respiration control</td>
+            </tr>
+            <tr>
+                <td><strong>Seal Initiation Temp (SIT)</strong></td>
+                <td>{{ target_sit }} °C</td>
+                <td>ASTM F88 / F2029</td>
+                <td>High-speed FFS seal integrity</td>
+            </tr>
+            <tr>
+                <td><strong>Tensile & Puncture Resistance</strong></td>
+                <td>{{ target_puncture }}</td>
+                <td>ASTM D882 / F1306</td>
+                <td>Transit vibration & puncture protection</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Section 2: Candidate Packaging Structures -->
+    <div class="section-header">
+        <span>2. Recommended Packaging Structures</span>
+        <span style="font-size: 8pt; font-weight: normal;">Ranked by Shelf Life / ₹ Optimization</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Structure & Layer Stack</th>
+                <th>Gauge</th>
+                <th>EPR Category</th>
+                <th>Est. Cost/Pack</th>
+                <th>Suitability & Processing Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cand in candidate_rows %}
+            <tr>
+                <td><strong>{{ loop.index }}</strong></td>
+                <td><strong>{{ cand.name }}</strong><br><span style="font-size: 7.5pt; color:#555;">{{ cand.layer_stack }}</span></td>
+                <td>{{ cand.thickness }}</td>
+                <td><span class="comp-tag">{{ cand.epr_category }}</span></td>
+                <td><strong>{{ cand.cost_per_pack }}</strong></td>
+                <td style="font-size: 7.5pt;">{{ cand.notes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Section 3: Official Compliance Annexe -->
+    <div class="annexe-box">
+        <div class="annexe-title">📋 STATUTORY COMPLIANCE ANNEXE (FSSAI / PWM / BIS CONFORMITY)</div>
+        <div class="compliance-grid">
+            <div class="comp-col">
+                <strong>1. Food Safety Regulations, 2018 (FSSAI)</strong><br>
+                • Food-Grade Resin Conformity: <strong>VERIFIED</strong> per IS 9845.<br>
+                • Printing Ink Migration: Conformity with IS 15495 (non-toluene, non-benzophenone inks).<br>
+                • Heavy Metal Limits: Pb &lt; 100 ppm, Cd &lt; 100 ppm, Hg &lt; 100 ppm per Schedule I.
+            </div>
+            <div class="comp-col">
+                <strong>2. Plastic Waste Management (PWM) Rules 2016/2024</strong><br>
+                • Thickness Mandate: Compliant with &ge; 50 µm / mono-material mandate.<br>
+                • EPR Obligation: Mandatory producer registration on CPCB Central Portal.<br>
+                • Recycled Content Mandate: Target 10–20% PCR in non-food secondary layer per 2025 roadmap.
+            </div>
+            <div class="comp-col">
+                <strong>3. Lab Test Mandate & Verification</strong><br>
+                • Overall Migration Test: 3% Acetic Acid & 10% Ethanol simulant testing required.<br>
+                • NABL Lab Referral: Certificate of Analysis (CoA) must be archived for 3 years by FBO.<br>
+                • Labelling: Mandatory declaration of plastic category recycling logo.
+            </div>
+        </div>
+    </div>
+
+    <!-- QR & Traceability Strip -->
+    <div class="qr-strip">
+        {% if qr_data_uri %}
+        <img class="qr-img" src="{{ qr_data_uri }}" alt="Verification QR">
+        {% endif %}
+        <div style="font-size: 8pt; flex: 1;">
+            <strong>Tamper-Evident Batch Provenance Link:</strong><br>
+            Physical packs stamped with this batch resolution QR code resolve to <code>/t/{{ batch_code or result.result_id }}</code>.
+            Includes append-only SHA-256 hash chaining and CPCB / FSSAI traceability readiness.
+        </div>
+    </div>
+
+    {% if is_rfq %}
+    <div style="display: flex; gap: 12px; margin-top: 8px; margin-bottom: 8px;">
+        <div style="flex: 1; border: 1.5px solid #0B0B0B; padding: 6px 8px; font-size: 7.5pt; background: #FFFFFF;">
+            <strong>AUTHORIZED BUYER SIGN-OFF:</strong><br><br>
+            Name / Title: ___________________________<br>
+            Signature & Date: ________________________
+        </div>
+        <div style="flex: 1; border: 1.5px solid #0B0B0B; padding: 6px 8px; font-size: 7.5pt; background: #FFFFFF;">
+            <strong>CONVERTER ACKNOWLEDGEMENT & SEAL:</strong><br><br>
+            Authorized Representative: ________________<br>
+            Seal & Date: ____________________________
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Universal Statutory Footer -->
+    <div class="footer">
+        Aavaran AI Engine v{{ engine_version }} · KB v{{ kb_version }} · Ruleset v{{ ruleset_version }} · Generated at {{ generation_timestamp }} UTC<br>
+        <strong>MANDATORY STATUTORY COMPLIANCE DISCLAIMER:</strong> Aavaran AI is an AI scientific decision-support tool. It does not replace formal laboratory validation studies, accelerated shelf-life testing, overall and specific migration testing per IS 9845 / EN 1186, or a NABL conformity certificate. Under the Food Safety and Standards Act, 2006, the Plastic Waste Management Rules, 2016 (as amended), and international food law, the legal responsibility for food safety, regulatory compliance, and packaging suitability rests strictly with the Food Business Operator (FBO).
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "commodity_id": "cereal.wheat_atta.triticum_aestivum",
+  "names": {
+    "en": ["wheat flour", "atta", "whole wheat flour"],
+    "hi": ["आटा", "atta", "गेहूं का आटा"],
+    "mr": ["कणिक", "kanik", "गव्हाचे पीठ"]
+  },
+  "group": "cereal_flour",
+  "class": "low_moisture_whole_grain_flour",
+  "source_id": "IFCT-2017",
+  "physchem": {
+    "moisture_pct": {"v": 11.10, "range": [10.75, 11.45], "src": "IFCT-2017", "conf": 0.95},
+    "water_activity": {"v": 0.63, "range": [0.61, 0.66], "src": "AHMED-2018", "conf": 0.75},
+    "fat_pct": {"v": 1.53, "range": [1.41, 1.65], "src": "IFCT-2017", "conf": 0.95}
+  },
+  "storage_optimum": {
+    "life_days": [90.0, 270.0],
+    "chilling_sensitive_below_C": null,
+    "src": "DOBLADO-2012"
+  },
+  "ethylene": {
+    "production": "none",
+    "sensitivity": "none",
+    "note": "Milled non-living cereal product; no ethylene activity"
+  },
+  "failure_modes": [
+    "lipase_hydrolytic_rancidity_free_fatty_acid_rise",
+    "lipoxygenase_oxidative_off_flavour",
+    "moisture_gain_above_fssai_14pct_mould_risk",
+    "insect_infestation_stored_product_pests"
+  ],
+  "light_sensitive": false,
+  "light_note": "No source identifies light as a primary failure driver for atta; shelf life is governed by endogenous lipase/lipoxygenase activity on bran/germ lipids (DOBLADO-2012) and by moisture/insects.",
+  "state_modifiers": {}
+}

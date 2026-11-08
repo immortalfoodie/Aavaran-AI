@@ -1,0 +1,452 @@
+[
+  {
+    "id": "case_01_en_potato_cold_storage",
+    "language": "en",
+    "input_text": "fresh whole potatoes 10 kg going to Delhi cold storage",
+    "expected": {
+      "commodity_hint": "potato",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "whole",
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "delhi cold storage",
+      "storage_hint": "cold storage",
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_02_en_tomato_truck_mumbai",
+    "language": "en",
+    "input_text": "sliced tomatoes 5 kg by truck to Mumbai market",
+    "expected": {
+      "commodity_hint": "tomato",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": "sliced",
+      "hours_since": null,
+      "quantity": "5 kg",
+      "destination": "mumbai market truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_03_en_green_chilli_ambient",
+    "language": "en",
+    "input_text": "green chilli 2 kg ambient pack for 5 days shelf life",
+    "expected": {
+      "commodity_hint": "green chilli",
+      "resolved_commodity_id": "veg.green_chilli.capsicum_annuum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "2 kg",
+      "destination": null,
+      "storage_hint": "ambient pack",
+      "target_days": 5.0
+    }
+  },
+  {
+    "id": "case_04_hi_potato_cut_devanagari",
+    "language": "hi",
+    "input_text": "आलू काटा हुआ दो दिन पहले 5 किलो मंडी भेजना है",
+    "expected": {
+      "commodity_hint": "आलू",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 किलो",
+      "destination": "mandi",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_05_hi_potato_cut_transliterated",
+    "language": "hi",
+    "input_text": "aloo kaata hua do din pehle 5 kg truck se bhejna hai",
+    "expected": {
+      "commodity_hint": "aloo",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_06_hi_tomato_target_days",
+    "language": "hi",
+    "input_text": "tamatar 10 kg mandi bhejna hai 3 din me chalna chahiye",
+    "expected": {
+      "commodity_hint": "tamatar",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "mandi",
+      "storage_hint": null,
+      "target_days": 3.0
+    }
+  },
+  {
+    "id": "case_07_hi_onion_dried_devanagari",
+    "language": "hi",
+    "input_text": "प्याज 50 बोरी नासिक मंडी भेजना है सूखा",
+    "expected": {
+      "commodity_hint": "प्याज",
+      "resolved_commodity_id": "veg.onion.allium_cepa",
+      "state": "dried",
+      "hours_since": null,
+      "quantity": "50 बोरी",
+      "destination": "nashik mandi",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_08_mr_potato_cut_devanagari",
+    "language": "mr",
+    "input_text": "बटाटा कापलेला 2 दिवस आधी 10 किलो पुणे बाजारात पाठवायचा आहे",
+    "expected": {
+      "commodity_hint": "बटाटा",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "10 किलो",
+      "destination": "pune bazaar",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_09_mr_potato_cut_transliterated",
+    "language": "mr",
+    "input_text": "batata kaplela 2 divas aadhi 10 kg pune market la pathvaycha",
+    "expected": {
+      "commodity_hint": "batata",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "10 kg",
+      "destination": "pune market",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_10_mr_onion_dried_devanagari",
+    "language": "mr",
+    "input_text": "कांदा 50 गोणी नाशिक मार्केटला पाठवायचा आहे वाळलेला",
+    "expected": {
+      "commodity_hint": "कांदा",
+      "resolved_commodity_id": "veg.onion.allium_cepa",
+      "state": "dried",
+      "hours_since": null,
+      "quantity": null,
+      "destination": "nashik market",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_11_mr_onion_transliterated",
+    "language": "mr",
+    "input_text": "kanda sukha 20 bori mumbai market pathvaycha",
+    "expected": {
+      "commodity_hint": "kanda",
+      "resolved_commodity_id": "veg.onion.allium_cepa",
+      "state": "dried",
+      "hours_since": null,
+      "quantity": "20 bori",
+      "destination": "mumbai market",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_12_ta_potato_script",
+    "language": "ta",
+    "input_text": "உருளைக்கிழங்கு நறுக்கிய 2 நாட்கள் முன்பு 5 கிலோ சென்னைக்கு அனுப்ப வேண்டும்",
+    "expected": {
+      "commodity_hint": "உருளைக்கிழங்கு",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 கிலோ",
+      "destination": "chennai",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_13_ta_potato_transliterated",
+    "language": "ta",
+    "input_text": "urulaikizhangu vettiya 2 naatkal munbu 5 kg chennaiku anuppa vendum",
+    "expected": {
+      "commodity_hint": "urulaikizhangu",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "chennai",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_14_ta_tomato_shelf_life",
+    "language": "ta",
+    "input_text": "thakkali 10 kg truck la bangalore anuppanum 5 naal shelf life venum",
+    "expected": {
+      "commodity_hint": "thakkali",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "bangalore truck",
+      "storage_hint": null,
+      "target_days": 5.0
+    }
+  },
+  {
+    "id": "case_15_te_tomato_script",
+    "language": "te",
+    "input_text": "టమోటా 10 కిలోలు ట్రక్కులో హైదరాబాద్ పంపాలి 5 రోజులు నిల్వ ఉండాలి",
+    "expected": {
+      "commodity_hint": "టమోటా",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 కిలోలు",
+      "destination": "hyderabad truck",
+      "storage_hint": null,
+      "target_days": 5.0
+    }
+  },
+  {
+    "id": "case_16_te_tomato_transliterated",
+    "language": "te",
+    "input_text": "tamata 10 kg truck lo hyderabad pampali 5 rojulu nilva undali",
+    "expected": {
+      "commodity_hint": "tamata",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "hyderabad truck",
+      "storage_hint": null,
+      "target_days": 5.0
+    }
+  },
+  {
+    "id": "case_17_te_potato_cut_transliterated",
+    "language": "te",
+    "input_text": "bangaladumpa kosina 2 rojula kritham 5 kg vijayawada pampali",
+    "expected": {
+      "commodity_hint": "bangaladumpa",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "vijayawada",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_18_bn_potato_script",
+    "language": "bn",
+    "input_text": "আলু কাটা দুই দিন আগে 5 কেজি কোল্ড স্টোরেজে পাঠাতে হবে",
+    "expected": {
+      "commodity_hint": "আলু",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 কেজি",
+      "destination": "cold storage",
+      "storage_hint": "cold storage",
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_19_bn_potato_transliterated",
+    "language": "bn",
+    "input_text": "alu kata 2 din aage 5 kg cold storage pathate hobe",
+    "expected": {
+      "commodity_hint": "alu",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "cold storage",
+      "storage_hint": "cold storage",
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_20_bn_tomato_truck",
+    "language": "bn",
+    "input_text": "tometo 10 kg truck e kore kolkata pathate hobe",
+    "expected": {
+      "commodity_hint": "tometo",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "kolkata truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_21_kn_tomato_script",
+    "language": "kn",
+    "input_text": "ಟೊಮೆಟೊ 10 ಕೆಜಿ ಟ್ರಕ್ ಮೂಲಕ ಬೆಂಗಳೂರು ಮಾರುಕಟ್ಟೆಗೆ ಕಳುಹಿಸಬೇಕು",
+    "expected": {
+      "commodity_hint": "ಟೊಮೆಟೊ",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 ಕೆಜಿ",
+      "destination": "bangalore market truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_22_kn_tomato_transliterated",
+    "language": "kn",
+    "input_text": "tomato 10 kg truck moolaka bangalore market ge kaluhisabeku",
+    "expected": {
+      "commodity_hint": "tomato",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "bangalore market truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_23_kn_potato_cut",
+    "language": "kn",
+    "input_text": "aalugadde kattarisida 2 dina munche 5 kg mysore ge kalsabeku",
+    "expected": {
+      "commodity_hint": "aalugadde",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "mysore",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_24_gu_potato_script",
+    "language": "gu",
+    "input_text": "બટાકા કાપેલા 2 દિવસ પહેલા 10 કિલો અમદાવાદ મોકલવાના છે",
+    "expected": {
+      "commodity_hint": "બટાકા",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "10 કિલો",
+      "destination": "ahmedabad",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_25_gu_potato_transliterated",
+    "language": "gu",
+    "input_text": "bataka kapela 2 divas pehla 10 kg ahmedabad moklavana chhe",
+    "expected": {
+      "commodity_hint": "bataka",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "10 kg",
+      "destination": "ahmedabad",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_26_gu_tomato_truck",
+    "language": "gu",
+    "input_text": "tameta 5 kg surat market truck thi moklavana chhe",
+    "expected": {
+      "commodity_hint": "tameta",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "5 kg",
+      "destination": "surat market truck",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_27_pa_potato_script",
+    "language": "pa",
+    "input_text": "ਆਲੂ ਕੱਟਿਆ ਹੋਇਆ 2 ਦਿਨ ਪਹਿਲਾਂ 5 ਕਿਲੋ ਮੰਡੀ ਭੇਜਣਾ ਹੈ",
+    "expected": {
+      "commodity_hint": "ਆਲੂ",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 ਕਿਲੋ",
+      "destination": "mandi",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_28_pa_potato_transliterated",
+    "language": "pa",
+    "input_text": "aloo katya 2 din pehla 5 kg mandi bhejna hai",
+    "expected": {
+      "commodity_hint": "aloo",
+      "resolved_commodity_id": "veg.potato.solanum_tuberosum",
+      "state": "cut",
+      "hours_since": 48.0,
+      "quantity": "5 kg",
+      "destination": "mandi",
+      "storage_hint": null,
+      "target_days": null
+    }
+  },
+  {
+    "id": "case_29_pa_tomato_transliterated",
+    "language": "pa",
+    "input_text": "tamatar 10 kg truck raahi delhi bhejna hai 7 din chalna chahida",
+    "expected": {
+      "commodity_hint": "tamatar",
+      "resolved_commodity_id": "veg.tomato.solanum_lycopersicum",
+      "state": null,
+      "hours_since": null,
+      "quantity": "10 kg",
+      "destination": "delhi truck",
+      "storage_hint": null,
+      "target_days": 7.0
+    }
+  },
+  {
+    "id": "case_30_mixed_paneer_ambient",
+    "language": "mixed",
+    "input_text": "paneer fresh 2 kg ambient pack required for 10 days",
+    "expected": {
+      "commodity_hint": "paneer",
+      "resolved_commodity_id": "dairy.paneer.cottage_cheese",
+      "state": "fresh",
+      "hours_since": null,
+      "quantity": "2 kg",
+      "destination": null,
+      "storage_hint": "ambient pack",
+      "target_days": 10.0
+    }
+  }
+]

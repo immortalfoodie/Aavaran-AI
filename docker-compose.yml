@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: ankane/pgvector:v0.5.1
+    # pgvector provides a postgres 16 based image when using certain tags,
+    # ankane/pgvector:v0.5.1 is based on postgres 16 (or we can use pgvector/pgvector:pg16)
+    # Let's use pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: aavaran
+      POSTGRES_PASSWORD: aavaran_password
+      POSTGRES_DB: aavaran_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

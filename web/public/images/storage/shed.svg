@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <rect width="120" height="120" fill="#FFFDF2"/>
+  <!-- Shed roof -->
+  <polygon points="10,45 60,18 110,45" fill="#FFE500" stroke="#0B0B0B" stroke-width="6"/>
+  <!-- Roof corrugated lines -->
+  <line x1="35" y1="32" x2="35" y2="45" stroke="#0B0B0B" stroke-width="4"/>
+  <line x1="60" y1="18" x2="60" y2="45" stroke="#0B0B0B" stroke-width="4"/>
+  <line x1="85" y1="32" x2="85" y2="45" stroke="#0B0B0B" stroke-width="4"/>
+  <!-- Shed pillars -->
+  <rect x="22" y="45" width="8" height="55" fill="#0B0B0B"/>
+  <rect x="90" y="45" width="8" height="55" fill="#0B0B0B"/>
+  <!-- Ground floor line -->
+  <line x1="10" y1="100" x2="110" y2="100" stroke="#0B0B0B" stroke-width="6"/>
+  <!-- Sun shining outside shed -->
+  <circle cx="95" cy="22" r="10" fill="#FF6B52" stroke="#0B0B0B" stroke-width="3"/>
+</svg>

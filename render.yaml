@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: aavaran-ai-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: CORS_ORIGINS
+        value: "*"
+      # Gnani AI voice (Prisma STT + Timbre TTS). Set the secret in the Render dashboard.
+      - key: GNANI_API_KEY
+        sync: false
+      - key: GNANI_STT_MODEL
+        value: prisma-v3.0
+      - key: GNANI_TTS_MODEL
+        value: timbre-v3.0
+      # Agmarknet mandi prices (data.gov.in). Set the secret in the Render dashboard.
+      - key: DATA_GOV_IN_API_KEY
+        sync: false
