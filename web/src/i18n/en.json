@@ -30,7 +30,11 @@
     "where_to_buy": "Where to buy in your district?",
     "change_district": "Change District",
     "close": "Close",
-    "schedule_saved": "Follow-up scheduled! We will check back in 4 days."
+    "schedule_saved": "Follow-up scheduled! We will check back in 4 days.",
+    "tap_to_select": "TAP TO SELECT (TAP 1)",
+    "crop_condition_badge": "TAP 2 · CROP CONDITION",
+    "timeline_badge": "☀️ ☽ TIMELINE",
+    "analysing": "ANALYSING…"
   },
   "crops": {
     "potato": "Potato",
@@ -52,20 +56,31 @@
     "whole": "Whole / Intact",
     "cut": "Cut / Sliced",
     "washed": "Washed",
-    "damaged": "Bruised / Damaged"
+    "damaged": "Bruised / Damaged",
+    "whole_sub": "अखंड / साबुत",
+    "cut_sub": "कापलेला / कटा हुआ",
+    "washed_sub": "धुतलेला / धोया हुआ",
+    "damaged_sub": "डागी / दागी"
   },
   "time_strip": {
     "title": "When was it harvested or cut?",
     "today": "Today",
     "one_day": "Yesterday (1 day)",
     "two_days": "2 Days Ago",
-    "three_days_plus": "3+ Days Ago"
+    "three_days_plus": "3+ Days Ago",
+    "today_sub": "ताज़ा / Fresh",
+    "one_day_sub": "१ दिवस / 1 Day",
+    "two_days_sub": "२ दिवस / 2 Days",
+    "three_days_plus_sub": "३+ दिवस / 3+ Days"
   },
   "storage": {
     "title": "Where is it kept? (Optional)",
     "shed": "Open Shed",
     "cold_room": "Cold Room (0–4 °C)",
-    "ice": "On Ice"
+    "ice": "On Ice",
+    "shed_sub": "छप्पर / Ambient",
+    "cold_room_sub": "शीतगृह / 0–4 °C",
+    "ice_sub": "बर्फावर / Ice"
   },
   "result": {
     "recommended_title": "RECOMMENDED PACKAGING",
@@ -74,7 +89,10 @@
     "indicative_price": "Indicative Price",
     "where_to_buy_label": "Where to Buy in",
     "do_not_title": "Do NOT do this",
-    "local_suppliers": "Local APMC Mandi packaging counters and certified suppliers"
+    "local_suppliers": "Local APMC Mandi packaging counters and certified suppliers",
+    "instruction_crate": "Store your {{crop}} in a ventilated crate in a dry shaded place to keep it fresh for {{days}} days.",
+    "instruction_pouch": "Store your {{crop}} in a micro-perforated breathable pouch in a dry shaded place to keep it fresh for {{days}} days.",
+    "instruction_sack": "Store your {{crop}} in a ventilated mesh sack in a dry shaded place to keep it fresh for {{days}} days."
   },
   "instructions": {
     "instruction_perforated_pouch": "Pack in a laser micro-perforated breathable pouch. Do not seal airtight.",
@@ -171,7 +189,11 @@
     "grams": "g",
     "feedback_btn": "Tell us how many days it lasted",
     "feedback_saved": "Thank you — saved.",
-    "hands_free": "Hands-free"
+    "hands_free": "Hands-free",
+    "server_down": "Can't reach the Aavaran server. If it was idle it may be waking up — wait about 30 seconds and tap Retry.",
+    "offline_short": "Server not reachable",
+    "retry": "Retry",
+    "listening": "Listening… speak now"
   },
   "nav": {
     "farmer": "Farmer",

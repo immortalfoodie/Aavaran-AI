@@ -13,12 +13,16 @@ import {
   startSaathi,
   stopAllPlayback,
   useVoiceStatus,
+  getVoiceStatus,
+  type VoiceStatus,
+  uiLangFromSaathi,
   type SaathiLang,
   type SaathiMode,
   type SaathiSlots,
   type SaathiTurn,
 } from './voiceApi'
 import { commodityLabel } from './labels'
+import { setUiLanguage } from '../i18n'
 
 interface ChatLine {
   who: 'user' | 'saathi'
@@ -35,7 +39,10 @@ export interface SaathiPanelProps {
 
 export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onClose, onResult }) => {
   const { t } = useTranslation()
-  const status = useVoiceStatus()
+  const firstStatus = useVoiceStatus()
+  const [retried, setRetried] = useState<VoiceStatus | null>(null)
+  const status = retried ?? firstStatus
+  const unreachable = status !== null && !status.reachable
   const gnani = !!status?.gnani_enabled
 
   const [lang, setLang] = useState<SaathiLang>(initialLang)
@@ -99,7 +106,7 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
         const turn = await startSaathi(mode, l, gnani)
         applyTurn(turn)
       } catch {
-        setError(t('saathi.error'))
+        setError(t('saathi.server_down'))
       } finally {
         setBusy(false)
       }
@@ -109,9 +116,18 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
 
   // Open the session once voice status is known (so we know whether to request Timbre audio).
   useEffect(() => {
-    if (status !== null) begin(lang)
+    if (status !== null && status.reachable) begin(lang)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status === null])
+  }, [status === null, status?.reachable])
+
+  const retryConnection = async () => {
+    setError(null)
+    setBusy(true)
+    const s = await getVoiceStatus()
+    setBusy(false)
+    setRetried(s)
+    if (!s.reachable) setError(t('saathi.server_down'))
+  }
 
   useEffect(() => () => stopAllPlayback(), [])
 
@@ -219,7 +235,7 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
                 🎙 {t('saathi.title')}
               </h2>
               <p className="font-mono text-[11px] font-bold text-ink/80 m-0">
-                {gnani ? t('saathi.powered') : t('saathi.browser_voice')}
+                {unreachable ? t('saathi.offline_short') : gnani ? t('saathi.powered') : t('saathi.browser_voice')}
               </p>
             </div>
             <button
@@ -242,6 +258,8 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
                 const next = e.target.value as SaathiLang
                 if (next === lang) return
                 setLang(next)
+                // Speaking language = screen language: buttons here and the result page follow it.
+                setUiLanguage(uiLangFromSaathi(next))
                 begin(next)
               }}
               className="min-h-[40px] border-3 border-ink bg-paper px-2 font-display text-sm text-ink cursor-pointer"
@@ -278,9 +296,25 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
               {t('saathi.thinking')}
             </div>
           )}
-          {error && (
-            <div className="border-3 border-ink bg-coral px-3 py-2 font-body text-sm" role="alert">
-              {error}
+          {(error || unreachable) && (
+            <div className="border-3 border-ink bg-coral px-3 py-2 font-body text-sm space-y-2" role="alert">
+              <div>{error || t('saathi.server_down')}</div>
+              {unreachable && (
+                <button
+                  type="button"
+                  onClick={retryConnection}
+                  disabled={busy}
+                  className="min-h-[40px] px-3 border-2 border-ink bg-paper font-display text-xs uppercase cursor-pointer disabled:opacity-60"
+                >
+                  ↻ {t('saathi.retry')}
+                </button>
+              )}
+            </div>
+          )}
+          {recording && (
+            <div className="font-mono text-sm font-bold flex items-center gap-2" aria-live="assertive">
+              <span className="inline-block w-3 h-3 rounded-full bg-coral border-2 border-ink animate-pulse" />
+              {t('saathi.listening')}
             </div>
           )}
         </div>
@@ -332,7 +366,7 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
           <button
             type="button"
             onClick={onMic}
-            disabled={busy && !recording}
+            disabled={(busy && !recording) || unreachable}
             className={`w-full min-h-[72px] border-4 border-ink font-display uppercase text-lg sm:text-xl cursor-pointer flex items-center justify-center gap-3 transition-all duration-[80ms] disabled:opacity-60 disabled:cursor-wait ${
               recording
                 ? 'bg-coral shadow-[3px_3px_0_var(--ink)] translate-x-[3px] translate-y-[3px] animate-pulse'
@@ -390,7 +424,7 @@ export const SaathiPanel: React.FC<SaathiPanelProps> = ({ mode, initialLang, onC
             />
             <button
               type="submit"
-              disabled={busy || !typed.trim()}
+              disabled={busy || !typed.trim() || unreachable}
               className="min-h-[48px] px-4 border-3 border-ink bg-cyan font-display uppercase text-sm cursor-pointer disabled:opacity-50"
             >
               {t('saathi.send')}

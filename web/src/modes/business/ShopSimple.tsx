@@ -90,7 +90,7 @@ export const ShopSimple: React.FC<{ voiceTurn?: SaathiTurn | null; onOpenVoice: 
     setLoading(true)
     setError(false)
     try {
-      const locale = i18n.language === 'mr' ? 'mr-IN' : i18n.language === 'en' ? 'en-IN' : 'hi-IN'
+      const locale = `${(i18n.language || 'hi').split('-')[0]}-IN`
       const r = await fetch(getApiUrl('/api/v1/recommend'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

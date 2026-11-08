@@ -22,25 +22,25 @@ export const SunMoonStrip: React.FC<SunMoonStripProps> = ({ value, onChange }) =
       id: 'today',
       labelKey: 'time_strip.today',
       icons: '☀️',
-      subTextKey: 'ताज़ा / Fresh',
+      subTextKey: 'time_strip.today_sub',
     },
     {
       id: 'one_day',
       labelKey: 'time_strip.one_day',
       icons: '🌙',
-      subTextKey: '१ दिवस / 1 Day',
+      subTextKey: 'time_strip.one_day_sub',
     },
     {
       id: 'two_days',
       labelKey: 'time_strip.two_days',
       icons: '☀️ 🌙',
-      subTextKey: '२ दिवस / 2 Days',
+      subTextKey: 'time_strip.two_days_sub',
     },
     {
       id: 'three_days_plus',
       labelKey: 'time_strip.three_days_plus',
       icons: '☀️ 🌙 ☀️',
-      subTextKey: '३+ दिवस / 3+ Days',
+      subTextKey: 'time_strip.three_days_plus_sub',
     },
   ]
 
@@ -51,7 +51,7 @@ export const SunMoonStrip: React.FC<SunMoonStripProps> = ({ value, onChange }) =
           {t('time_strip.title')}
         </label>
         <span className="font-mono text-xs font-bold bg-yellow border-2 border-ink px-2 py-0.5">
-          ☀️ ☽ TIMELINE
+          {t('actions.timeline_badge', '☀️ ☽ TIMELINE')}
         </span>
       </div>
 
@@ -81,7 +81,7 @@ export const SunMoonStrip: React.FC<SunMoonStripProps> = ({ value, onChange }) =
                   {t(opt.labelKey)}
                 </div>
                 <div className="font-mono text-[11px] text-ink/75 font-semibold">
-                  {opt.subTextKey}
+                  {t(opt.subTextKey)}
                 </div>
               </div>
             </button>

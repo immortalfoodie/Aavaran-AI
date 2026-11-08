@@ -139,26 +139,30 @@ export const WhatScreen: React.FC<WhatScreenProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('')
 
   const getDisplayName = (crop: CropInfo): string => {
-    const lang = i18n.language
+    const lang = (i18n.language || 'en').split('-')[0]
     if (lang === 'mr') return crop.marathiName
     if (lang === 'hi') return crop.hindiName
-    return crop.englishName
+    if (lang === 'en') return crop.englishName
+    return t(crop.translationKey, { defaultValue: crop.englishName })
   }
 
   const getSecondaryName = (crop: CropInfo): string => {
-    const lang = i18n.language
+    const lang = (i18n.language || 'en').split('-')[0]
     if (lang === 'mr') return `${crop.hindiName} · ${crop.englishName}`
     if (lang === 'hi') return `${crop.marathiName} · ${crop.englishName}`
-    return `${crop.hindiName} · ${crop.marathiName}`
+    if (lang === 'en') return `${crop.hindiName} · ${crop.marathiName}`
+    return `${crop.englishName} · ${crop.hindiName}`
   }
 
   const filteredCrops = CROPS.filter((c) => {
     if (!searchQuery.trim()) return true
     const q = searchQuery.toLowerCase()
+    const localized = t(c.translationKey, { defaultValue: '' }).toLowerCase()
     return (
       c.englishName.toLowerCase().includes(q) ||
       c.hindiName.includes(q) ||
-      c.marathiName.includes(q)
+      c.marathiName.includes(q) ||
+      localized.includes(q)
     )
   })
 
@@ -215,7 +219,7 @@ export const WhatScreen: React.FC<WhatScreenProps> = ({
             {t('steps.step1')}
           </h2>
           <span className="font-mono text-xs font-bold bg-grey border-2 border-ink px-2 py-0.5">
-            TAP TO SELECT (TAP 1)
+            {t('actions.tap_to_select', 'TAP TO SELECT (TAP 1)')}
           </span>
         </div>
 

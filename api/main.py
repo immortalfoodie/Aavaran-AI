@@ -138,15 +138,26 @@ app = FastAPI(
 )
 
 cors_origins_env = os.environ.get("CORS_ORIGINS", "*")
+
+
+def _clean_origin(value: str) -> str:
+    """Browsers send origins as scheme://host[:port] with no path or trailing slash.
+    Forgive the usual copy-paste mistakes so a stray '/' or quote doesn't block every request."""
+    return value.strip().strip("'\"").rstrip("/")
+
+
 origins = (
     ["*"]
-    if cors_origins_env == "*"
-    else [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()]
+    if cors_origins_env.strip() == "*"
+    else [o for o in (_clean_origin(x) for x in cors_origins_env.split(",")) if o]
 )
+# Optional: also allow e.g. Vercel preview deployments, CORS_ORIGIN_REGEX=https://aavaran-ai-.*\.vercel\.app
+cors_origin_regex = os.environ.get("CORS_ORIGIN_REGEX") or None
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=cors_origin_regex,
     allow_credentials=False if "*" in origins else True,
     allow_methods=["*"],
     allow_headers=["*"],

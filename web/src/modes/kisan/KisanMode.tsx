@@ -81,7 +81,7 @@ export const KisanMode: React.FC<KisanModeProps> = ({ onVoiceBusiness }) => {
 
     const cropKey = (ks.selectedCrop || '').toLowerCase()
     let cropName = 'Crop'
-    for (const k of ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'chilli']) {
+    for (const k of ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'chilli', 'guava', 'cauliflower', 'cabbage', 'grape', 'pomegranate', 'brinjal']) {
       if (cropKey.includes(k)) {
         cropName = t(`crops.${k === 'chilli' ? 'green_chilli' : k}`, { defaultValue: k })
         break
@@ -145,7 +145,7 @@ export const KisanMode: React.FC<KisanModeProps> = ({ onVoiceBusiness }) => {
                   inputPayload.storage === 'cold_room' ? 4.0 : inputPayload.storage === 'ice' ? 2.0 : 30.0,
               },
             },
-            locale: i18n.language === 'mr' ? 'mr-IN' : i18n.language === 'hi' ? 'hi-IN' : 'en-IN',
+            locale: `${(i18n.language || 'en').split('-')[0]}-IN`,
           }),
         })
 

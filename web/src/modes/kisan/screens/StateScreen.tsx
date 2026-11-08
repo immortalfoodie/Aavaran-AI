@@ -48,25 +48,25 @@ export const StateScreen: React.FC<StateScreenProps> = ({
       id: 'whole',
       labelKey: 'states.whole',
       image: '/images/states/whole.svg',
-      captionKey: 'अखंड / साबुत',
+      captionKey: 'states.whole_sub',
     },
     {
       id: 'cut',
       labelKey: 'states.cut',
       image: '/images/states/cut.svg',
-      captionKey: 'कापलेला / कटा हुआ',
+      captionKey: 'states.cut_sub',
     },
     {
       id: 'washed',
       labelKey: 'states.washed',
       image: '/images/states/washed.svg',
-      captionKey: 'धुतलेला / धोया हुआ',
+      captionKey: 'states.washed_sub',
     },
     {
       id: 'damaged',
       labelKey: 'states.damaged',
       image: '/images/states/damaged.svg',
-      captionKey: 'डागी / दागी',
+      captionKey: 'states.damaged_sub',
     },
   ]
 
@@ -75,19 +75,19 @@ export const StateScreen: React.FC<StateScreenProps> = ({
       id: 'shed',
       labelKey: 'storage.shed',
       image: '/images/storage/shed.svg',
-      caption: 'छप्पर / Ambient',
+      caption: 'storage.shed_sub',
     },
     {
       id: 'cold_room',
       labelKey: 'storage.cold_room',
       image: '/images/storage/cold_room.svg',
-      caption: 'शीतगृह / 0–4 °C',
+      caption: 'storage.cold_room_sub',
     },
     {
       id: 'ice',
       labelKey: 'storage.ice',
       image: '/images/storage/ice.svg',
-      caption: 'बर्फावर / Ice',
+      caption: 'storage.ice_sub',
     },
   ]
 
@@ -100,7 +100,7 @@ export const StateScreen: React.FC<StateScreenProps> = ({
             {t('steps.step2')}
           </h2>
           <span className="font-mono text-xs font-bold bg-yellow border-2 border-ink px-2 py-0.5">
-            TAP 2 · CROP CONDITION
+            {t('actions.crop_condition_badge', 'TAP 2 · CROP CONDITION')}
           </span>
         </div>
 
@@ -134,7 +134,7 @@ export const StateScreen: React.FC<StateScreenProps> = ({
                     {t(card.labelKey)}
                   </div>
                   <div className="font-mono text-[11px] text-ink/75 font-semibold mt-0.5">
-                    {card.captionKey}
+                    {t(card.captionKey)}
                   </div>
                 </div>
               </button>
@@ -183,7 +183,7 @@ export const StateScreen: React.FC<StateScreenProps> = ({
                     {t(scard.labelKey)}
                   </div>
                   <div className="font-mono text-[10px] text-ink/70">
-                    {scard.caption}
+                    {t(scard.caption)}
                   </div>
                 </div>
               </button>
@@ -222,7 +222,7 @@ export const StateScreen: React.FC<StateScreenProps> = ({
           `}
         >
           {isLoading ? (
-            <span>⚡ ANALYSING…</span>
+            <span>⚡ {t('actions.analysing', 'ANALYSING…')}</span>
           ) : (
             <>
               <span>✓ {t('actions.see_recommendation')}</span>

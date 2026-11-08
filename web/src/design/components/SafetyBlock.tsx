@@ -88,7 +88,7 @@ export const SafetyBlock: React.FC<SafetyBlockProps> = ({
   // If localName is not explicitly given, translate known crops in non-English locales
   if (!localName && i18n.language !== 'en') {
     const rawId = commObj?.id || result?.commodityId || displayName || ''
-    const cropKeys = ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'green_chilli']
+    const cropKeys = ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'green_chilli', 'guava', 'cauliflower', 'cabbage', 'grape', 'pomegranate', 'brinjal']
     for (const cropKey of cropKeys) {
       if (rawId.toLowerCase().includes(cropKey)) {
         localName = t(`crops.${cropKey}`)

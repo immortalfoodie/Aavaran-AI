@@ -28,6 +28,11 @@ export const SAATHI_LANGS: Array<{ id: SaathiLang; label: string }> = [
   { id: 'bn-IN', label: 'বাংলা' },
 ]
 
+/** Screen language for a Saathi voice language (Hinglish uses the Hindi screens). */
+export function uiLangFromSaathi(lang: SaathiLang): string {
+  return lang === 'hi-en' ? 'hi' : lang.split('-')[0]
+}
+
 export function saathiLangFromI18n(i18nLang: string | undefined): SaathiLang {
   if (i18nLang === 'hi-en') return 'hi-en'
   const base = (i18nLang || 'hi').split('-')[0]
@@ -36,6 +41,8 @@ export function saathiLangFromI18n(i18nLang: string | undefined): SaathiLang {
 }
 
 export interface VoiceStatus {
+  /** false = the Aavaran server could not be reached (offline, asleep, wrong URL or CORS). */
+  reachable: boolean
   gnani_enabled: boolean
   stt_model: string | null
   tts_model: string | null
@@ -113,10 +120,12 @@ let statusPromise: Promise<VoiceStatus> | null = null
 export function getVoiceStatus(): Promise<VoiceStatus> {
   if (!statusPromise) {
     statusPromise = fetch(getApiUrl('/api/v1/voice/status'))
-      .then((r) => parseJson<VoiceStatus>(r))
-      .catch(() => {
+      .then((r) => parseJson<Omit<VoiceStatus, 'reachable'>>(r))
+      .then((s) => ({ ...s, reachable: true }))
+      .catch((err) => {
+        console.warn('[Aavaran] voice status unreachable:', err)
         statusPromise = null // retry next time (backend may be waking up)
-        return { gnani_enabled: false, stt_model: null, tts_model: null, languages: [] }
+        return { reachable: false, gnani_enabled: false, stt_model: null, tts_model: null, languages: [] }
       })
   }
   return statusPromise

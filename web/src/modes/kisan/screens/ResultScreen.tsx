@@ -40,7 +40,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
     if (!resultId || result.isOffline) return
 
     let isCancelled = false
-    const targetLocale = currentLangKey === 'mr' ? 'mr-IN' : currentLangKey === 'hi' ? 'hi-IN' : 'en-IN'
+    const targetLocale = `${currentLangKey}-IN`
 
     // If already fetched and cached for this language, skip polling
     if (explanationsByLocale[currentLangKey]) return
@@ -107,15 +107,27 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
     rawCommName = 'Banana'
   } else if (commodityId.includes('chilli') || rawCommName.toLowerCase().includes('annuum')) {
     rawCommName = 'Green Chilli'
-  } else if (commodityId.includes('spinach') || rawCommName.toLowerCase().includes('oleracea')) {
+  } else if (commodityId.includes('cauliflower') || rawCommName.toLowerCase().includes('botrytis')) {
+    rawCommName = 'Cauliflower'
+  } else if (commodityId.includes('cabbage') || rawCommName.toLowerCase().includes('capitata')) {
+    rawCommName = 'Cabbage'
+  } else if (commodityId.includes('spinach') || rawCommName.toLowerCase().includes('spinacia')) {
     rawCommName = 'Spinach'
   } else if (commodityId.includes('okra') || rawCommName.toLowerCase().includes('esculentus')) {
     rawCommName = 'Okra'
+  } else if (commodityId.includes('guava') || rawCommName.toLowerCase().includes('guajava')) {
+    rawCommName = 'Guava'
+  } else if (commodityId.includes('grape') || rawCommName.toLowerCase().includes('vinifera')) {
+    rawCommName = 'Grapes'
+  } else if (commodityId.includes('pomegranate') || rawCommName.toLowerCase().includes('granatum')) {
+    rawCommName = 'Pomegranate'
+  } else if (commodityId.includes('brinjal') || rawCommName.toLowerCase().includes('melongena')) {
+    rawCommName = 'Brinjal'
   }
 
   let localizedCommName: string | undefined = undefined
   if (currentLangKey !== 'en') {
-    for (const cropKey of ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'green_chilli']) {
+    for (const cropKey of ['potato', 'tomato', 'onion', 'banana', 'mango', 'okra', 'spinach', 'green_chilli', 'guava', 'cauliflower', 'cabbage', 'grape', 'pomegranate', 'brinjal']) {
       if (commodityId.toLowerCase().includes(cropKey) || rawCommName.toLowerCase().includes(cropKey)) {
         localizedCommName = t(`crops.${cropKey}`)
         break
@@ -140,12 +152,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
 
   // Helper to generate verified local instruction sentence per language and package structure
   const getLocalizedKisanInstruction = (
-    lang: string,
+    _lang: string,
     days: number,
     crop: string,
     packageInfo?: typeof pkg
   ) => {
-    const l = (lang || '').toLowerCase().split('-')[0]
     const pType =
       packageInfo?.structureType ||
       (packageInfo?.instructionKey?.includes('crate')
@@ -155,33 +166,26 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
           : 'mesh_sack')
 
     if (pType === 'ventilated_crate') {
-      if (l === 'mr') {
-        return `आपले ${crop} ${days} दिवस चांगले ठेवण्यासाठी हवेशीर छिद्रे असलेल्या क्रेटमध्ये कोरड्या जागी ठेवा.`
-      }
-      if (l === 'hi') {
-        return `अपने ${crop} को ${days} दिन तक सुरक्षित रखने के लिए हवादार छेदों वाले क्रेट में सूखी ठंडी जगह पर रखें।`
-      }
-      return `Store your ${crop} in a ventilated crate in a dry shaded place to keep it fresh for ${days} days.`
+      return t('result.instruction_crate', {
+        crop,
+        days,
+        defaultValue: `Store your ${crop} in a ventilated crate in a dry shaded place to keep it fresh for ${days} days.`,
+      })
     }
 
     if (pType === 'perforated_pouch') {
-      if (l === 'mr') {
-        return `आपले ${crop} ${days} दिवस चांगले ठेवण्यासाठी हवा खेळती राहणाऱ्या बारीक छिद्रांच्या पिशवीत कोरड्या जागी ठेवा.`
-      }
-      if (l === 'hi') {
-        return `अपने ${crop} को ${days} दिन तक सुरक्षित रखने के लिए हवादार सूक्ष्म छिद्रों वाली थैली में सूखी ठंडी जगह पर रखें।`
-      }
-      return `Store your ${crop} in a micro-perforated breathable pouch in a dry shaded place to keep it fresh for ${days} days.`
+      return t('result.instruction_pouch', {
+        crop,
+        days,
+        defaultValue: `Store your ${crop} in a micro-perforated breathable pouch in a dry shaded place to keep it fresh for ${days} days.`,
+      })
     }
 
-    // Default: mesh sack (for potato, onion, root crops)
-    if (l === 'mr') {
-      return `आपले ${crop} ${days} दिवस चांगले ठेवण्यासाठी हवेशीर जाळीदार पोत्यात कोरड्या जागी ठेवा.`
-    }
-    if (l === 'hi') {
-      return `अपने ${crop} को ${days} दिन तक सुरक्षित रखने के लिए हवादार जालीदार बोरी में सूखी ठंडी जगह पर रखें।`
-    }
-    return `Store your ${crop} in a ventilated mesh sack in a dry shaded place to keep it fresh for ${days} days.`
+    return t('result.instruction_sack', {
+      crop,
+      days,
+      defaultValue: `Store your ${crop} in a ventilated mesh sack in a dry shaded place to keep it fresh for ${days} days.`,
+    })
   }
 
   const dynamicInstruction = getLocalizedKisanInstruction(
@@ -191,9 +195,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
     pkg
   )
 
-  const kisanInstruction =
-    explanationsByLocale[currentLangKey] ||
-    dynamicInstruction
+  // Whole days only (floored, matching the day counter and what Saathi speaks): "23.2 दिवस" -> "23 दिवस"
+  const kisanInstruction = (explanationsByLocale[currentLangKey] || dynamicInstruction || '').replace(
+    /(\d+)\.\d+/g,
+    '$1',
+  )
 
   const getDoNotText = (textKey: string) => {
     const rawKey = textKey.startsWith('donot.') ? textKey.replace('donot.', '') : textKey
