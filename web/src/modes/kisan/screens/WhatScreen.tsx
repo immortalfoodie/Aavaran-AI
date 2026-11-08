@@ -81,7 +81,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'fruit.guava.psidium_guajava',
     translationKey: 'crops.guava',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/guava.jpg',
     hindiName: 'अमरूद',
     marathiName: 'पेरू',
     englishName: 'Guava',
@@ -89,7 +89,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'veg.cauliflower.brassica_oleracea_botrytis',
     translationKey: 'crops.cauliflower',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/cauliflower.jpg',
     hindiName: 'फूलगोभी',
     marathiName: 'फुलकोबी',
     englishName: 'Cauliflower',
@@ -97,7 +97,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'veg.cabbage.brassica_oleracea_capitata',
     translationKey: 'crops.cabbage',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/cabbage.jpg',
     hindiName: 'पत्ता गोभी',
     marathiName: 'कोबी',
     englishName: 'Cabbage',
@@ -105,7 +105,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'fruit.grape.vitis_vinifera',
     translationKey: 'crops.grape',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/grape.jpg',
     hindiName: 'अंगूर',
     marathiName: 'द्राक्षे',
     englishName: 'Grapes',
@@ -113,7 +113,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'fruit.pomegranate.punica_granatum',
     translationKey: 'crops.pomegranate',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/pomegranate.jpg',
     hindiName: 'अनार',
     marathiName: 'डाळिंब',
     englishName: 'Pomegranate',
@@ -121,7 +121,7 @@ const CROPS: CropInfo[] = [
   {
     id: 'veg.brinjal.solanum_melongena',
     translationKey: 'crops.brinjal',
-    photo: '/images/crops/market_produce.jpg',
+    photo: '/images/crops/brinjal.jpg',
     hindiName: 'बैंगन',
     marathiName: 'वांगी',
     englishName: 'Brinjal',

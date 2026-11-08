@@ -465,6 +465,19 @@ def _layers_spoken(candidate: Any) -> str:
     return ", ".join(stack) if stack else (getattr(candidate, "name", "") or "")
 
 
+REFERENCE_PACK_G = 200.0
+
+
+def scaled_pack_cost(cost_per_reference_pack: Optional[float], pack_size_g: float) -> Optional[float]:
+    """KB indicative ₹/pack is for a ~200 g pouch (~0.058 m² film). Film area, and so cost,
+    scales with weight^(2/3) for the same pouch shape. Keep identical to
+    `scaledPackCost` in web/src/modes/business/shopPouch.ts."""
+    if cost_per_reference_pack is None:
+        return None
+    factor = (max(pack_size_g, 1.0) / REFERENCE_PACK_G) ** (2.0 / 3.0)
+    return round(float(cost_per_reference_pack) * factor, 2)
+
+
 def _num_str(v: Optional[float]) -> str:
     if v is None:
         return ""
@@ -503,9 +516,11 @@ def compose_spoken_result(result: SealedResult, session: Session) -> str:
     c2 = cands[1] if len(cands) > 1 else None
     target = session.slots.get("target_days")
     size = int(float(session.slots.get("pack_size_g", 0)))
-    parts = [_t("biz_best", lang, size=size, comm=comm, layers=_layers_spoken(c1), cost=_num_str(c1.cost_per_pack), days=days)]
+    cost1 = scaled_pack_cost(c1.cost_per_pack, size or REFERENCE_PACK_G)
+    parts = [_t("biz_best", lang, size=size, comm=comm, layers=_layers_spoken(c1), cost=_num_str(cost1), days=days)]
     if c2 is not None:
-        parts.append(_t("biz_second", lang, layers=_layers_spoken(c2), cost=_num_str(c2.cost_per_pack)))
+        cost2 = scaled_pack_cost(c2.cost_per_pack, size or REFERENCE_PACK_G)
+        parts.append(_t("biz_second", lang, layers=_layers_spoken(c2), cost=_num_str(cost2)))
     if days is not None and target is not None and days < float(target):
         parts.append(_t("biz_short", lang, target=int(float(target))))
     parts.append(_t("see_screen", lang))

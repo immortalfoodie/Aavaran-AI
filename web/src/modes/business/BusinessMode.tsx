@@ -16,6 +16,7 @@ import { RfqGenerator } from './components/RfqGenerator'
 import { CostBenefitPanel } from './components/CostBenefitPanel'
 import { getApiUrl } from '../../api/config'
 import { SaathiPanel } from '../../voice/SaathiPanel'
+import { ShopSimple } from './ShopSimple'
 import { saathiLangFromI18n, type SaathiTurn } from '../../voice/voiceApi'
 import { BUSINESS_PRESET_FOR, businessDisplayName } from '../../voice/labels'
 
@@ -36,7 +37,8 @@ export const BusinessMode: React.FC<BusinessModeProps> = ({ voiceTurn }) => {
   const [inputState, setInputState] = useState<BusinessInputState>(DEFAULT_BUSINESS_INPUT)
   const [isSaathiOpen, setIsSaathiOpen] = useState<boolean>(false)
   const [voiceRefusal, setVoiceRefusal] = useState<SaathiTurn | null>(null)
-  const [voiceSummary, setVoiceSummary] = useState<SaathiTurn | null>(null)
+  const [, setVoiceSummary] = useState<SaathiTurn | null>(null)
+  const [shopVoiceTurn, setShopVoiceTurn] = useState<SaathiTurn | null>(null)
   const [calculationResults, setCalculationResults] = useState(() =>
     calculateBusinessResults(DEFAULT_BUSINESS_INPUT)
   )
@@ -178,6 +180,7 @@ export const BusinessMode: React.FC<BusinessModeProps> = ({ voiceTurn }) => {
   // Apply a Saathi voice consultation: fill the brief, then run the exact same engine input
   // Saathi used for its spoken answer, so the cards and the voice agree.
   const applyVoiceTurn = (turn: SaathiTurn) => {
+    setShopVoiceTurn(turn)
     const slots = turn.slots
     const backendId = slots.commodity_id || ''
     const preset = COMMODITY_PRESETS.find((p) => p.id === BUSINESS_PRESET_FOR[backendId])
@@ -221,28 +224,8 @@ export const BusinessMode: React.FC<BusinessModeProps> = ({ voiceTurn }) => {
 
   return (
     <div className="w-full space-y-10" data-mode="business">
-      {/* Shop / small food business banner: voice first, technical brief below */}
-      <section className="border-4 border-ink bg-cyan p-5 sm:p-6 shadow-[6px_6px_0_var(--ink)] space-y-4">
-        <div>
-          <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-ink m-0">{t('nav.shop_title')}</h2>
-          <p className="font-body text-base text-ink mt-1 mb-0">{t('nav.shop_sub')}</p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setIsSaathiOpen(true)}
-          className="w-full min-h-[72px] border-4 border-ink bg-coral font-display uppercase text-lg sm:text-xl cursor-pointer shadow-[6px_6px_0_var(--ink)] hover:-translate-x-[2px] hover:-translate-y-[2px] flex items-center justify-center gap-3"
-        >
-          <span className="text-3xl" aria-hidden="true">🎙</span>
-          <span>{t('saathi.open')}</span>
-        </button>
-        <div className="font-mono text-xs">
-          <span className="text-ink/70">Market: </span>
-          <span className="font-bold text-ink">
-            {DESTINATION_MARKET_LABELS[inputState.destinationMarket] || inputState.destinationMarket}
-          </span>
-          <span className="text-ink/70"> · Detailed brief, converter RFQ, EPR and compliance below ↓</span>
-        </div>
-      </section>
+      {/* Shop owner view: 4 taps or one sentence, plain-language answer */}
+      <ShopSimple voiceTurn={shopVoiceTurn} onOpenVoice={() => setIsSaathiOpen(true)} />
 
       {isSaathiOpen && (
         <SaathiPanel
@@ -256,35 +239,19 @@ export const BusinessMode: React.FC<BusinessModeProps> = ({ voiceTurn }) => {
         />
       )}
 
-      {voiceRefusal && (
-        <section
-          className="border-4 border-ink bg-coral p-5 sm:p-6 shadow-[6px_6px_0_var(--ink)] space-y-3"
-          role="alert"
-        >
-          <div className="font-display uppercase text-xl sm:text-2xl">⚠ Not a packaging problem</div>
-          <p className="font-body text-base m-0">{voiceRefusal.reply_text}</p>
-          {voiceRefusal.result?.guidance?.length ? (
-            <ul className="list-disc pl-6 font-body text-sm space-y-1 m-0">
-              {voiceRefusal.result.guidance.map((g) => (
-                <li key={g.action}>
-                  <strong>{g.action.replace(/_/g, ' ')}:</strong> {g.headline}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          <p className="font-mono text-xs m-0">
-            No packaging structure is shown because the Aavaran engine refused this case. Change the storage
-            conditions in the brief below and recalculate.
-          </p>
-        </section>
-      )}
-
-      {voiceSummary && !voiceRefusal && (
-        <section className="border-3 border-ink bg-lime p-4 shadow-[4px_4px_0_var(--ink)]">
-          <div className="font-mono text-[11px] uppercase font-bold">🎙 Saathi said</div>
-          <p className="font-body text-base m-0">{voiceSummary.reply_text}</p>
-        </section>
-      )}
+      {/* Manufacturers / packaging engineers: everything technical, collapsed by default */}
+      <details className="border-3 border-ink bg-paper shadow-[4px_4px_0_var(--ink)] group">
+        <summary className="cursor-pointer list-none px-4 py-3 font-display text-sm sm:text-base flex items-center justify-between gap-3">
+          <span>🔧 {t('shop.technical')}</span>
+          <span aria-hidden="true" className="group-open:rotate-180 transition-transform">▾</span>
+        </summary>
+        <div className="p-3 sm:p-5 space-y-10 border-t-3 border-ink">
+        <div className="font-mono text-xs">
+          <span className="text-ink/70">Market: </span>
+          <span className="font-bold text-ink">
+            {DESTINATION_MARKET_LABELS[inputState.destinationMarket] || inputState.destinationMarket}
+          </span>
+        </div>
 
       {/* 1. Progressive Brief Form */}
       <section>
@@ -358,6 +325,8 @@ export const BusinessMode: React.FC<BusinessModeProps> = ({ voiceTurn }) => {
           commodityName={inputState.commodityName}
         />
       </section>
+        </div>
+      </details>
     </div>
   )
 }

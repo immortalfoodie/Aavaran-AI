@@ -210,6 +210,16 @@ class TestDialogue:
         c1 = out.result.candidates[0]
         assert f"₹{c1.cost_per_pack:g}" in out.reply_text or f"₹{c1.cost_per_pack}" in out.reply_text
 
+    def test_bigger_pack_costs_more(self):
+        from api.voice.dialogue import scaled_pack_cost
+
+        s = Session(id="t4b", mode="business", lang="en-IN")
+        out = advance(s, "atta 1 kg pack, must last 90 days")
+        c1 = out.result.candidates[0]
+        expected = scaled_pack_cost(c1.cost_per_pack, 1000)
+        assert expected > c1.cost_per_pack
+        assert f"₹{expected:g}" in out.reply_text
+
     def test_paneer_asks_storage_then_refuses_at_ambient(self):
         s = Session(id="t5", mode="business", lang="en-IN")
         assert advance(s, "paneer 200 gram, 7 days").asked_slot == "storage"
