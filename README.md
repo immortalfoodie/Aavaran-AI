@@ -26,6 +26,7 @@
 | **Gnani models used** | Prisma v3.0 STT (`POST /stt/v3`), Timbre v3.0 TTS (`POST /api/v1/tts/inference`), Timbre v2.5 `hi-en` voice for Hinglish |
 | **Where** | [`api/voice/`](api/voice) (client, dialogue, keyterms, spoken-number normaliser), [`api/routes/voice.py`](api/routes/voice.py), [`web/src/voice/`](web/src/voice) |
 | **Users** | Farmers, FPOs and mandi traders (Farmer tab); kirana shops and small food makers repacking atta, dal, namkeen, spices (Shop tab) |
+| **Try it** | **[🌐 Live app](https://aavaran-ai-final.vercel.app/)** · **[▶ Demo video](https://youtu.be/mdLuSGNFSLk)** |
 | **Details** | **[📄 1-page pitch](docs/PITCH.md)** · [docs/GNANI_INTEGRATION.md](docs/GNANI_INTEGRATION.md) · [docs/SUBMISSION.md](docs/SUBMISSION.md) |
 
 ### What it does

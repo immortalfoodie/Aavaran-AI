@@ -2,7 +2,7 @@
 
 **A voice-first food packaging and storage advisor for Indian farmers and small food businesses, built on Gnani AI Prisma (speech-to-text) and Timbre (text-to-speech).**
 
-Live app: _[add link]_ · Demo video: _[add link]_ · Code: https://github.com/immortalfoodie/Aavaran-AI
+**Live app:** https://aavaran-ai-final.vercel.app/ · **Demo video:** https://youtu.be/mdLuSGNFSLk · **Code:** https://github.com/immortalfoodie/Aavaran-AI
 
 ## The problem
 
