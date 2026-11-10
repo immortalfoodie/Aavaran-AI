@@ -4,6 +4,7 @@ import { getApiUrl } from '../../api/config'
 import { AudioSpeakerButton } from '../kisan/components/AudioSpeakerButton'
 import type { SaathiTurn } from '../../voice/voiceApi'
 import { pouchKind, scaledPackCost, sellerSpec } from './shopPouch'
+import { WhereToBuy, POUCH_SEARCH_TERMS } from '../../design/WhereToBuy'
 
 /**
  * The shop owner's view of Business mode: 4 taps (or one sentence to Saathi) in,
@@ -313,6 +314,8 @@ export const ShopSimple: React.FC<{ voiceTurn?: SaathiTurn | null; onOpenVoice: 
                   <div className="font-display text-base">“{sellerSpec(best.name, best.layer_stack)}”</div>
                 </div>
               </div>
+
+              <WhereToBuy searchTerm={POUCH_SEARCH_TERMS[pouchKind(best.layer_stack)]} />
 
               {other && (
                 <div className="border-3 border-ink bg-paper p-4 shadow-[4px_4px_0_var(--ink)] space-y-1">

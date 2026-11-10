@@ -10,6 +10,7 @@ import { getCommodityImage, FALLBACK_CROP_IMAGE } from '../../../data/commodityI
 import { getApiUrl } from '../../../api/config'
 import { VoiceFeedbackButton } from '../../../voice/VoiceFeedbackButton'
 import { InsightsPanel } from '../../../insights/InsightsPanel'
+import { WhereToBuy, FARM_SEARCH_TERMS } from '../../../design/WhereToBuy'
 
 interface ResultScreenProps {
   result: OfflineRecommendationResult
@@ -379,6 +380,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
               </button>
             </div>
           </div>
+
+          {pkg && (
+            <WhereToBuy
+              searchTerm={FARM_SEARCH_TERMS[pkg.structureType] || FARM_SEARCH_TERMS.mesh_sack}
+              district={result.whereToBuyDistrict}
+            />
+          )}
 
           {/* 6. Action Row: Prominent Speaker Button & "I did this" button */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

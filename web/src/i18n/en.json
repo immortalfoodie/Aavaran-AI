@@ -281,5 +281,15 @@
     "p_haldi": "Haldi / spices",
     "p_milk_powder": "Milk powder",
     "p_paneer": "Paneer"
+  },
+  "buy": {
+    "title": "Where to buy",
+    "search_for": "Search these sites for",
+    "src_indiamart": "Sellers near you · ask for a price",
+    "src_amazon": "Small packs · home delivery",
+    "src_flipkart": "Small packs · home delivery",
+    "src_tradeindia": "Factories · bulk orders",
+    "tip_local": "Or show the words above at a packaging or plastic shop in your local market.",
+    "tip_sample": "Big sellers sell by the kg or 500+ pieces. Ask for a sample first."
   }
 }
